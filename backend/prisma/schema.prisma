@@ -1,0 +1,184 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Specifies the generator for the Prisma Client.
+// This will generate a TypeScript client based on your schema.
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --- CORE USER & AUTHENTICATION MODELS ---
+
+// User model for authentication. Can be a Student, Faculty, or Admin.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Password hash will be stored here
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  student Student? // A user can be one student
+  faculty Faculty? // A user can be one faculty member
+}
+
+enum Role {
+  STUDENT
+  FACULTY
+  ADMIN
+}
+
+
+// --- HIERARCHICAL & STRUCTURAL MODELS ---
+
+// Top-level entity for the college.
+model College {
+  id   String @id @default(cuid())
+  name String @unique // e.g., "LDRP Institute of Technology and Research"
+
+  // Relations
+  academicYears AcademicYear[]
+}
+
+// Represents an academic year, e.g., "2025-2026".
+model AcademicYear {
+  id        String @id @default(cuid())
+  year      String @unique // e.g., "2025-2026"
+  collegeId String
+
+  // Relations
+  college     College      @relation(fields: [collegeId], references: [id])
+  departments Department[]
+}
+
+// Represents a department like Computer Engineering (CE) or Information Technology (IT).
+model Department {
+  id             String @id @default(cuid())
+  name           String // e.g., "Computer Engineering"
+  code           String // e.g., "CE"
+  academicYearId String
+
+  // Relations
+  academicYear AcademicYear @relation(fields: [academicYearId], references: [id])
+  semesters    Semester[]
+  faculties    Faculty[]
+  subjects     Subject[]
+
+  @@unique([code, academicYearId])
+}
+
+// Represents a specific semester within a department.
+model Semester {
+  id           String @id @default(cuid())
+  semesterNumber Int // 1 to 8
+  departmentId String
+
+  // Relations
+  department Department @relation(fields: [departmentId], references: [id])
+  divisions  Division[]
+  subjects   Subject[]
+
+  @@unique([semesterNumber, departmentId])
+}
+
+// Represents a division within a semester, e.g., "A", "B", "G".
+model Division {
+  id         String @id @default(cuid())
+  name       String // e.g., "A"
+  semesterId String
+
+  // Relations
+  semester               Semester                 @relation(fields: [semesterId], references: [id])
+  students               Student[]
+  facultySubjectAssignments FacultySubjectAssignment[]
+
+  @@unique([name, semesterId])
+}
+
+
+// --- ENTITY MODELS (STUDENTS, FACULTY, SUBJECTS) ---
+
+model Student {
+  id         String @id @default(cuid())
+  rollNumber String @unique
+  fullName   String
+  userId     String @unique
+  divisionId String
+
+  // Relations
+  user       User         @relation(fields: [userId], references: [id])
+  division   Division     @relation(fields: [divisionId], references: [id])
+  attendance Attendance[]
+}
+
+model Faculty {
+  id           String @id @default(cuid())
+  fullName     String
+  designation  String
+  userId       String @unique
+  departmentId String
+
+  // Relations
+  user                    User                       @relation(fields: [userId], references: [id])
+  department              Department                 @relation(fields: [departmentId], references: [id])
+  facultySubjectAssignments FacultySubjectAssignment[]
+  attendanceRecords       Attendance[]
+}
+
+model Subject {
+  id           String @id @default(cuid())
+  name         String
+  code         String @unique
+  departmentId String
+  semesterId   String
+
+  // Relations
+  department              Department                 @relation(fields: [departmentId], references: [id])
+  semester                Semester                   @relation(fields: [semesterId], references: [id])
+  facultySubjectAssignments FacultySubjectAssignment[]
+  attendance              Attendance[]
+}
+
+
+// --- LINKING & TRANSACTIONAL MODELS ---
+
+// Connects Faculty, Subject, and Division. Defines who teaches what to whom.
+model FacultySubjectAssignment {
+  id         String @id @default(cuid())
+  facultyId  String
+  subjectId  String
+  divisionId String
+
+  // Relations
+  faculty  Faculty  @relation(fields: [facultyId], references: [id])
+  subject  Subject  @relation(fields: [subjectId], references: [id])
+  division Division @relation(fields: [divisionId], references: [id])
+
+  @@unique([facultyId, subjectId, divisionId])
+}
+
+// The core attendance record for a student on a specific date for a specific subject.
+model Attendance {
+  id        String   @id @default(cuid())
+  date      DateTime @db.Date
+  status    AttendanceStatus
+  studentId String
+  subjectId String
+  facultyId String // ID of the faculty member who took the attendance
+
+  // Relations
+  student Student @relation(fields: [studentId], references: [id])
+  subject Subject @relation(fields: [subjectId], references: [id])
+  faculty Faculty @relation(fields: [facultyId], references: [id])
+
+  // A student can only have one attendance record per subject per day.
+  @@unique([studentId, subjectId, date])
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+}
