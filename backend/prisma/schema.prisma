@@ -103,7 +103,7 @@ model Division {
 
 model Student {
   id         String @id @default(cuid())
-  rollNumber String @unique
+  enrollmentNumber String @unique
   fullName   String
   userId     String @unique
   divisionId String
