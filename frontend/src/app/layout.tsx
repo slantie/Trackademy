@@ -1,39 +1,48 @@
 /**
  * @file src/app/layout.tsx
- * @description Root layout component with providers
+ * @description Root layout for the Reflectify app, sets up global providers and theme.
  */
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/providers/ThemeProvider";
+// import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
-import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import { ToastProvider } from "@/providers/ToastProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+import { DM_Sans } from "next/font/google";
 
 export const metadata: Metadata = {
-    title: "StudentPortal - Student Management System",
-    description:
-        "A comprehensive student management system for educational institutions",
+    title: "Trackademy - Student Management",
+    description: "A comprehensive student management system",
+    keywords: ["student", "management", "system"],
+    authors: [
+        { name: "Kandarp Gajjar", url: "https://github.com/slantie" },
+        { name: "Harsh Dodiya", url: "https://github.com/harshDodiya1" },
+    ],
+    icons: {
+        icon: "/favicon.ico",
+    },
 };
+
+const dmsans = DM_Sans({
+    subsets: ["latin"],
+});
 
 export default function RootLayout({
     children,
-}: {
+}: Readonly<{
     children: React.ReactNode;
-}) {
+}>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={inter.className}>
-                <ThemeProvider
-                    defaultTheme="system"
-                    storageKey="studentportal-theme"
-                >
+            <body className={dmsans.className}>
+                <ThemeProvider>
+                    {/* <ReactQueryProvider> */}
                     <AuthProvider>
-                        {children}
-                        <Toaster />
+                        <ToastProvider>{children}</ToastProvider>
                     </AuthProvider>
+                    {/* </ReactQueryProvider> */}
                 </ThemeProvider>
             </body>
         </html>

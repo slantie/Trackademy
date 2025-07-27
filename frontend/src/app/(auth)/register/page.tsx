@@ -12,11 +12,21 @@ import {
     RegisterStudentRequest,
     RegisterFacultyRequest,
 } from "@/interfaces/auth";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/authContext";
 import { PublicRoute } from "@/components/PublicRoute";
 import { cn } from "@/lib/utils";
-import { Eye, EyeOff, UserPlus, GraduationCap, Users } from "lucide-react";
+import {
+    Eye,
+    EyeOff,
+    UserPlus,
+    GraduationCap,
+    Users,
+    Loader,
+} from "lucide-react";
 import { showToast } from "@/lib/toast"; // Assuming this utility exists
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { motion } from "framer-motion";
+import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 
 type UserRole = "student" | "faculty";
 
@@ -83,11 +93,26 @@ export default function RegisterPage() {
             setTimeout(() => {
                 router.push("/login");
             }, 2000);
-        } catch (err: any) {
-            const errorMessage =
-                err?.response?.data?.message ||
-                err.message ||
-                "Registration failed. Please try again.";
+        } catch (err: unknown) {
+            let errorMessage = "Registration failed. Please try again.";
+            if (
+                typeof err === "object" &&
+                err !== null &&
+                "response" in err &&
+                typeof (err as { response?: { data?: { message?: string } } })
+                    .response === "object" &&
+                (err as { response?: { data?: { message?: string } } })
+                    .response !== null &&
+                "data" in
+                    (err as { response?: { data?: { message?: string } } })
+                        .response!
+            ) {
+                errorMessage =
+                    (err as { response: { data: { message?: string } } })
+                        .response.data.message || errorMessage;
+            } else if (err instanceof Error) {
+                errorMessage = err.message || errorMessage;
+            }
             showToast.error(errorMessage);
         } finally {
             setIsSubmitting(false);
@@ -106,322 +131,361 @@ export default function RegisterPage() {
             value: "student" as UserRole,
             label: "Student",
             icon: GraduationCap,
-            description: "Register as a student",
+            // description: "Register as a student",
         },
         {
             value: "faculty" as UserRole,
             label: "Faculty",
             icon: Users,
-            description: "Register as a faculty member",
+            // description: "Register as a faculty member",
         },
     ];
 
     return (
         <PublicRoute>
-            <div className="w-full max-w-2xl mx-auto">
-                <div className="bg-light-muted-background dark:bg-dark-muted-background rounded-lg shadow-lg p-8">
-                    {/* Header */}
-                    <div className="text-center mb-8">
-                        <UserPlus className="h-12 w-12 mx-auto mb-4 text-light-highlight dark:text-dark-highlight" />
-                        <h1 className="text-2xl font-bold text-light-text dark:text-dark-text">
-                            Create Account
-                        </h1>
-                        <p className="text-light-muted-text dark:text-dark-muted-text mt-2">
-                            Join StudentPortal today
-                        </p>
-                    </div>
-
-                    {/* Role Selection */}
-                    <div className="mb-8">
-                        <h3 className="text-lg font-medium text-light-text dark:text-dark-text mb-4">
-                            Select Your Role
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {roleOptions.map((role) => {
-                                const Icon = role.icon;
-                                return (
-                                    <button
-                                        key={role.value}
-                                        type="button"
-                                        onClick={() =>
-                                            handleRoleChange(role.value)
-                                        }
-                                        className={cn(
-                                            "p-4 rounded-lg border-2 transition-colors text-left",
-                                            selectedRole === role.value
-                                                ? "border-light-highlight dark:border-dark-highlight bg-light-highlight/10 dark:bg-dark-highlight/10"
-                                                : "border-light-muted-background dark:border-dark-muted-background hover:border-light-highlight/50 dark:hover:border-dark-highlight/50"
-                                        )}
-                                    >
-                                        <div className="flex items-center mb-2">
-                                            <Icon className="h-6 w-6 mr-2 text-light-highlight dark:text-dark-highlight" />
-                                            <span className="font-medium text-light-text dark:text-dark-text">
-                                                {role.label}
-                                            </span>
-                                        </div>
-                                        <p className="text-sm text-light-muted-text dark:text-dark-muted-text">
-                                            {role.description}
-                                        </p>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Common Fields */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                    Full Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="fullName"
-                                    value={formData.fullName}
-                                    onChange={handleChange}
-                                    required
-                                    className={cn(
-                                        "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                        "border-light-muted-background dark:border-dark-muted-background",
-                                        "bg-light-background dark:bg-dark-background",
-                                        "text-light-text dark:text-dark-text",
-                                        "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                    )}
-                                    placeholder="Enter your full name"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                    Email Address
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                    className={cn(
-                                        "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                        "border-light-muted-background dark:border-dark-muted-background",
-                                        "bg-light-background dark:bg-dark-background",
-                                        "text-light-text dark:text-dark-text",
-                                        "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                    )}
-                                    placeholder="Enter your email"
-                                />
-                            </div>
+            <AuthLayout>
+                <motion.div
+                    className="w-full w-2xl" // Use max-w-xl for consistent width as login form
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <div className="bg-white/80 dark:bg-dark-background/80 backdrop-blur-xl rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 border-2 border-light-muted-text/10 dark:border-dark-muted-text/10">
+                        {/* Header */}
+                        <div className="text-center mb-6 sm:mb-8">
+                            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-light-highlight to-light-secondary bg-clip-text text-transparent mb-2 dark:from-dark-highlight dark:to-dark-secondary">
+                                Create Account
+                            </h1>
+                            <p className="text-light-muted-text dark:text-dark-muted-text text-sm sm:text-base">
+                                Join Trackademy today
+                            </p>
                         </div>
 
-                        {/* Role-specific Fields */}
-                        {selectedRole === "student" && (
+                        {/* Role Selection */}
+                        <div className="mb-6 sm:mb-8">
+                            {" "}
+                            {/* Adjusted margin for consistency */}
+                            <h3 className="text-lg font-medium text-light-text dark:text-dark-text mb-4">
+                                Select Your Role
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                        Enrollment Number
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="enrollmentNumber"
-                                        value={formData.enrollmentNumber}
-                                        onChange={handleChange}
-                                        required
-                                        className={cn(
-                                            "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                            "border-light-muted-background dark:border-dark-muted-background",
-                                            "bg-light-background dark:bg-dark-background",
-                                            "text-light-text dark:text-dark-text",
-                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                        )}
-                                        placeholder="e.g., 210303105123"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                        Division ID
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="divisionId"
-                                        value={formData.divisionId}
-                                        onChange={handleChange}
-                                        required
-                                        className={cn(
-                                            "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                            "border-light-muted-background dark:border-dark-muted-background",
-                                            "bg-light-background dark:bg-dark-background",
-                                            "text-light-text dark:text-dark-text",
-                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                        )}
-                                        placeholder="Contact admin for Division ID"
-                                    />
-                                </div>
-                            </div>
-                        )}
-
-                        {selectedRole === "faculty" && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                        Designation
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="designation"
-                                        value={formData.designation}
-                                        onChange={handleChange}
-                                        required
-                                        className={cn(
-                                            "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                            "border-light-muted-background dark:border-dark-muted-background",
-                                            "bg-light-background dark:bg-dark-background",
-                                            "text-light-text dark:text-dark-text",
-                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                        )}
-                                        placeholder="e.g., Assistant Professor"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                        Department ID
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="departmentId"
-                                        value={formData.departmentId}
-                                        onChange={handleChange}
-                                        required
-                                        className={cn(
-                                            "w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                            "border-light-muted-background dark:border-dark-muted-background",
-                                            "bg-light-background dark:bg-dark-background",
-                                            "text-light-text dark:text-dark-text",
-                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                        )}
-                                        placeholder="Contact admin for Department ID"
-                                    />
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Password Fields */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type={
-                                            showPassword ? "text" : "password"
-                                        }
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                        className={cn(
-                                            "w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                            "border-light-muted-background dark:border-dark-muted-background",
-                                            "bg-light-background dark:bg-dark-background",
-                                            "text-light-text dark:text-dark-text",
-                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                        )}
-                                        placeholder="Enter password"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setShowPassword(!showPassword)
-                                        }
-                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-light-muted-text dark:text-dark-muted-text"
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff className="h-5 w-5" />
-                                        ) : (
-                                            <Eye className="h-5 w-5" />
-                                        )}
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
-                                    Confirm Password
-                                </label>
-                                <div className="relative">
-                                    <input
-                                        type={
-                                            showConfirmPassword
-                                                ? "text"
-                                                : "password"
-                                        }
-                                        name="confirmPassword"
-                                        value={formData.confirmPassword}
-                                        onChange={handleChange}
-                                        required
-                                        className={cn(
-                                            "w-full px-3 py-2 pr-10 border rounded-lg focus:outline-none focus:ring-2 transition-colors",
-                                            "border-light-muted-background dark:border-dark-muted-background",
-                                            "bg-light-background dark:bg-dark-background",
-                                            "text-light-text dark:text-dark-text",
-                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight"
-                                        )}
-                                        placeholder="Confirm password"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setShowConfirmPassword(
-                                                !showConfirmPassword
-                                            )
-                                        }
-                                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-light-muted-text dark:text-dark-muted-text"
-                                    >
-                                        {showConfirmPassword ? (
-                                            <EyeOff className="h-5 w-5" />
-                                        ) : (
-                                            <Eye className="h-5 w-5" />
-                                        )}
-                                    </button>
-                                </div>
+                                {roleOptions.map((role) => {
+                                    const Icon = role.icon;
+                                    return (
+                                        <button
+                                            key={role.value}
+                                            type="button"
+                                            onClick={() =>
+                                                handleRoleChange(role.value)
+                                            }
+                                            className={cn(
+                                                "p-4 rounded-xl border-2 transition-colors text-left shadow-sm hover:shadow-md", // Added shadow for consistency
+                                                selectedRole === role.value
+                                                    ? "border-light-highlight dark:border-dark-highlight bg-light-highlight/10 dark:bg-dark-highlight/10"
+                                                    : "border-light-muted-background dark:border-dark-muted-background hover:border-light-highlight/50 dark:hover:border-dark-highlight/50",
+                                                "flex items-center gap-2" // Ensures icon and text are aligned
+                                            )}
+                                        >
+                                            <div className="flex items-center">
+                                                {" "}
+                                                {/* Removed this div to simplify, icon and span can be direct children of button */}
+                                                <Icon className="h-6 w-6 mr-2 text-light-highlight dark:text-dark-highlight flex-shrink-0" />{" "}
+                                                {/* Added flex-shrink-0 for icon */}
+                                                <span className="font-medium text-light-text dark:text-dark-text">
+                                                    {role.label}
+                                                </span>
+                                            </div>
+                                        </button>
+                                    );
+                                })}
                             </div>
                         </div>
 
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className={cn(
-                                "w-full py-2 px-4 rounded-lg font-medium transition-colors",
-                                "bg-light-highlight text-white hover:bg-light-hover",
-                                "dark:bg-dark-highlight dark:hover:bg-dark-hover",
-                                "disabled:opacity-50 disabled:cursor-not-allowed"
-                            )}
+                        {/* Form */}
+                        <form
+                            onSubmit={handleSubmit}
+                            className="space-y-5 sm:space-y-6"
                         >
-                            {isSubmitting
-                                ? "Creating Account..."
-                                : "Create Account"}
-                        </button>
-                    </form>
+                            {/* Common Fields */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                        Full Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        value={formData.fullName}
+                                        onChange={handleChange}
+                                        required
+                                        className={cn(
+                                            "w-full px-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                            "border-light-muted-background dark:border-dark-muted-background",
+                                            "bg-white dark:bg-dark-muted-background",
+                                            "text-light-text dark:text-dark-text",
+                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                            "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                        )}
+                                        placeholder="Jhon Doe"
+                                    />
+                                </div>
 
-                    {/* Footer */}
-                    <div className="mt-8 text-center">
-                        <p className="text-light-muted-text dark:text-dark-muted-text">
+                                <div>
+                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                        Email Address
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        className={cn(
+                                            "w-full px-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                            "border-light-muted-background dark:border-dark-muted-background",
+                                            "bg-white dark:bg-dark-muted-background",
+                                            "text-light-text dark:text-dark-text",
+                                            "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                            "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                        )}
+                                        placeholder="jhon_doe@ldrp.ac.in"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Role-specific Fields */}
+                            {selectedRole === "student" && (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                            Enrollment Number
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="enrollmentNumber"
+                                            value={formData.enrollmentNumber}
+                                            onChange={handleChange}
+                                            required
+                                            className={cn(
+                                                "w-full px-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                                "border-light-muted-background dark:border-dark-muted-background",
+                                                "bg-white dark:bg-dark-muted-background",
+                                                "text-light-text dark:text-dark-text",
+                                                "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                                "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                            )}
+                                            placeholder="22BECE30091"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                            Division ID
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="divisionId"
+                                            value={formData.divisionId}
+                                            onChange={handleChange}
+                                            required
+                                            className={cn(
+                                                "w-full px-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                                "border-light-muted-background dark:border-dark-muted-background",
+                                                "bg-white dark:bg-dark-muted-background",
+                                                "text-light-text dark:text-dark-text",
+                                                "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                                "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                            )}
+                                            placeholder="Contact admin for Division ID"
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            {selectedRole === "faculty" && (
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                            Designation
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="designation"
+                                            value={formData.designation}
+                                            onChange={handleChange}
+                                            required
+                                            className={cn(
+                                                "w-full px-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                                "border-light-muted-background dark:border-dark-muted-background",
+                                                "bg-white dark:bg-dark-muted-background",
+                                                "text-light-text dark:text-dark-text",
+                                                "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                                "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                            )}
+                                            placeholder="Assistant Professor"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                            Department ID
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="departmentId"
+                                            value={formData.departmentId}
+                                            onChange={handleChange}
+                                            required
+                                            className={cn(
+                                                "w-full px-4 py-3.5 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                                "border-light-muted-background dark:border-dark-muted-background",
+                                                "bg-white dark:bg-dark-muted-background",
+                                                "text-light-text dark:text-dark-text",
+                                                "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                                "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                            )}
+                                            placeholder="Contact admin for Department ID"
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Password Fields */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                        Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type={
+                                                showPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                            className={cn(
+                                                "w-full px-4 py-3.5 pr-12 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                                "border-light-muted-background dark:border-dark-muted-background",
+                                                "bg-white dark:bg-dark-muted-background",
+                                                "text-light-text dark:text-dark-text",
+                                                "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                                "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                            )}
+                                            placeholder="Enter password"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setShowPassword(!showPassword)
+                                            }
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-light-muted-text dark:text-dark-muted-text hover:text-light-text dark:hover:text-dark-text"
+                                            aria-label={
+                                                showPassword
+                                                    ? "Hide password"
+                                                    : "Show password"
+                                            }
+                                        >
+                                            {showPassword ? (
+                                                <RiEyeOffLine className="h-5 w-5" />
+                                            ) : (
+                                                <RiEyeLine className="h-5 w-5" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-light-text dark:text-dark-text mb-2">
+                                        Confirm Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type={
+                                                showConfirmPassword
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            name="confirmPassword"
+                                            value={formData.confirmPassword}
+                                            onChange={handleChange}
+                                            required
+                                            className={cn(
+                                                "w-full px-4 py-3.5 pr-12 border rounded-xl focus:outline-none focus:ring-2 transition-all duration-200",
+                                                "border-light-muted-background dark:border-dark-muted-background",
+                                                "bg-white dark:bg-dark-muted-background",
+                                                "text-light-text dark:text-dark-text",
+                                                "focus:ring-light-highlight dark:focus:ring-dark-highlight",
+                                                "placeholder:text-light-muted-text/50 dark:placeholder:text-dark-muted-text/50"
+                                            )}
+                                            placeholder="Confirm password"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setShowConfirmPassword(
+                                                    !showConfirmPassword
+                                                )
+                                            }
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-light-muted-text dark:text-dark-muted-text hover:text-light-text dark:hover:text-dark-text"
+                                            aria-label={
+                                                showConfirmPassword
+                                                    ? "Hide confirm password"
+                                                    : "Show confirm password"
+                                            }
+                                        >
+                                            {showConfirmPassword ? (
+                                                <RiEyeOffLine className="h-5 w-5" />
+                                            ) : (
+                                                <RiEyeLine className="h-5 w-5" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Submit Button */}
+                            <motion.button
+                                type="submit"
+                                whileHover={{ scale: 1.02 }} // Adjusted to match login button's hover scale
+                                whileTap={{ scale: 0.98 }}
+                                className={cn(
+                                    "w-full py-3 sm:py-4 bg-gradient-to-r from-light-highlight to-light-secondary text-white rounded-xl text-lg font-semibold transition-all hover:from-light-secondary hover:to-light-highlight focus:ring-2 focus:ring-light-highlight/50 shadow-lg shadow-light-highlight/30 flex items-center justify-center gap-2",
+                                    "dark:from-dark-highlight dark:to-dark-secondary dark:hover:from-dark-secondary dark:hover:to-dark-highlight dark:focus:ring-dark-highlight/50 dark:shadow-dark-highlight/20",
+                                    {
+                                        "opacity-50 cursor-not-allowed":
+                                            isSubmitting,
+                                    } // Use isSubmitting for register
+                                )}
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader className="animate-spin h-5 w-5" />{" "}
+                                        Creating Account...
+                                    </>
+                                ) : (
+                                    "Create Account"
+                                )}
+                            </motion.button>
+                        </form>
+
+                        {/* Footer */}
+                        <p className="mt-4 text-center text-sm text-light-muted-text dark:text-dark-text">
                             Already have an account?{" "}
                             <Link
                                 href="/login"
-                                className="text-light-highlight dark:text-dark-highlight hover:underline font-medium"
+                                className="text-light-highlight dark:text-dark-highlight hover:underline font-medium transition-colors"
                             >
-                                Sign in
+                                Login
                             </Link>
                         </p>
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </AuthLayout>
         </PublicRoute>
     );
 }

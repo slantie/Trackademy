@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { AUTH_ENDPOINTS } from '../constants/apiEndpoints';
+import axios from "axios";
+import { AUTH_ENDPOINTS } from "../constants/apiEndpoints";
 import {
     LoginRequest,
     LoginResponse,
@@ -7,12 +7,12 @@ import {
     RegisterFacultyRequest,
     RegisterAdminRequest,
     RegisterResponse,
-    User
-} from '../interfaces/auth';
+    User,
+} from "../interfaces/auth";
 
 // Create an Axios instance for API calls
 const api = axios.create({
-    baseURL: '/', // The base URL is already part of the endpoint constants
+    baseURL: "/", // The base URL is already part of the endpoint constants
 });
 
 /**
@@ -21,23 +21,26 @@ const api = axios.create({
  */
 export const setAuthToken = (token: string | null) => {
     if (token) {
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     } else {
-        delete api.defaults.headers.common['Authorization'];
+        delete api.defaults.headers.common["Authorization"];
     }
 };
 
 /**
  * Service for handling authentication-related API calls.
  */
-export const AuthService = {
+export const authService = {
     /**
      * Logs in a user.
      * @param credentials - The user's identifier and password.
      * @returns A promise that resolves with the login response data.
      */
     login: async (credentials: LoginRequest): Promise<LoginResponse> => {
-        const response = await api.post<LoginResponse>(AUTH_ENDPOINTS.LOGIN, credentials);
+        const response = await api.post<LoginResponse>(
+            AUTH_ENDPOINTS.LOGIN,
+            credentials
+        );
         return response.data;
     },
 
@@ -55,8 +58,13 @@ export const AuthService = {
      * @param data - The student registration details.
      * @returns A promise that resolves with the registration response.
      */
-    registerStudent: async (data: RegisterStudentRequest): Promise<RegisterResponse> => {
-        const response = await api.post<RegisterResponse>(AUTH_ENDPOINTS.STUDENT_REGISTER, data);
+    registerStudent: async (
+        data: RegisterStudentRequest
+    ): Promise<RegisterResponse> => {
+        const response = await api.post<RegisterResponse>(
+            AUTH_ENDPOINTS.STUDENT_REGISTER,
+            data
+        );
         return response.data;
     },
 
@@ -65,8 +73,13 @@ export const AuthService = {
      * @param data - The faculty registration details.
      * @returns A promise that resolves with the registration response.
      */
-    registerFaculty: async (data: RegisterFacultyRequest): Promise<RegisterResponse> => {
-        const response = await api.post<RegisterResponse>(AUTH_ENDPOINTS.FACULTY_REGISTER, data);
+    registerFaculty: async (
+        data: RegisterFacultyRequest
+    ): Promise<RegisterResponse> => {
+        const response = await api.post<RegisterResponse>(
+            AUTH_ENDPOINTS.FACULTY_REGISTER,
+            data
+        );
         return response.data;
     },
 
@@ -75,8 +88,13 @@ export const AuthService = {
      * @param data - The admin registration details.
      * @returns A promise that resolves with the registration response.
      */
-    registerAdmin: async (data: RegisterAdminRequest): Promise<RegisterResponse> => {
-        const response = await api.post<RegisterResponse>(AUTH_ENDPOINTS.ADMIN_REGISTER, data);
+    registerAdmin: async (
+        data: RegisterAdminRequest
+    ): Promise<RegisterResponse> => {
+        const response = await api.post<RegisterResponse>(
+            AUTH_ENDPOINTS.ADMIN_REGISTER,
+            data
+        );
         return response.data;
     },
 };

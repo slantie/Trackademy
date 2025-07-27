@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/authContext";
 import { PageLoader } from "@/components/ui/LoadingSpinner";
 
 interface PublicRouteProps {
@@ -12,24 +12,31 @@ interface PublicRouteProps {
 
 export function PublicRoute({
     children,
-    redirectPath = "/home",
+    redirectPath = "/dashboard",
 }: PublicRouteProps) {
-    const { user, isLoading } = useAuth();
+    const { user, loading } = useAuth();
     const router = useRouter();
+    const redirectAttempted = useRef(false); // To prevent multiple redirects/flickering
 
-    // While the authentication state is being determined, show a loader.
-    // This is the key to preventing flickers and premature redirects.
-    if (isLoading) {
-        return <PageLoader text="Loading..." />;
+    useEffect(() => {
+        // If auth is not loading, and user is authenticated, and a redirect hasn't been attempted yet
+        if (!loading && user && !redirectAttempted.current) {
+            router.replace(redirectPath);
+            redirectAttempted.current = true; // Mark that a redirect has been initiated
+        }
+    }, [user, loading, redirectPath, router]);
+
+    // Show loading state while checking authentication OR if a redirect has been initiated
+    // This prevents content from briefly rendering before a redirect, or flickering
+    if (loading || (user && !redirectAttempted.current)) {
+        return <PageLoader text="Loading" />;
     }
 
-    // If loading is complete and the user is authenticated, redirect them.
-    if (user) {
-        router.replace(redirectPath);
-        // Return a loader while redirecting to prevent the public page from flashing.
-        return <PageLoader text="Redirecting..." />;
+    // If a redirect was attempted, don't render children
+    if (redirectAttempted.current) {
+        return null;
     }
 
-    // If loading is complete and there is no user, render the public page.
+    // If not authenticated and no redirect occurred, show the public page
     return <>{children}</>;
 }

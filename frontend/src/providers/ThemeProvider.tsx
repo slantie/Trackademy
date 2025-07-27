@@ -1,89 +1,119 @@
-/**
- * @file src/providers/ThemeProvider.tsx
- * @description Theme provider for dark/light mode functionality
- */
-
+// src/providers/ThemeProvider.tsx
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import React, {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    useCallback,
+    ReactNode,
+} from "react";
 
-type Theme = "dark" | "light" | "system";
+// Define the shape of the theme context
+interface ThemeContextType {
+    isDarkMode: boolean;
+    toggleTheme: () => void;
+}
 
-type ThemeProviderProps = {
-    children: React.ReactNode;
-    defaultTheme?: Theme;
-    storageKey?: string;
-};
+// Create the context with an initial undefined value.
+// The useTheme hook will check for this undefined value.
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-type ThemeProviderState = {
-    theme: Theme;
-    setTheme: (theme: Theme) => void;
-};
+interface ThemeProviderProps {
+    children: ReactNode;
+}
 
-const initialState: ThemeProviderState = {
-    theme: "system",
-    setTheme: () => null,
-};
+export function ThemeProvider({ children }: ThemeProviderProps) {
+    // State to manage the theme. Initialize to false (light) as a default for SSR.
+    // The actual detection will happen in useEffect on the client.
+    const [isDarkMode, setIsDark] = useState<boolean>(false);
+    // `isClient` state helps ensure client-side specific logic only runs after hydration.
+    const [isClient, setIsClient] = useState<boolean>(false); // Renamed from 'mounted' for clarity
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
-
-export function ThemeProvider({
-    children,
-    defaultTheme = "system",
-    storageKey = "ui-theme",
-    ...props
-}: ThemeProviderProps) {
-    const [theme, setTheme] = useState<Theme>(defaultTheme);
-
+    // Effect to read theme from localStorage or system preference after hydration
     useEffect(() => {
-        const storedTheme =
-            typeof window !== "undefined"
-                ? (localStorage.getItem(storageKey) as Theme)
-                : null;
-        if (storedTheme && storedTheme !== theme) {
-            setTheme(storedTheme);
-        }
-    }, [storageKey, theme]);
+        // Only execute this block if we are definitely on the client-side
+        if (typeof window !== "undefined") {
+            setIsClient(true); // Mark component as client-side mounted
 
-    useEffect(() => {
-        const root = window.document.documentElement;
-
-        root.classList.remove("light", "dark");
-
-        if (theme === "system") {
-            const systemTheme = window.matchMedia(
+            const storedTheme = localStorage.getItem("theme");
+            const prefersDark = window.matchMedia(
                 "(prefers-color-scheme: dark)"
-            ).matches
-                ? "dark"
-                : "light";
+            );
 
-            root.classList.add(systemTheme);
-            return;
+            // Function to apply theme to documentElement
+            const applyTheme = (dark: boolean) => {
+                setIsDark(dark);
+                // Ensure document.documentElement exists before manipulating classes
+                if (document.documentElement) {
+                    // <--- CRITICAL ADDITION/CONFIRMATION
+                    document.documentElement.classList.toggle("dark", dark);
+                    document.documentElement.classList.toggle("light", !dark); // Optional: add 'light' class
+                }
+            };
+
+            // Initial theme setting based on stored preference or system preference
+            if (storedTheme === "dark") {
+                applyTheme(true);
+            } else if (storedTheme === "light") {
+                applyTheme(false);
+            } else {
+                // If no stored theme, use system preference
+                applyTheme(prefersDark.matches);
+            }
+
+            // Listener for system theme changes
+            const mediaQueryListener = (e: MediaQueryListEvent) => {
+                applyTheme(e.matches);
+            };
+            prefersDark.addEventListener("change", mediaQueryListener);
+
+            // Cleanup listener
+            return () => {
+                prefersDark.removeEventListener("change", mediaQueryListener);
+            };
         }
+    }, []); // Run once on client mount
 
-        root.classList.add(theme);
-    }, [theme]);
+    // Function to toggle theme, also updates localStorage
+    const toggleTheme = useCallback(() => {
+        // Ensure this only runs on the client AND document.documentElement exists
+        if (typeof window !== "undefined" && document.documentElement) {
+            // <--- CRITICAL ADDITION/CONFIRMATION
+            setIsDark((prevIsDark) => {
+                const newIsDark = !prevIsDark;
+                localStorage.setItem("theme", newIsDark ? "dark" : "light");
+                document.documentElement.classList.toggle("dark", newIsDark);
+                document.documentElement.classList.toggle("light", !newIsDark);
+                return newIsDark;
+            });
+        }
+    }, []);
 
-    const value = {
-        theme,
-        setTheme: (theme: Theme) => {
-            localStorage?.setItem(storageKey, theme);
-            setTheme(theme);
-        },
+    // The context value to be provided.
+    // During SSR, `isClient` is false, so `isDarkMode` will be its initial `useState` value (false).
+    // This ensures the provider is always rendered and `isDarkMode` has a valid boolean value,
+    // preventing `useContext` errors on the server.
+    const contextValue: ThemeContextType = {
+        isDarkMode: isClient ? isDarkMode : false, // Provide a default for SSR
+        toggleTheme,
     };
 
     return (
-        <ThemeProviderContext.Provider {...props} value={value}>
+        <ThemeContext.Provider value={contextValue}>
             {children}
-        </ThemeProviderContext.Provider>
+        </ThemeContext.Provider>
     );
 }
 
+// Custom hook to consume the theme context
 export const useTheme = () => {
-    const context = useContext(ThemeProviderContext);
-
-    if (context === undefined)
+    const context = useContext(ThemeContext);
+    if (context === undefined) {
+        // This error will now only be thrown if useTheme is called outside of ThemeProvider.
+        // With the fix above, the provider is always in the tree during SSR.
         throw new Error("useTheme must be used within a ThemeProvider");
-
+    }
     return context;
 };

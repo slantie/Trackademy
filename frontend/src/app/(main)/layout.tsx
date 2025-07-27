@@ -7,6 +7,7 @@ import React from "react";
 import { Metadata } from "next";
 import { Header } from "../../components/ui/Header";
 import { Footer } from "../../components/ui/Footer";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 // Metadata for the main group layout
 export const metadata: Metadata = {
@@ -35,10 +36,13 @@ export default function MainLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="min-h-screen flex flex-col bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-        </div>
+        <ProtectedRoute requireAuth={true}>
+            <>
+                <div className="sticky top-0 z-50 bg-white dark:bg-dark-background border-b border-secondary-lighter dark:border-dark-secondary">
+                    <Header />
+                </div>
+                <main>{children}</main> <Footer />
+            </>
+        </ProtectedRoute>
     );
 }

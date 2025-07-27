@@ -1,8 +1,8 @@
 "use client"; // This directive is necessary for using hooks in Next.js App Router
 
 import React, { useState, useEffect, ReactNode, useCallback } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
-import { AuthService, setAuthToken } from "@/services/AuthService";
+import { AuthContext } from "@/contexts/authContext";
+import { authService, setAuthToken } from "@/services/authService";
 import {
     User,
     LoginRequest,
@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     // Function to handle logout
-    const logout = useCallback(() => {
+    const logout = useCallback(async (): Promise<void> => {
         setUser(null);
         setAuthToken(null);
         localStorage.removeItem("token");
@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             if (storedToken) {
                 setAuthToken(storedToken);
                 try {
-                    const currentUser = await AuthService.getMe();
+                    const currentUser = await authService.getMe();
                     setUser(currentUser);
                 } catch (error) {
                     console.error("Session validation failed:", error);
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Login function
     const login = async (credentials: LoginRequest) => {
         try {
-            const { token, user: loggedInUser } = await AuthService.login(
+            const { token, user: loggedInUser } = await authService.login(
                 credentials
             );
             setUser(loggedInUser);
@@ -67,22 +67,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const registerStudent = async (
         data: RegisterStudentRequest
     ): Promise<RegisterResponse> => {
-        return AuthService.registerStudent(data);
+        return authService.registerStudent(data);
     };
 
     const registerFaculty = async (
         data: RegisterFacultyRequest
     ): Promise<RegisterResponse> => {
-        return AuthService.registerFaculty(data);
+        return authService.registerFaculty(data);
     };
 
     const registerAdmin = async (
         data: RegisterAdminRequest
     ): Promise<RegisterResponse> => {
-        return AuthService.registerAdmin(data);
+        return authService.registerAdmin(data);
     };
 
     // The context value that will be supplied to all children
+    const loading = isLoading; // Alias for compatibility with AuthContextType
+    const checkAuth = useCallback(async (): Promise<void> => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            setAuthToken(storedToken);
+            try {
+                const currentUser = await authService.getMe();
+                setUser(currentUser);
+            } catch (error) {
+                logout();
+                console.error("Session check failed:", error);
+            }
+        }
+    }, [logout]);
+
     const authContextValue = {
         user,
         isAuthenticated: !!user,
@@ -92,6 +107,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         registerStudent,
         registerFaculty,
         registerAdmin,
+        loading,
+        checkAuth,
     };
 
     return (
