@@ -189,7 +189,6 @@ export default function LoginPage() {
                             >
                                 {isOperationInProgress ? (
                                     <>
-                                        <Loader className="animate-spin h-5 w-5" />{" "}
                                         Signing In...
                                     </>
                                 ) : (

@@ -464,7 +464,6 @@ export default function RegisterPage() {
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <Loader className="animate-spin h-5 w-5" />{" "}
                                         Creating Account...
                                     </>
                                 ) : (

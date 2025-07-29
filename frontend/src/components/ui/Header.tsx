@@ -208,7 +208,6 @@ export function Header() {
                                 >
                                     {loading ? ( // Show loading spinner and text when loading
                                         <>
-                                            <Loader className="animate-spin h-4 w-4" />
                                             Logging Out...
                                         </>
                                     ) : (
@@ -354,7 +353,6 @@ export function Header() {
                             >
                                 {loading ? (
                                     <>
-                                        <Loader className="animate-spin h-4 w-4" />
                                         Logging Out...
                                     </>
                                 ) : (

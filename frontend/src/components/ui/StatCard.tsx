@@ -85,7 +85,6 @@ export const StatCard = ({
                         ) : isLoading ? (
                             <div className="flex items-center">
                                 <div className="animate-spin rounded-full h-8 w-8 border-4 border-current border-t-transparent text-primary-main"></div>{" "}
-                                {/* Larger spinner, primary color */}
                             </div>
                         ) : typeof value === "number" ? (
                             <CountUp
