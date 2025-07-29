@@ -1,29 +1,18 @@
+// This is your Prisma schema file for Trackademy
+
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
-// Specifies the generator for the Prisma Client.
-// This will generate a TypeScript client based on your schema.
 generator client {
   provider = "prisma-client-js"
 }
 
-// --- CORE USER & AUTHENTICATION MODELS ---
-
-// User model for authentication. Can be a Student, Faculty, or Admin.
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String   // Password hash will be stored here
-  role      Role     @default(STUDENT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  student Student? // A user can be one student
-  faculty Faculty? // A user can be one faculty member
-}
+// ---------------------------
+// --- ENUMERATIONS ---
+// ---------------------------
 
 enum Role {
   STUDENT
@@ -31,154 +20,313 @@ enum Role {
   ADMIN
 }
 
+enum Designation {
+  HOD
+  PROFESSOR
+  ASST_PROFESSOR
+  LAB_ASSISTANT
+}
 
+enum SemesterType {
+  ODD
+  EVEN
+}
+
+enum SubjectType {
+  THEORY
+  PRACTICAL
+  TUTORIAL
+  PROJECT
+  ELECTIVE
+}
+
+enum ExamType {
+  MID_SEMESTER
+  END_SEMESTER
+  PRACTICAL
+  INTERNAL
+  REMEDIAL
+}
+
+// ------------------------------------
+// --- CORE USER & AUTH MODELS ---
+// ------------------------------------
+
+// Central User model for authentication.
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // A User can be associated with one Student or one Faculty profile
+  student Student?
+  faculty Faculty?
+}
+
+// ------------------------------------------
 // --- HIERARCHICAL & STRUCTURAL MODELS ---
+// ------------------------------------------
 
-// Top-level entity for the college.
+// Defines the College model.
 model College {
-  id   String @id @default(cuid())
-  name String @unique // e.g., "LDRP Institute of Technology and Research"
+  id            String  @id @default(cuid())
+  name          String  @unique
+  websiteUrl    String?
+  address       String?
+  contactNumber String?
+  isDeleted     Boolean @default(false)
 
-  // Relations
+  departments   Department[]
   academicYears AcademicYear[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("colleges")
 }
 
 // Represents an academic year, e.g., "2025-2026".
 model AcademicYear {
-  id        String @id @default(cuid())
-  year      String @unique // e.g., "2025-2026"
+  id        String  @id @default(cuid())
+  year      String  @unique // e.g., "2025-2026"
+  isActive  Boolean @default(false)
+  isDeleted Boolean @default(false)
   collegeId String
 
-  // Relations
-  college     College      @relation(fields: [collegeId], references: [id])
-  departments Department[]
+  college   College    @relation(fields: [collegeId], references: [id])
+  semesters Semester[]
+  exams     Exam[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([collegeId])
+  @@map("academic_years")
 }
 
-// Represents a department like Computer Engineering (CE) or Information Technology (IT).
+// Represents a department like "Computer Engineering".
 model Department {
-  id             String @id @default(cuid())
-  name           String // e.g., "Computer Engineering"
-  code           String // e.g., "CE"
-  academicYearId String
+  id           String  @id @default(cuid())
+  name         String
+  abbreviation String
+  collegeId    String
+  isDeleted    Boolean @default(false)
 
-  // Relations
-  academicYear AcademicYear @relation(fields: [academicYearId], references: [id])
-  semesters    Semester[]
-  faculties    Faculty[]
-  subjects     Subject[]
+  college   College    @relation(fields: [collegeId], references: [id])
+  semesters Semester[]
+  faculties Faculty[]
+  students  Student[]
+  subjects  Subject[]
 
-  @@unique([code, academicYearId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, collegeId])
+  @@index([collegeId])
+  @@map("departments")
 }
 
-// Represents a specific semester within a department.
+// Represents a specific semester within a department for a given academic year.
 model Semester {
-  id           String @id @default(cuid())
-  semesterNumber Int // 1 to 8
-  departmentId String
+  id             String       @id @default(cuid())
+  semesterNumber Int // e.g., 5
+  semesterType   SemesterType // ODD or EVEN
+  departmentId   String
+  academicYearId String
+  isDeleted      Boolean      @default(false)
 
-  // Relations
-  department Department @relation(fields: [departmentId], references: [id])
-  divisions  Division[]
-  subjects   Subject[]
+  department   Department   @relation(fields: [departmentId], references: [id])
+  academicYear AcademicYear @relation(fields: [academicYearId], references: [id])
+  divisions    Division[]
+  subjects     Subject[]
+  students     Student[]
 
-  @@unique([semesterNumber, departmentId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([departmentId, semesterNumber, academicYearId])
+  @@index([departmentId])
+  @@index([academicYearId])
+  @@map("semesters")
 }
 
-// Represents a division within a semester, e.g., "A", "B", "G".
+// Represents a division within a semester, e.g., "A", "B".
 model Division {
-  id         String @id @default(cuid())
+  id         String  @id @default(cuid())
   name       String // e.g., "A"
   semesterId String
+  isDeleted  Boolean @default(false)
 
-  // Relations
-  semester               Semester                 @relation(fields: [semesterId], references: [id])
-  students               Student[]
-  facultySubjectAssignments FacultySubjectAssignment[]
+  semester Semester  @relation(fields: [semesterId], references: [id])
+  students Student[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([name, semesterId])
+  @@index([semesterId])
+  @@map("divisions")
 }
 
+// --------------------------------
+// --- ENTITY MODELS ---
+// --------------------------------
 
-// --- ENTITY MODELS (STUDENTS, FACULTY, SUBJECTS) ---
-
+// Defines the Student model.
 model Student {
-  id         String @id @default(cuid())
-  enrollmentNumber String @unique
-  fullName   String
-  userId     String @unique
-  divisionId String
+  id               String  @id @default(cuid())
+  enrollmentNumber String  @unique
+  fullName         String
+  batch            String // e.g., "B1", "B2"
+  phoneNumber      String?
+  isDeleted        Boolean @default(false)
+
+  // Foreign Keys
+  userId       String @unique
+  departmentId String
+  semesterId   String // Current semester of the student
+  divisionId   String // Current division of the student
 
   // Relations
-  user       User         @relation(fields: [userId], references: [id])
-  division   Division     @relation(fields: [divisionId], references: [id])
-  attendance Attendance[]
+  user       User       @relation(fields: [userId], references: [id])
+  department Department @relation(fields: [departmentId], references: [id])
+  semester   Semester   @relation(fields: [semesterId], references: [id])
+  division   Division   @relation(fields: [divisionId], references: [id])
+  results    Result[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([divisionId])
+  @@index([semesterId])
+  @@index([departmentId])
+  @@index([departmentId, semesterId, divisionId])
+  @@map("students")
 }
 
+// Defines the Faculty model.
 model Faculty {
-  id           String @id @default(cuid())
-  fullName     String
-  designation  String
+  id              String      @id @default(cuid())
+  fullName        String
+  designation     Designation
+  abbreviation    String?
+  joiningDate     DateTime?
+  seatingLocation String?
+  isDeleted       Boolean     @default(false)
+
+  // Foreign Keys
   userId       String @unique
   departmentId String
 
   // Relations
-  user                    User                       @relation(fields: [userId], references: [id])
-  department              Department                 @relation(fields: [departmentId], references: [id])
-  facultySubjectAssignments FacultySubjectAssignment[]
-  attendanceRecords       Attendance[]
+  user       User       @relation(fields: [userId], references: [id])
+  department Department @relation(fields: [departmentId], references: [id])
+  results    Result[] // Faculty who entered the results
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([departmentId])
+  @@map("faculties")
 }
 
+// Defines the Subject model.
 model Subject {
-  id           String @id @default(cuid())
-  name         String
-  code         String @unique
+  id        String      @id @default(cuid())
+  name      String
+  code      String
+  type      SubjectType @default(THEORY)
+  isDeleted Boolean     @default(false)
+
+  // Foreign Keys
   departmentId String
   semesterId   String
 
   // Relations
-  department              Department                 @relation(fields: [departmentId], references: [id])
-  semester                Semester                   @relation(fields: [semesterId], references: [id])
-  facultySubjectAssignments FacultySubjectAssignment[]
-  attendance              Attendance[]
+  department   Department    @relation(fields: [departmentId], references: [id])
+  semester     Semester      @relation(fields: [semesterId], references: [id])
+  examSubjects ExamSubject[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([code, departmentId, semesterId])
+  @@index([departmentId, semesterId])
+  @@index([semesterId])
+  @@map("subjects")
 }
 
+// --------------------------------
+// --- RESULTS MANAGEMENT MODELS ---
+// --------------------------------
 
-// --- LINKING & TRANSACTIONAL MODELS ---
+// Defines an examination event, e.g., "Mid Semester Exam - Oct 2025".
+model Exam {
+  id             String   @id @default(cuid())
+  name           String
+  type           ExamType
+  academicYearId String
+  isPublished    Boolean  @default(false)
 
-// Connects Faculty, Subject, and Division. Defines who teaches what to whom.
-model FacultySubjectAssignment {
-  id         String @id @default(cuid())
-  facultyId  String
-  subjectId  String
-  divisionId String
+  academicYear AcademicYear  @relation(fields: [academicYearId], references: [id])
+  examSubjects ExamSubject[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name, academicYearId, type])
+  @@index([academicYearId])
+  @@map("exams")
+}
+
+// Links a Subject to an Exam, specifying marks and date.
+model ExamSubject {
+  id           String   @id @default(cuid())
+  examId       String
+  subjectId    String
+  dateOfExam   DateTime
+  totalMarks   Int
+  passingMarks Int
+
+  exam    Exam     @relation(fields: [examId], references: [id])
+  subject Subject  @relation(fields: [subjectId], references: [id])
+  results Result[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([examId, subjectId])
+  @@index([examId])
+  @@index([subjectId])
+  @@map("exam_subjects")
+}
+
+// Stores the result for a specific student in a specific exam subject.
+model Result {
+  id            String  @id @default(cuid())
+  marksObtained Float
+  grade         String? // e.g., "AA", "BC", "FF"
+  isPassed      Boolean
+
+  // Foreign Keys
+  studentId     String
+  examSubjectId String
+  facultyId     String // Faculty member who entered/verified the mark
 
   // Relations
-  faculty  Faculty  @relation(fields: [facultyId], references: [id])
-  subject  Subject  @relation(fields: [subjectId], references: [id])
-  division Division @relation(fields: [divisionId], references: [id])
+  student     Student     @relation(fields: [studentId], references: [id])
+  examSubject ExamSubject @relation(fields: [examSubjectId], references: [id])
+  faculty     Faculty     @relation(fields: [facultyId], references: [id])
 
-  @@unique([facultyId, subjectId, divisionId])
-}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-// The core attendance record for a student on a specific date for a specific subject.
-model Attendance {
-  id        String   @id @default(cuid())
-  date      DateTime @db.Date
-  status    AttendanceStatus
-  studentId String
-  subjectId String
-  facultyId String // ID of the faculty member who took the attendance
-
-  // Relations
-  student Student @relation(fields: [studentId], references: [id])
-  subject Subject @relation(fields: [subjectId], references: [id])
-  faculty Faculty @relation(fields: [facultyId], references: [id])
-
-  // A student can only have one attendance record per subject per day.
-  @@unique([studentId, subjectId, date])
-}
-
-enum AttendanceStatus {
-  PRESENT
-  ABSENT
+  @@unique([studentId, examSubjectId])
+  @@index([studentId])
+  @@index([examSubjectId])
+  @@index([facultyId])
+  @@map("results")
 }

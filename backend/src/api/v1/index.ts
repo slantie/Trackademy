@@ -1,0 +1,34 @@
+/**
+ * @file src/api/index.ts
+ * @description Main API routes aggregator
+ */
+
+import { Router } from "express";
+import authRoutes from "./auth.routes";
+import protectedRoutes from "./protected.routes";
+import collegeRoutes from "./college.routes";
+import academicYearRoutes from "./academicYear.routes";
+import departmentRoutes from "./department.routes";
+import semesterRoutes from "./semester.routes";
+import divisionRoutes from "./division.routes";
+import subjectRoutes from "./subject.routes";
+import facultyRoutes from "./faculty.routes";
+import databaseRoutes from "./database.routes";
+
+const router = Router();
+
+// Mount Authentication Routes
+router.use("/auth", authRoutes);
+router.use("/protected", protectedRoutes);
+
+// Mount Main Routes
+router.use("/colleges", collegeRoutes);
+router.use("/academic-years", academicYearRoutes);
+router.use("/departments", departmentRoutes);
+router.use("/semesters", semesterRoutes);
+router.use("/divisions", divisionRoutes);
+router.use("/subjects", subjectRoutes);
+router.use("/faculties", facultyRoutes);
+router.use("/database", databaseRoutes);
+
+export default router;

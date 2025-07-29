@@ -3,18 +3,16 @@
  * @description Main entry point of the application with Express server setup
  */
 
-import { env } from 'process';
-import express from 'express';
-import cors from 'cors'; // Import the cors middleware
-import apiRoutes from './api';
+import { env } from "process";
+import express from "express";
+import cors from "cors"; // Import the cors middleware
+import apiRoutesv1 from "./api/v1";
 
 const app = express();
 
 // --- CORS Configuration ---
 // Define the origins that are allowed to make requests to this server.
-const allowedOrigins = [
-    'http://localhost:3000'
-];
+const allowedOrigins = ["http://localhost:3000"];
 
 const corsOptions: cors.CorsOptions = {
     origin: (origin, callback) => {
@@ -26,11 +24,11 @@ const corsOptions: cors.CorsOptions = {
             callback(null, true);
         } else {
             // Otherwise, block the request.
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error("Not allowed by CORS"));
         }
     },
     credentials: true, // This allows cookies to be sent with requests.
-    optionsSuccessStatus: 200 // For legacy browser support.
+    optionsSuccessStatus: 200, // For legacy browser support.
 };
 
 // --- Middleware Setup ---
@@ -41,20 +39,19 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 // --- API Routes ---
-app.use('/api', apiRoutes);
-
+app.use("/api/v1", apiRoutesv1);
 
 // --- Health Check and Server Startup ---
-app.get('/', (req, res) => {
-    const message = env.NODE_ENV === 'production'
-        ? 'NodeJS Backend running in production!'
-        : 'NodeJS Backend running!';
-    res.json({ message, status: 'healthy' });
+app.get("/", (req, res) => {
+    const message =
+        env.NODE_ENV === "production"
+            ? "NodeJS Backend running in production!"
+            : "NodeJS Backend running!";
+    res.json({ message, status: "healthy" });
 });
 
-if (env.NODE_ENV !== 'production') {
+if (env.NODE_ENV !== "production") {
     const port = env.PORT || 4000;
 
     app.listen(port, () => {
@@ -62,5 +59,7 @@ if (env.NODE_ENV !== 'production') {
     });
 } else {
     // In a production environment (like on Render), the platform handles starting the server.
-    console.log('NodeJS Backend running in production!');
+    console.log("NodeJS Backend running in production!");
 }
+
+export default app; // Also export the app as default for consistency

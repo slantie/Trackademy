@@ -5,7 +5,7 @@
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { JWTPayload } from '../types/auth';
+import { JWTPayload } from '../types/auth.types';
 
 const SALT_ROUNDS = 12;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
