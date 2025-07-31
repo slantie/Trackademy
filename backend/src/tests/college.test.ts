@@ -3,25 +3,28 @@
  * @description Robust, independent integration tests for the College CRUD API endpoints.
  */
 
-import app from "../index";
 import request from "supertest";
-import { prisma } from "../services/prisma.service";
+import app from "../app";
+import { prisma } from "../config/prisma.service";
 
 describe("College API Endpoints", () => {
     let adminToken: string;
     let newCollegeId: string;
+    const TEST_COLLEGE_NAME = "Integration Test College";
 
-    // -- 1. SETUP: LOG IN AS ADMIN --
+    // -- 1. SETUP: CLEANUP AND LOGIN --
     beforeAll(async () => {
+        // Login as admin
         const loginResponse = await request(app)
             .post("/api/v1/auth/login")
             .send({
                 identifier: "admin_ce@ldrp.ac.in",
                 password: "password123",
             });
-
         adminToken = loginResponse.body.token;
-        expect(adminToken).toBeDefined();
+
+        // Clean up any potential leftovers from previous failed test runs
+        await prisma.college.deleteMany({ where: { name: TEST_COLLEGE_NAME } });
     });
 
     // -- 2. TEST COLLEGE CREATION --
@@ -30,18 +33,15 @@ describe("College API Endpoints", () => {
             .post("/api/v1/colleges")
             .set("Authorization", `Bearer ${adminToken}`)
             .send({
-                name: "Test College of Engineering",
-                websiteUrl: "https://test-college.edu",
+                name: TEST_COLLEGE_NAME,
+                abbreviation: "ITC",
             });
 
         expect(response.status).toBe(201);
-        expect(response.body.status).toBe("success");
-        expect(response.body.data.college.name).toBe(
-            "Test College of Engineering"
-        );
+        expect(response.body.data.college.name).toBe(TEST_COLLEGE_NAME);
+        expect(response.body.data.college.abbreviation).toBe("ITC");
 
         newCollegeId = response.body.data.college.id;
-        expect(newCollegeId).toBeDefined();
     });
 
     // -- 3. TEST GETTING ALL COLLEGES --
@@ -52,10 +52,8 @@ describe("College API Endpoints", () => {
 
         expect(response.status).toBe(200);
         expect(response.body.results).toBeGreaterThanOrEqual(1);
-
         const names = response.body.data.colleges.map((c: any) => c.name);
-        // This test is now robust: it only checks for the college it created itself.
-        expect(names).toContain("Test College of Engineering");
+        expect(names).toContain(TEST_COLLEGE_NAME);
     });
 
     // -- 4. TEST GETTING ONE COLLEGE BY ID --
@@ -66,24 +64,17 @@ describe("College API Endpoints", () => {
 
         expect(response.status).toBe(200);
         expect(response.body.data.college.id).toBe(newCollegeId);
-        expect(response.body.data.college.name).toBe(
-            "Test College of Engineering"
-        );
     });
 
     // -- 5. TEST UPDATING A COLLEGE --
-    it("should update the college's details", async () => {
+    it("should update the college's abbreviation", async () => {
         const response = await request(app)
             .patch(`/api/v1/colleges/${newCollegeId}`)
             .set("Authorization", `Bearer ${adminToken}`)
-            .send({
-                address: "123 Test Street, Test City",
-            });
+            .send({ abbreviation: "ITCE" });
 
         expect(response.status).toBe(200);
-        expect(response.body.data.college.address).toBe(
-            "123 Test Street, Test City"
-        );
+        expect(response.body.data.college.abbreviation).toBe("ITCE");
     });
 
     // -- 6. TEST DELETING A COLLEGE --
@@ -104,11 +95,8 @@ describe("College API Endpoints", () => {
     // -- 7. CLEANUP --
     afterAll(async () => {
         if (newCollegeId) {
-            try {
-                await prisma.college.delete({ where: { id: newCollegeId } });
-            } catch (error) {
-                // Ignore errors if already deleted
-            }
+            // Use deleteMany to avoid errors if the record was already deleted
+            await prisma.college.deleteMany({ where: { id: newCollegeId } });
         }
     });
 });

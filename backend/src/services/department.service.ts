@@ -3,7 +3,7 @@
  * @description Service layer for department-related business logic.
  */
 
-import { prisma } from "./prisma.service";
+import { prisma } from "../config/prisma.service";
 import AppError from "../utils/appError";
 import { Department } from "@prisma/client";
 
@@ -18,24 +18,19 @@ type DepartmentUpdateData = Partial<Omit<DepartmentCreateData, "collegeId">> & {
 };
 
 class DepartmentService {
-    /**
-     * Creates a new department within a college.
-     * @param data - The data for the new department.
-     * @returns The newly created department.
-     */
     public async create(data: DepartmentCreateData): Promise<Department> {
-        // Check if a department with the same name or abbreviation already exists in this college
-        const existingDepartment = await prisma.department.findFirst({
+        const existingDepartment = await prisma.department.findUnique({
             where: {
-                collegeId: data.collegeId,
-                isDeleted: false,
-                OR: [{ name: data.name }, { abbreviation: data.abbreviation }],
+                collegeId_name: {
+                    collegeId: data.collegeId,
+                    name: data.name,
+                },
             },
         });
 
-        if (existingDepartment) {
+        if (existingDepartment && !existingDepartment.isDeleted) {
             throw new AppError(
-                "A department with this name or abbreviation already exists in this college.",
+                "A department with this name already exists in this college.",
                 409
             );
         }
@@ -43,11 +38,6 @@ class DepartmentService {
         return prisma.department.create({ data });
     }
 
-    /**
-     * Retrieves all non-deleted departments for a given college.
-     * @param collegeId - The CUID of the college.
-     * @returns A list of departments.
-     */
     public async getAllByCollege(collegeId: string): Promise<Department[]> {
         return prisma.department.findMany({
             where: { collegeId, isDeleted: false },
@@ -55,11 +45,6 @@ class DepartmentService {
         });
     }
 
-    /**
-     * Retrieves a single department by its ID.
-     * @param id - The CUID of the department.
-     * @returns The requested department.
-     */
     public async getById(id: string): Promise<Department> {
         const department = await prisma.department.findUnique({
             where: { id, isDeleted: false },
@@ -71,29 +56,19 @@ class DepartmentService {
         return department;
     }
 
-    /**
-     * Updates an existing department.
-     * @param id - The CUID of the department to update.
-     * @param data - The data to update.
-     * @returns The updated department.
-     */
     public async update(
         id: string,
         data: DepartmentUpdateData
     ): Promise<Department> {
-        await this.getById(id); // Ensures the department exists before updating
+        await this.getById(id);
         return prisma.department.update({
             where: { id },
             data,
         });
     }
 
-    /**
-     * Soft deletes a department.
-     * @param id - The CUID of the department to delete.
-     */
     public async delete(id: string): Promise<void> {
-        await this.getById(id); // Ensures the department exists
+        await this.getById(id);
         await prisma.department.update({
             where: { id },
             data: { isDeleted: true },

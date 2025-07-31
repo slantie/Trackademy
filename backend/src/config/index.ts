@@ -16,6 +16,14 @@ interface AppConfig {
     databaseUrl?: string;
     jwtSecret: string;
     jwtExpiresIn: string | number;
+    emailHost?: string;
+    emailPort?: number;
+    emailUser?: string;
+    emailFrom?: string;
+    emailPass?: string;
+    emailFromName?: string;
+    serviceUrl?: string;
+    serviceApiKey?: string;
 }
 
 // Defines the application configuration object.
@@ -25,6 +33,16 @@ const config: AppConfig = {
     databaseUrl: process.env.DATABASE_URL,
     jwtSecret: process.env.JWT_SECRET as string,
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || "24h",
+    emailHost: process.env.EMAIL_HOST,
+    emailPort: process.env.EMAIL_PORT
+        ? parseInt(process.env.EMAIL_PORT, 10)
+        : undefined,
+    emailUser: process.env.EMAIL_USER,
+    emailFrom: process.env.EMAIL_FROM,
+    emailPass: process.env.EMAIL_PASS,
+    emailFromName: process.env.EMAIL_FROM_NAME,
+    serviceUrl: process.env.SERVICE_URL,
+    serviceApiKey: (process.env.SERVICE_API_KEY as string) || undefined,
 };
 
 // Performs basic validation for critical environment variables.

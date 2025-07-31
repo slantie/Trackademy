@@ -1,11 +1,11 @@
 /**
- * @file src/routes/v1/database.routes.ts
+ * @file src/routes/api/v1/database.routes.ts
  * @description Defines API routes for administrative database operations.
  */
 
 import { Router } from "express";
-import { DatabaseController } from "../../controllers/database.controller";
-import { authenticate, authorize } from "../../middlewares/auth.middleware";
+import { DatabaseController } from "../../../controllers/database.controller";
+import { authenticate, authorize } from "../../../middlewares/auth.middleware";
 import { Role } from "@prisma/client";
 
 const router = Router();

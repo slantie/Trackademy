@@ -1,88 +1,85 @@
 /**
- * @file src/controllers/subject.controller.ts
- * @description Controller for handling master subject-related API requests.
+ * @file src/controllers/student.controller.ts
+ * @description Controller for handling student profile management API requests.
  */
 
 import { Request, Response, NextFunction } from "express";
-import { subjectService } from "../services/subject.service";
+import { studentService } from "../services/student.service";
 
-export class SubjectController {
-    static async createSubject(
+export class StudentController {
+    static async createStudent(
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            const newSubject = await subjectService.create(req.body);
+            const newStudent = await studentService.create(req.body);
             res.status(201).json({
                 status: "success",
-                data: { subject: newSubject },
+                data: { student: newStudent },
             });
         } catch (error) {
             next(error);
         }
     }
 
-    static async getAllSubjects(
+    static async getAllStudents(
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            const { departmentId, semesterNumber } = req.query;
-            const subjects = await subjectService.getByDepartmentAndSemester(
-                departmentId as string,
-                Number(semesterNumber)
-            );
+            const divisionId = req.query.divisionId as string;
+            const students = await studentService.getAllByDivision(divisionId);
             res.status(200).json({
                 status: "success",
-                results: subjects.length,
-                data: { subjects },
+                results: students.length,
+                data: { students },
             });
         } catch (error) {
             next(error);
         }
     }
 
-    static async getSubjectById(
+    static async getStudentById(
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            const subject = await subjectService.getById(req.params.id);
-            res.status(200).json({ status: "success", data: { subject } });
+            const student = await studentService.getById(req.params.id);
+            res.status(200).json({ status: "success", data: { student } });
         } catch (error) {
             next(error);
         }
     }
 
-    static async updateSubject(
+    static async updateStudent(
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            const updatedSubject = await subjectService.update(
+            const updatedStudent = await studentService.update(
                 req.params.id,
                 req.body
             );
             res.status(200).json({
                 status: "success",
-                data: { subject: updatedSubject },
+                data: { student: updatedStudent },
             });
         } catch (error) {
             next(error);
         }
     }
 
-    static async deleteSubject(
+    static async deleteStudent(
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<void> {
         try {
-            await subjectService.delete(req.params.id);
+            await studentService.delete(req.params.id);
             res.status(204).send();
         } catch (error) {
             next(error);

@@ -90,7 +90,7 @@ export class CollegeController {
     ): Promise<void> {
         try {
             await collegeService.delete(req.params.id);
-            res.status(204).send(); // 204 No Content is standard for successful deletions
+            res.status(204).send();
         } catch (error) {
             next(error);
         }

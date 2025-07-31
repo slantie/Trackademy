@@ -4,14 +4,14 @@
  */
 
 import { Router } from "express";
-import { CollegeController } from "../../controllers/college.controller";
-import { authenticate, authorize } from "../../middlewares/auth.middleware";
-import { validate } from "../../middlewares/validate.middleware";
+import { CollegeController } from "../../../controllers/college.controller";
+import { authenticate, authorize } from "../../../middlewares/auth.middleware";
+import { validate } from "../../../middlewares/validate.middleware";
 import {
     createCollegeSchema,
     updateCollegeSchema,
     collegeIdParamSchema,
-} from "../../validations/college.validation";
+} from "../../../validations/college.validation";
 import { Role } from "@prisma/client";
 
 const router = Router();

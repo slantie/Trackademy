@@ -8,17 +8,9 @@ import { z } from "zod";
 // Schema for creating a new department
 export const createDepartmentSchema = z.object({
     body: z.object({
-        name: z
-            .string()
-            .nonempty("Department name is required.")
-            .min(3, "Department name must be at least 3 characters long."),
-        abbreviation: z
-            .string()
-            .nonempty("Abbreviation is required.")
-            .min(2, "Abbreviation must be at least 2 characters long."),
-        collegeId: z
-            .string()
-            .cuid("College ID is required."),
+        name: z.string().min(1, "Department name is required."),
+        abbreviation: z.string().min(1, "Abbreviation is required."),
+        collegeId: z.string().cuid("A valid college ID is required."),
     }),
 });
 
@@ -29,20 +21,13 @@ export const updateDepartmentSchema = z.object({
     }),
     body: z
         .object({
-            name: z
-                .string()
-                .min(3, "Department name must be at least 3 characters long.")
-                .optional(),
-            abbreviation: z
-                .string()
-                .min(1, "Abbreviation cannot be empty.")
-                .optional(),
+            name: z.string().min(1).optional(),
+            abbreviation: z.string().min(1).optional(),
             isDeleted: z.boolean().optional(),
         })
-        .refine(
-            (data) => Object.keys(data).length > 0,
-            { message: "At least one field must be provided for update." }
-        ),
+        .refine((data) => Object.keys(data).length > 0, {
+            message: "At least one field must be provided for update.",
+        }),
 });
 
 // Schema for validating a CUID in the URL parameters

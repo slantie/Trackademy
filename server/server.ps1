@@ -1,4 +1,5 @@
 # FastAPI Server Startup Script
+# server/server.ps1
 Write-Host "🚀 Starting FastAPI Server" -ForegroundColor Green
 Write-Host ""
 

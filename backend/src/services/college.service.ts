@@ -3,19 +3,15 @@
  * @description Service layer for college-related business logic.
  */
 
-import { prisma } from "./prisma.service";
+import { prisma } from "../config/prisma.service";
 import AppError from "../utils/appError";
 import { College } from "@prisma/client";
 
-// Interface for the data required to create a college
 interface CollegeCreateData {
     name: string;
-    websiteUrl?: string;
-    address?: string;
-    contactNumber?: string;
+    abbreviation: string;
 }
 
-// Interface for the data allowed for updating a college
 type CollegeUpdateData = Partial<CollegeCreateData> & { isDeleted?: boolean };
 
 class CollegeService {
@@ -26,11 +22,17 @@ class CollegeService {
      */
     public async create(data: CollegeCreateData): Promise<College> {
         const existingCollege = await prisma.college.findFirst({
-            where: { name: data.name, isDeleted: false },
+            where: {
+                OR: [{ name: data.name }, { abbreviation: data.abbreviation }],
+                isDeleted: false,
+            },
         });
 
         if (existingCollege) {
-            throw new AppError("A college with this name already exists.", 409);
+            throw new AppError(
+                "A college with this name or abbreviation already exists.",
+                409
+            );
         }
 
         return prisma.college.create({ data });
@@ -80,12 +82,12 @@ class CollegeService {
     /**
      * Soft deletes a college by setting its `isDeleted` flag to true.
      * @param id - The CUID of the college to delete.
-     * @returns The college that was marked as deleted.
      */
-    public async delete(id: string): Promise<College> {
+    public async delete(id: string): Promise<void> {
         await this.getById(id); // Ensure the college exists
-        return prisma.college.delete({
+        await prisma.college.update({
             where: { id },
+            data: { isDeleted: true },
         });
     }
 }

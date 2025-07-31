@@ -10,9 +10,8 @@ export const createAcademicYearSchema = z.object({
     body: z.object({
         year: z
             .string()
-            .nonempty("Academic year is required.")
             .regex(/^\d{4}-\d{4}$/, "Year must be in YYYY-YYYY format."),
-        collegeId: z.cuid().nonempty("College ID is required."),
+        collegeId: z.string().cuid("A valid college ID is required."),
         isActive: z.boolean().optional(),
     }),
 });
@@ -30,10 +29,10 @@ export const updateAcademicYearSchema = z.object({
                 .optional(),
             isActive: z.boolean().optional(),
         })
-        .refine(
-            (data) => data.year !== undefined || data.isActive !== undefined,
-            { message: "At least one field (year or isActive) must be provided for update." }
-        ),
+        .refine((data) => Object.keys(data).length > 0, {
+            message:
+                "At least one field (year or isActive) must be provided for update.",
+        }),
 });
 
 // Schema for validating a CUID in the URL parameters

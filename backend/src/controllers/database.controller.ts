@@ -17,7 +17,7 @@ export class DatabaseController {
             res.status(200).json({
                 status: "success",
                 message:
-                    "Database cleaned successfully. All data except users has been deleted.",
+                    "Database cleaned successfully. All data has been deleted.",
             });
         } catch (error) {
             next(error);

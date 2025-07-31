@@ -6,7 +6,7 @@
 import { env } from "process";
 import express from "express";
 import cors from "cors"; // Import the cors middleware
-import apiRoutesv1 from "./api/v1";
+import apiRoutesv1 from "./routes/api/v1";
 
 const app = express();
 

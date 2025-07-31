@@ -16,9 +16,7 @@ export class SemesterController {
             const newSemester = await semesterService.create(req.body);
             res.status(201).json({
                 status: "success",
-                data: {
-                    semester: newSemester,
-                },
+                data: { semester: newSemester },
             });
         } catch (error) {
             next(error);
@@ -32,16 +30,14 @@ export class SemesterController {
     ): Promise<void> {
         try {
             const { departmentId, academicYearId } = req.query;
-            const semesters = await semesterService.getAll({
-                departmentId: departmentId as string,
-                academicYearId: academicYearId as string | undefined,
-            });
+            const semesters = await semesterService.getByDepartmentAndYear(
+                departmentId as string,
+                academicYearId as string
+            );
             res.status(200).json({
                 status: "success",
                 results: semesters.length,
-                data: {
-                    semesters,
-                },
+                data: { semesters },
             });
         } catch (error) {
             next(error);
@@ -55,12 +51,7 @@ export class SemesterController {
     ): Promise<void> {
         try {
             const semester = await semesterService.getById(req.params.id);
-            res.status(200).json({
-                status: "success",
-                data: {
-                    semester,
-                },
-            });
+            res.status(200).json({ status: "success", data: { semester } });
         } catch (error) {
             next(error);
         }
@@ -78,9 +69,7 @@ export class SemesterController {
             );
             res.status(200).json({
                 status: "success",
-                data: {
-                    semester: updatedSemester,
-                },
+                data: { semester: updatedSemester },
             });
         } catch (error) {
             next(error);

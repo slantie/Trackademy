@@ -14,6 +14,10 @@ import divisionRoutes from "./division.routes";
 import subjectRoutes from "./subject.routes";
 import facultyRoutes from "./faculty.routes";
 import databaseRoutes from "./database.routes";
+import studentRoutes from "./student.routes";
+import serviceRoutes from "./service.routes";
+import uploadRoutes from "./upload.routes";
+import courseRoutes from "./course.routes";
 
 const router = Router();
 
@@ -30,5 +34,9 @@ router.use("/divisions", divisionRoutes);
 router.use("/subjects", subjectRoutes);
 router.use("/faculties", facultyRoutes);
 router.use("/database", databaseRoutes);
+router.use("/students", studentRoutes);
+router.use("/service", serviceRoutes);
+router.use("/upload", uploadRoutes);
+router.use("/courses", courseRoutes);
 
 export default router;

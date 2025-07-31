@@ -12,13 +12,10 @@ export const createCollegeSchema = z.object({
             .string()
             .nonempty("College name is required.")
             .min(3, "College name must be at least 3 characters long."),
-        websiteUrl: z
+        abbreviation: z
             .string()
-            .url("A valid website URL is required.")
-            .optional()
-            .or(z.literal("")),
-        address: z.string().optional(),
-        contactNumber: z.string().optional(),
+            .nonempty("Abbreviation is required.")
+            .min(2, "Abbreviation must be at least 2 characters long."),
     }),
 });
 
@@ -29,23 +26,17 @@ export const updateCollegeSchema = z.object({
     }),
     body: z
         .object({
-            name: z
-                .string()
-                .min(3, "College name must be at least 3 characters long.")
-                .optional(),
-            websiteUrl: z
-                .string()
-                .url("A valid website URL is required.")
-                .optional()
-                .or(z.literal("")),
-            address: z.string().optional(),
-            contactNumber: z.string().optional(),
+            name: z.string().min(3).optional(),
+            abbreviation: z.string().min(2).optional(),
             isDeleted: z.boolean().optional(),
         })
         .refine(
-            (data) => Object.keys(data).length > 0,
+            (data) =>
+                data.name !== undefined ||
+                data.abbreviation !== undefined ||
+                data.isDeleted !== undefined,
             { message: "At least one field must be provided for update." }
-        ), // Ensure body is not empty
+        ),
 });
 
 // Schema for validating a CUID in the URL parameters

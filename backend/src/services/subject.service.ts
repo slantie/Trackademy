@@ -1,45 +1,39 @@
 /**
  * @file src/services/subject.service.ts
- * @description Service layer for subject-related business logic.
+ * @description Service layer for master subject-related business logic.
  */
 
-import { prisma } from "./prisma.service";
+import { prisma } from "../config/prisma.service";
 import AppError from "../utils/appError";
 import { Subject, SubjectType } from "@prisma/client";
 
 interface SubjectCreateData {
     name: string;
+    abbreviation: string;
     code: string;
     type: SubjectType;
+    semesterNumber: number;
     departmentId: string;
-    semesterId: string;
 }
 
-type SubjectUpdateData = Partial<
-    Omit<SubjectCreateData, "departmentId" | "semesterId">
-> & { isDeleted?: boolean };
+type SubjectUpdateData = Partial<Omit<SubjectCreateData, "departmentId">> & {
+    isDeleted?: boolean;
+};
 
 class SubjectService {
-    /**
-     * Creates a new subject.
-     * @param data - The data for the new subject.
-     * @returns The newly created subject.
-     */
     public async create(data: SubjectCreateData): Promise<Subject> {
-        // Check if a subject with the same code already exists in this department and semester
         const existingSubject = await prisma.subject.findUnique({
             where: {
-                code_departmentId_semesterId: {
+                code_departmentId: {
                     code: data.code,
                     departmentId: data.departmentId,
-                    semesterId: data.semesterId,
                 },
             },
         });
 
         if (existingSubject && !existingSubject.isDeleted) {
             throw new AppError(
-                "A subject with this code already exists for this department and semester.",
+                "A subject with this code already exists for this department.",
                 409
             );
         }
@@ -47,26 +41,20 @@ class SubjectService {
         return prisma.subject.create({ data });
     }
 
-    /**
-     * Retrieves all non-deleted subjects for a given semester.
-     * @param semesterId - The CUID of the semester.
-     * @returns A list of subjects.
-     */
-    public async getAllBySemester(semesterId: string): Promise<Subject[]> {
+    public async getByDepartmentAndSemester(
+        departmentId: string,
+        semesterNumber: number
+    ): Promise<Subject[]> {
         return prisma.subject.findMany({
             where: {
-                semesterId,
+                departmentId,
+                semesterNumber,
                 isDeleted: false,
             },
             orderBy: { name: "asc" },
         });
     }
 
-    /**
-     * Retrieves a single subject by its ID.
-     * @param id - The CUID of the subject.
-     * @returns The requested subject.
-     */
     public async getById(id: string): Promise<Subject> {
         const subject = await prisma.subject.findUnique({
             where: { id, isDeleted: false },
@@ -78,26 +66,13 @@ class SubjectService {
         return subject;
     }
 
-    /**
-     * Updates an existing subject.
-     * @param id - The CUID of the subject to update.
-     * @param data - The data to update.
-     * @returns The updated subject.
-     */
     public async update(id: string, data: SubjectUpdateData): Promise<Subject> {
-        await this.getById(id); // Ensures the subject exists before updating
-        return prisma.subject.update({
-            where: { id },
-            data,
-        });
+        await this.getById(id);
+        return prisma.subject.update({ where: { id }, data });
     }
 
-    /**
-     * Soft deletes a subject.
-     * @param id - The CUID of the subject to delete.
-     */
     public async delete(id: string): Promise<void> {
-        await this.getById(id); // Ensures the subject exists
+        await this.getById(id);
         await prisma.subject.update({
             where: { id },
             data: { isDeleted: true },

@@ -1,0 +1,30 @@
+/**
+ * @file src/routes/api/v1/course.routes.ts
+ * @description Defines API routes for the Course resource.
+ */
+
+import { Router } from "express";
+import { CourseController } from "../../../controllers/course.controller";
+import { authenticate, authorize } from "../../../middlewares/auth.middleware";
+import { validate } from "../../../middlewares/validate.middleware";
+import {
+    createCourseSchema,
+    courseIdParamSchema,
+    courseQuerySchema,
+} from "../../../validations/course.validation";
+import { Role } from "@prisma/client";
+
+const router = Router();
+
+router.use(authenticate, authorize(Role.ADMIN));
+
+router
+    .route("/")
+    .post(validate(createCourseSchema), CourseController.createCourse)
+    .get(validate(courseQuerySchema), CourseController.getAllCourses);
+
+router
+    .route("/:id")
+    .delete(validate(courseIdParamSchema), CourseController.deleteCourse);
+
+export default router;

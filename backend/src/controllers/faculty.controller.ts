@@ -7,7 +7,21 @@ import { Request, Response, NextFunction } from "express";
 import { facultyService } from "../services/faculty.service";
 
 export class FacultyController {
-    // Note: Faculty creation is handled by AuthController.registerFaculty
+    static async createFaculty(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        try {
+            const newFaculty = await facultyService.create(req.body);
+            res.status(201).json({
+                status: "success",
+                data: { faculty: newFaculty },
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
 
     static async getAllFaculties(
         req: Request,
@@ -22,9 +36,7 @@ export class FacultyController {
             res.status(200).json({
                 status: "success",
                 results: faculties.length,
-                data: {
-                    faculties,
-                },
+                data: { faculties },
             });
         } catch (error) {
             next(error);
@@ -38,12 +50,7 @@ export class FacultyController {
     ): Promise<void> {
         try {
             const faculty = await facultyService.getById(req.params.id);
-            res.status(200).json({
-                status: "success",
-                data: {
-                    faculty,
-                },
-            });
+            res.status(200).json({ status: "success", data: { faculty } });
         } catch (error) {
             next(error);
         }
@@ -61,9 +68,7 @@ export class FacultyController {
             );
             res.status(200).json({
                 status: "success",
-                data: {
-                    faculty: updatedFaculty,
-                },
+                data: { faculty: updatedFaculty },
             });
         } catch (error) {
             next(error);

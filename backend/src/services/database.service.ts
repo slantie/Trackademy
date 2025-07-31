@@ -3,41 +3,35 @@
  * @description Service layer for administrative database operations.
  */
 
-import { prisma } from "./prisma.service";
+import { prisma } from "../config/prisma.service";
 import AppError from "../utils/appError";
 
 class DatabaseService {
     /**
-     * Cleans all transactional and structural data from the database,
-     * preserving the User table.
+     * Wipes all data from all tables in the database.
+     * The order of deletion is crucial to respect foreign key constraints.
      */
     public async cleanDatabase(): Promise<void> {
         try {
-            // The order of deletion is crucial to avoid foreign key constraint violations.
-            // We delete from the "many" side of relationships first, moving up the hierarchy.
+            console.log("🗑️ Starting database cleaning process...");
             await prisma.$transaction([
-                // 1. Start with models that have the most dependencies
-                prisma.result.deleteMany(),
-
-                // 2. Models that depend on Subject and Exam
-                prisma.examSubject.deleteMany(),
-
-                // 3. Models that depend on Student/Faculty and other entities
-                // Note: Deleting Student/Faculty profiles does NOT delete the associated User
+                // Start from the most dependent models and work upwards.
+                prisma.studentEnrollment.deleteMany(),
+                prisma.course.deleteMany(),
                 prisma.student.deleteMany(),
                 prisma.faculty.deleteMany(),
-
-                // 4. Core entities
+                prisma.user.deleteMany(), // Now deleting users as well
                 prisma.subject.deleteMany(),
-                prisma.exam.deleteMany(),
                 prisma.division.deleteMany(),
                 prisma.semester.deleteMany(),
-                prisma.department.deleteMany(),
                 prisma.academicYear.deleteMany(),
+                prisma.department.deleteMany(),
                 prisma.college.deleteMany(),
             ]);
 
-            console.log("🗑️ Database cleaned successfully (Users preserved).");
+            console.log(
+                "✅ Database cleaned successfully. All tables are empty."
+            );
         } catch (error: any) {
             console.error("Error during database cleaning:", error);
             throw new AppError("Failed to clean the database.", 500);

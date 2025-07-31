@@ -3,74 +3,90 @@
  * @description Service layer for managing faculty profiles.
  */
 
-import { prisma } from "./prisma.service";
+import { prisma } from "../config/prisma.service";
 import AppError from "../utils/appError";
-import { Faculty, Designation } from "@prisma/client";
+import { Faculty, Designation, Role } from "@prisma/client";
+import { hashPassword } from "../utils/hash";
 
-// Note: Creation is handled by AuthService.registerFaculty
-
-type FacultyUpdateData = {
-    fullName?: string;
-    designation?: Designation;
+interface FacultyCreateData {
+    email: string;
+    password: string;
+    fullName: string;
+    designation: Designation;
     abbreviation?: string;
-    joiningDate?: string | Date;
-    seatingLocation?: string;
-    isDeleted?: boolean;
-};
+    joiningDate?: string | null;
+    departmentId: string;
+}
+
+type FacultyUpdateData = Partial<
+    Omit<FacultyCreateData, "email" | "password" | "departmentId">
+> & { isDeleted?: boolean };
 
 class FacultyService {
-    /**
-     * Retrieves all non-deleted faculty for a given department.
-     * @param departmentId - The CUID of the department.
-     * @returns A list of faculty profiles.
-     */
+    public async create(data: FacultyCreateData): Promise<Faculty> {
+        const existingUser = await prisma.user.findUnique({
+            where: { email: data.email },
+        });
+        if (existingUser) {
+            throw new AppError("A user with this email already exists.", 409);
+        }
+
+        const hashedPassword = await hashPassword(data.password);
+
+        return prisma.$transaction(async (tx) => {
+            const newUser = await tx.user.create({
+                data: {
+                    email: data.email,
+                    password: hashedPassword,
+                    role: Role.FACULTY,
+                },
+            });
+
+            return tx.faculty.create({
+                data: {
+                    userId: newUser.id,
+                    fullName: data.fullName,
+                    designation: data.designation,
+                    abbreviation: data.abbreviation,
+                    joiningDate: data.joiningDate
+                        ? new Date(data.joiningDate)
+                        : null,
+                    departmentId: data.departmentId,
+                },
+            });
+        });
+    }
+
     public async getAllByDepartment(departmentId: string): Promise<Faculty[]> {
         return prisma.faculty.findMany({
-            where: {
-                departmentId,
-                isDeleted: false,
-            },
+            where: { departmentId, isDeleted: false },
             orderBy: { fullName: "asc" },
         });
     }
 
-    /**
-     * Retrieves a single faculty profile by its ID.
-     * @param id - The CUID of the faculty profile.
-     * @returns The requested faculty profile.
-     */
     public async getById(id: string): Promise<Faculty> {
         const faculty = await prisma.faculty.findUnique({
             where: { id, isDeleted: false },
         });
-
-        if (!faculty) {
-            throw new AppError("Faculty not found.", 404);
-        }
+        if (!faculty) throw new AppError("Faculty not found.", 404);
         return faculty;
     }
 
-    /**
-     * Updates an existing faculty profile.
-     * @param id - The CUID of the faculty profile to update.
-     * @param data - The data to update.
-     * @returns The updated faculty profile.
-     */
     public async update(id: string, data: FacultyUpdateData): Promise<Faculty> {
-        await this.getById(id); // Ensures the faculty profile exists before updating
+        await this.getById(id);
         return prisma.faculty.update({
             where: { id },
-            data,
+            data: {
+                ...data,
+                joiningDate: data.joiningDate
+                    ? new Date(data.joiningDate)
+                    : data.joiningDate,
+            },
         });
     }
 
-    /**
-     * Soft deletes a faculty profile.
-     * Note: This does not affect the associated User account.
-     * @param id - The CUID of the faculty profile to delete.
-     */
     public async delete(id: string): Promise<void> {
-        await this.getById(id); // Ensures the faculty profile exists
+        await this.getById(id);
         await prisma.faculty.update({
             where: { id },
             data: { isDeleted: true },

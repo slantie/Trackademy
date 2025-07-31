@@ -49,6 +49,7 @@ export interface AuthenticatedUser {
     role: Role;
     fullName: string;
     designation?: Designation | null; // Contains the designation for Faculty
+    details?: any;
 }
 
 /**

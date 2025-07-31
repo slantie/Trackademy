@@ -5,7 +5,7 @@
  */
 
 import { User, Role, Designation } from "@prisma/client";
-import { prisma } from "./prisma.service"; // Assuming prisma client is exported from here
+import { prisma } from "../config/prisma.service"; // Assuming prisma client is exported from here
 import AppError from "../utils/appError"; // Assuming a custom AppError class exists
 import { generateToken } from "../utils/jwt"; // Assuming a JWT utility
 import { hashPassword, comparePassword } from "../utils/hash"; // Assuming hashing utilities
@@ -36,12 +36,23 @@ class AuthService {
 
             if (foundUser) {
                 user = foundUser;
-                if (foundUser.role === "FACULTY" && foundUser.faculty) {
-                    userProfile.fullName = foundUser.faculty.fullName;
-                    userProfile.details = foundUser.faculty;
-                } else if (foundUser.role === "ADMIN") {
+                if (foundUser.role === "ADMIN") {
                     // For Admins, we can use their email or a generic name
                     userProfile.fullName = "Administrator";
+                } else if (foundUser.role === "FACULTY" && foundUser.faculty) {
+                    userProfile.fullName = foundUser.faculty.fullName;
+                    userProfile.details = foundUser.faculty;
+                } else if (foundUser.role === "STUDENT") {
+                    // If the user is a Student, we can still retrieve their profile
+                    const student = await prisma.student.findUnique({
+                        where: { userId: foundUser.id },
+                    });
+                    if (student) {
+                        userProfile.fullName = student.fullName;
+                        userProfile.details = {
+                            enrollmentNumber: student.enrollmentNumber,
+                        };
+                    }
                 }
             }
         } else {
@@ -75,7 +86,7 @@ class AuthService {
             email: user.email,
             role: user.role,
             fullName: userProfile.fullName,
-            // details: userProfile.details,
+            details: userProfile.details,
         };
 
         // Find the User's Role and map to the correct Role Enum

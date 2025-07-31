@@ -8,14 +8,8 @@ import { z } from "zod";
 // Schema for creating a new division
 export const createDivisionSchema = z.object({
     body: z.object({
-        name: z
-            .string()
-            .min(1, "Division name is required.")
-            .max(10, "Division name cannot exceed 10 characters."),
-        semesterId: z
-            .string()
-            .nonempty("Semester ID is required.")
-            .cuid(),
+        name: z.string().min(1, "Division name is required."),
+        semesterId: z.string().cuid("A valid semester ID is required."),
     }),
 });
 
@@ -26,17 +20,12 @@ export const updateDivisionSchema = z.object({
     }),
     body: z
         .object({
-            name: z
-                .string()
-                .min(1, "Division name cannot be empty.")
-                .max(10, "Division name cannot exceed 10 characters.")
-                .optional(),
+            name: z.string().min(1).optional(),
             isDeleted: z.boolean().optional(),
         })
-        .refine(
-            (data) => Object.keys(data).length > 0,
-            { message: "At least one field must be provided for update." }
-        ),
+        .refine((data) => Object.keys(data).length > 0, {
+            message: "At least one field must be provided for update.",
+        }),
 });
 
 // Schema for validating a CUID in the URL parameters
