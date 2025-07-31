@@ -8,7 +8,10 @@ import multer from "multer";
 import { UploadController } from "../../../controllers/upload.controller";
 import { authenticate, authorize } from "../../../middlewares/auth.middleware";
 import { validate } from "../../../middlewares/validate.middleware";
-import { facultyMatrixBodySchema } from "../../../validations/upload.validation";
+import {
+    facultyMatrixBodySchema,
+    resultsUploadBodySchema,
+} from "../../../validations/upload.validation";
 import { Role } from "@prisma/client";
 
 const router = Router();
@@ -39,6 +42,13 @@ router.post(
     upload.single("file"),
     validate(facultyMatrixBodySchema),
     UploadController.uploadFacultyMatrix
+);
+
+router.post(
+    "/results",
+    upload.single("file"),
+    validate(resultsUploadBodySchema),
+    UploadController.uploadResultsData
 );
 
 export default router;

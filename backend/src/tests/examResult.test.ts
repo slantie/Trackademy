@@ -1,0 +1,236 @@
+/**
+ * @file src/tests/examResult.test.ts
+ * @description Robust, independent integration tests for the ExamResult API endpoints.
+ */
+
+import request from "supertest";
+import app from "../app";
+import { prisma } from "../config/prisma.service";
+import { ExamType, SemesterType, ResultStatus, Role } from "@prisma/client";
+import { hashPassword } from "../utils/hash";
+
+describe("ExamResult API Endpoints", () => {
+    let adminToken: string;
+    let studentToken: string;
+    let testStudent: any;
+    let testExam: any;
+    let testExamResult: any;
+    let testDepartment: any;
+    let testSemester: any;
+    let testDivision: any;
+    let testCollege: any;
+    let testAcademicYear: any;
+
+    const TEST_COLLEGE_NAME = "Result Test College";
+    const TEST_STUDENT_EMAIL = "result.student@test.edu";
+    const OTHER_STUDENT_EMAIL = "other.student@test.edu";
+
+    beforeAll(async () => {
+        const adminLogin = await request(app)
+            .post("/api/v1/auth/login")
+            .send({
+                identifier: "admin_ce@ldrp.ac.in",
+                password: "password123",
+            });
+        adminToken = adminLogin.body.token;
+
+        // --- Robust Cleanup ---
+        await prisma.result.deleteMany({});
+        await prisma.examResult.deleteMany({});
+        await prisma.exam.deleteMany({});
+        await prisma.student.deleteMany({
+            where: { user: { email: { contains: "@test.edu" } } },
+        });
+        await prisma.user.deleteMany({
+            where: { email: { contains: "@test.edu" } },
+        });
+        await prisma.division.deleteMany({
+            where: {
+                semester: {
+                    academicYear: { college: { name: TEST_COLLEGE_NAME } },
+                },
+            },
+        });
+        await prisma.semester.deleteMany({
+            where: { academicYear: { college: { name: TEST_COLLEGE_NAME } } },
+        });
+        await prisma.department.deleteMany({
+            where: { college: { name: TEST_COLLEGE_NAME } },
+        });
+        await prisma.academicYear.deleteMany({
+            where: { college: { name: TEST_COLLEGE_NAME } },
+        });
+        await prisma.college.deleteMany({ where: { name: TEST_COLLEGE_NAME } });
+
+        // --- Create a full hierarchy of fresh test data ---
+        testCollege = await prisma.college.create({
+            data: { name: TEST_COLLEGE_NAME, abbreviation: "RTC" },
+        });
+        testDepartment = await prisma.department.create({
+            data: {
+                name: "Test Dept For Result",
+                abbreviation: "TDR",
+                collegeId: testCollege.id,
+            },
+        });
+        testAcademicYear = await prisma.academicYear.create({
+            data: { year: "2093-2094", collegeId: testCollege.id },
+        });
+        testSemester = await prisma.semester.create({
+            data: {
+                semesterNumber: 1,
+                semesterType: SemesterType.ODD,
+                departmentId: testDepartment.id,
+                academicYearId: testAcademicYear.id,
+            },
+        });
+        testDivision = await prisma.division.create({
+            data: { name: "R1", semesterId: testSemester.id },
+        });
+
+        // FIX: Use a correctly hashed password for the test student
+        const studentUser = await prisma.user.create({
+            data: {
+                email: TEST_STUDENT_EMAIL,
+                password: await hashPassword("password123"),
+                role: Role.STUDENT,
+            },
+        });
+        testStudent = await prisma.student.create({
+            data: {
+                userId: studentUser.id,
+                fullName: "Result Student",
+                enrollmentNumber: "RESULT001",
+                batch: "R1",
+                departmentId: testDepartment.id,
+                semesterId: testSemester.id,
+                divisionId: testDivision.id,
+            },
+        });
+
+        const studentLogin = await request(app)
+            .post("/api/v1/auth/login")
+            .send({ identifier: "RESULT001", password: "password123" });
+        studentToken = studentLogin.body.token;
+
+        testExam = await prisma.exam.create({
+            data: {
+                name: "Result Test Exam",
+                examType: ExamType.FINAL,
+                semesterId: testSemester.id,
+            },
+        });
+        testExamResult = await prisma.examResult.create({
+            data: {
+                examId: testExam.id,
+                studentId: testStudent.id,
+                studentEnrollmentNumber: testStudent.enrollmentNumber,
+                spi: 8.5,
+                cpi: 8.2,
+                status: ResultStatus.PASS,
+            },
+        });
+    });
+
+    it("Admin should be able to get all results for an exam", async () => {
+        const response = await request(app)
+            .get(`/api/v1/exam-results?examId=${testExam.id}`)
+            .set("Authorization", `Bearer ${adminToken}`);
+        expect(response.status).toBe(200);
+        expect(response.body.results).toBe(1);
+    });
+
+    it("Student should be able to get their list of exam results", async () => {
+        const response = await request(app)
+            .get("/api/v1/exam-results")
+            .set("Authorization", `Bearer ${studentToken}`);
+        expect(response.status).toBe(200);
+        expect(response.body.results).toBe(1);
+    });
+
+    it("Student should be able to get their own detailed result by ID", async () => {
+        const response = await request(app)
+            .get(`/api/v1/exam-results/${testExamResult.id}`)
+            .set("Authorization", `Bearer ${studentToken}`);
+        expect(response.status).toBe(200);
+        expect(response.body.data.result.spi).toBe(8.5);
+    });
+
+    it("Student should be blocked from accessing another student's result by ID", async () => {
+        const otherUser = await prisma.user.create({
+            data: {
+                email: OTHER_STUDENT_EMAIL,
+                password: "123",
+                role: Role.STUDENT,
+            },
+        });
+        const otherStudent = await prisma.student.create({
+            data: {
+                userId: otherUser.id,
+                fullName: "Other Student",
+                enrollmentNumber: "OTHER001",
+                batch: "R1",
+                departmentId: testDepartment.id,
+                semesterId: testSemester.id,
+                divisionId: testDivision.id,
+            },
+        });
+        const otherResult = await prisma.examResult.create({
+            data: {
+                examId: testExam.id,
+                studentId: otherStudent.id,
+                studentEnrollmentNumber: "OTHER001",
+                spi: 9.0,
+                cpi: 9.0,
+                status: ResultStatus.PASS,
+            },
+        });
+
+        const response = await request(app)
+            .get(`/api/v1/exam-results/${otherResult.id}`)
+            .set("Authorization", `Bearer ${studentToken}`);
+        expect(response.status).toBe(403);
+    });
+
+    afterAll(async () => {
+        // Correct cleanup order to prevent foreign key violations
+        if (testExam) {
+            await prisma.result.deleteMany({
+                where: { examResult: { examId: testExam.id } },
+            });
+            await prisma.examResult.deleteMany({
+                where: { examId: testExam.id },
+            });
+            await prisma.exam.deleteMany({ where: { id: testExam.id } });
+        }
+        if (testDepartment) {
+            await prisma.student.deleteMany({
+                where: { departmentId: testDepartment.id },
+            });
+        }
+        await prisma.user.deleteMany({
+            where: { email: { contains: "@test.edu" } },
+        });
+        if (testSemester) {
+            await prisma.division.deleteMany({
+                where: { semesterId: testSemester.id },
+            });
+            await prisma.semester.deleteMany({
+                where: { id: testSemester.id },
+            });
+        }
+        if (testDepartment) {
+            await prisma.department.deleteMany({
+                where: { id: testDepartment.id },
+            });
+        }
+        if (testAcademicYear) {
+            await prisma.academicYear.deleteMany({
+                where: { id: testAcademicYear.id },
+            });
+        }
+        if (testCollege) {
+            await prisma.college.deleteMany({ where: { id: testCollege.id } });
+        }
+    });
+});

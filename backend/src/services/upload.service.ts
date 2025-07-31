@@ -21,6 +21,9 @@ import {
     SubjectType,
     LectureType,
     Course,
+    ResultStatus,
+    Prisma,
+    ExamType,
 } from "@prisma/client";
 import { emailService } from "./email.service";
 import { generateRandomPassword } from "../utils/generator";
@@ -683,6 +686,206 @@ class UploadService {
             message: `Matrix import complete. Created ${createdCount} course offerings. Skipped ${skippedCount} allocations.`,
             createdCount,
             skippedCount,
+        };
+    }
+
+    /**
+     * Processes a results Excel file by sending it to the FastAPI service and seeding the response.
+     * It will store results for all students, even if they don't exist in the database yet.
+     */
+    public async processResultsData(
+        fileBuffer: Buffer,
+        body: {
+            examName: string;
+            examType: ExamType;
+            academicYearId: string;
+            departmentId: string;
+            semesterNumber: number;
+        }
+    ) {
+        const {
+            examName,
+            examType,
+            academicYearId,
+            departmentId,
+            semesterNumber,
+        } = body;
+
+        // --- Step 1: Call FastAPI service ---
+        const formData = new FormData();
+        formData.append("result", fileBuffer, { filename: "result.xlsx" });
+        let parsedResults: any[];
+        try {
+            const response = await axios.post(
+                `${config.serviceUrl}/api/v1/results`,
+                formData,
+                {
+                    headers: {
+                        ...formData.getHeaders(),
+                        "service-api-key": config.serviceApiKey,
+                    },
+                }
+            );
+            const responseData = response.data as {
+                status?: string;
+                data?: any[];
+            };
+            if (
+                responseData?.status !== "success" ||
+                !Array.isArray(responseData?.data)
+            ) {
+                throw new AppError(
+                    "FastAPI service returned an invalid data structure.",
+                    500
+                );
+            }
+            parsedResults = responseData.data;
+        } catch (error: any) {
+            console.error(
+                "Error calling FastAPI service:",
+                error.response?.data || error.message
+            );
+            throw new AppError(
+                `Failed to process results via FastAPI service: ${
+                    error.response?.data?.detail || error.message
+                }`,
+                500
+            );
+        }
+
+        // --- Step 2: Find or Create the specific Semester Instance ---
+        const semesterType =
+            semesterNumber % 2 === 0 ? SemesterType.EVEN : SemesterType.ODD;
+        const semesterInstance = await prisma.semester.upsert({
+            where: {
+                academicYearId_departmentId_semesterNumber: {
+                    academicYearId,
+                    departmentId,
+                    semesterNumber,
+                },
+            },
+            create: {
+                academicYearId,
+                departmentId,
+                semesterNumber,
+                semesterType,
+            },
+            update: {},
+        });
+
+        // --- Step 3: Pre-fetch master data ---
+        const enrollmentNumbers = parsedResults
+            .map((r) => r["ENROLLMENT NO."])
+            .filter(Boolean);
+        const subjectCodes = new Set<string>();
+        const subjectCreditsMap = new Map<string, number>();
+        const subjectRegex = /([A-Z0-9-]+)\s\((\d+)\)/;
+
+        parsedResults.forEach((row) =>
+            Object.keys(row).forEach((key) => {
+                const match = key.match(subjectRegex);
+                if (match) {
+                    subjectCodes.add(match[1]);
+                    subjectCreditsMap.set(match[1], parseInt(match[2], 10));
+                }
+            })
+        );
+
+        const existingStudents = await prisma.student.findMany({
+            where: { enrollmentNumber: { in: enrollmentNumbers } },
+        });
+        const existingSubjects = await prisma.subject.findMany({
+            where: { semesterNumber: semesterNumber },
+        });
+        const studentMap = new Map(
+            existingStudents.map((s) => [s.enrollmentNumber, s])
+        );
+        const subjectMap = new Map(existingSubjects.map((s) => [s.code, s]));
+
+        // --- Step 4: Create the main Exam record ---
+        const exam = await prisma.exam.create({
+            data: { name: examName, examType, semesterId: semesterInstance.id },
+        });
+
+        let createdCount = 0,
+            skippedCount = 0,
+            warningsCount = 0;
+
+        // --- Step 5: Process each student's result ---
+        for (const resultRow of parsedResults) {
+            const enrollmentNumber = resultRow["ENROLLMENT NO."];
+            if (!enrollmentNumber) {
+                skippedCount++;
+                continue;
+            }
+
+            // ROBUSTNESS FIX: Safely parse the status string into a valid enum member.
+            const statusString = resultRow["RESULT"]?.toUpperCase();
+            const status: ResultStatus = Object.values(ResultStatus).includes(
+                statusString as ResultStatus
+            )
+                ? (statusString as ResultStatus)
+                : ResultStatus.UNKNOWN;
+
+            try {
+                await prisma.$transaction(async (tx) => {
+                    const student = studentMap.get(enrollmentNumber);
+                    const examResult = await tx.examResult.create({
+                        data: {
+                            examId: exam.id,
+                            studentEnrollmentNumber: enrollmentNumber,
+                            spi: parseFloat(resultRow["SPI"]) || 0,
+                            cpi: parseFloat(resultRow["CPI"]) || 0,
+                            status: status,
+                            ...(student && { studentId: student.id }),
+                        },
+                    });
+
+                    const subjectResultsToCreate = [];
+
+                    for (const key in resultRow) {
+                        const match = key.match(subjectRegex);
+                        if (match) {
+                            const code = match[1];
+                            const subject = subjectMap.get(code);
+                            if (subject) {
+                                subjectResultsToCreate.push({
+                                    examResultId: examResult.id,
+                                    subjectId: subject.id,
+                                    grade: resultRow[key]?.toString() || "N/A",
+                                    credits: subjectCreditsMap.get(code) || 0,
+                                });
+                            } else {
+                                warningsCount++;
+                            }
+                        }
+                    }
+
+                    if (subjectResultsToCreate.length > 0) {
+                        await tx.result.createMany({
+                            data: subjectResultsToCreate,
+                        });
+                    }
+                });
+                createdCount++;
+            } catch (error: any) {
+                if (error.code === "P2002")
+                    console.warn(
+                        `Skipping result for student "${enrollmentNumber}" as it already exists for this exam.`
+                    );
+                else
+                    console.error(
+                        `An unexpected error occurred for student ${enrollmentNumber}:`,
+                        error
+                    );
+                skippedCount++;
+            }
+        }
+        return {
+            message: `Result import complete. Processed results for ${createdCount} students. Skipped ${skippedCount} rows.`,
+            createdCount,
+            skippedCount,
+            warningsCount,
         };
     }
 }

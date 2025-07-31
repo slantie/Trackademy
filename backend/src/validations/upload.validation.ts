@@ -4,7 +4,12 @@
  */
 
 import { z } from "zod";
-import { Designation, SubjectType, SemesterType } from "@prisma/client";
+import {
+    Designation,
+    SubjectType,
+    SemesterType,
+    ExamType,
+} from "@prisma/client";
 
 // Helper to map various string inputs to the Designation enum
 const designationMap: { [key: string]: Designation } = {
@@ -84,5 +89,23 @@ export const facultyMatrixBodySchema = z.object({
             ),
         semesterType: z.nativeEnum(SemesterType),
         departmentId: z.string().cuid("A valid department ID is required."),
+    }),
+});
+
+// Schema for validating the body of a results upload request
+export const resultsUploadBodySchema = z.object({
+    body: z.object({
+        examName: z.optional(z.string().min(1, "An exam name is required.")),
+        examType: z.nativeEnum(ExamType),
+        academicYearId: z
+            .string()
+            .cuid("A valid academic year ID is required."),
+        departmentId: z.string().cuid("A valid department ID is required."),
+        semesterNumber: z
+            .string()
+            .transform((val) => parseInt(val))
+            .refine((val) => !isNaN(val) && val >= 1, {
+                message: "A valid semester number is required.",
+            }),
     }),
 });

@@ -18,6 +18,8 @@ import studentRoutes from "./student.routes";
 import serviceRoutes from "./service.routes";
 import uploadRoutes from "./upload.routes";
 import courseRoutes from "./course.routes";
+import examRoutes from "./exam.routes";
+import examResultRoutes from "./examResult.routes";
 
 const router = Router();
 
@@ -38,5 +40,7 @@ router.use("/students", studentRoutes);
 router.use("/service", serviceRoutes);
 router.use("/upload", uploadRoutes);
 router.use("/courses", courseRoutes);
+router.use("/exams", examRoutes);
+router.use("/exam-results", examResultRoutes);
 
 export default router;

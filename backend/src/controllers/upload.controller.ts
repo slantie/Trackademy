@@ -6,7 +6,7 @@
 import { Request, Response, NextFunction } from "express";
 import { uploadService } from "../services/upload.service";
 import AppError from "../utils/appError";
-import { SemesterType } from "@prisma/client";
+import { ExamType, SemesterType } from "@prisma/client";
 
 export class UploadController {
     static async uploadFacultyData(
@@ -79,6 +79,38 @@ export class UploadController {
                     academicYear,
                     semesterType: semesterType as SemesterType,
                     departmentId,
+                }
+            );
+            res.status(201).json({ status: "success", data: result });
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async uploadResultsData(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        try {
+            if (!req.file)
+                throw new AppError("No Excel file was uploaded.", 400);
+            const {
+                examName,
+                examType,
+                academicYearId,
+                departmentId,
+                semesterNumber,
+            } = req.body;
+
+            const result = await uploadService.processResultsData(
+                req.file.buffer,
+                {
+                    examName,
+                    examType: examType as ExamType,
+                    academicYearId,
+                    departmentId,
+                    semesterNumber: Number(semesterNumber),
                 }
             );
             res.status(201).json({ status: "success", data: result });

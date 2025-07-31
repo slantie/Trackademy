@@ -38,6 +38,23 @@ enum LectureType {
   PRACTICAL
 }
 
+enum ExamType {
+  MIDTERM
+  REMEDIAL
+  FINAL
+  REPEAT
+}
+
+// Feature: Results
+enum ResultStatus {
+  PASS
+  FAIL
+  TRIAL
+  ABSENT
+  UNKNOWN
+  WITHHELD
+}
+
 model College {
   id            String         @id @default(cuid())
   name          String         @unique
@@ -77,6 +94,7 @@ model Subject {
   departmentId   String
   department     Department  @relation(fields: [departmentId], references: [id])
   courses        Course[]
+  Result         Result[]
 
   @@unique([code, departmentId])
   @@index([departmentId])
@@ -136,6 +154,7 @@ model Semester {
   divisions      Division[]
   courses        Course[]
   students       Student[]
+  exams          Exam[]
 
   @@unique([academicYearId, departmentId, semesterNumber])
   @@index([departmentId])
@@ -217,9 +236,66 @@ model Student {
   division   Division   @relation(fields: [divisionId], references: [id])
 
   enrollments StudentEnrollment[]
+  ExamResult  ExamResult[]
 
   @@index([departmentId])
   @@index([semesterId])
   @@index([divisionId])
   @@map("students")
+}
+
+// Feature: Results
+model Exam {
+  id          String   @id @default(cuid())
+  name        String   @default("Untitled Exam")
+  examType    ExamType
+  semesterId  String
+  isPublished Boolean  @default(false)
+  isDeleted   Boolean  @default(false)
+
+  semester    Semester     @relation(fields: [semesterId], references: [id])
+  examResults ExamResult[]
+
+  @@unique([semesterId, examType])
+  @@index([semesterId])
+  @@map("exams")
+}
+
+model ExamResult {
+  id                      String       @id @default(cuid())
+  studentEnrollmentNumber String
+  spi                     Float
+  cpi                     Float
+  status                  ResultStatus
+
+  studentId String?
+  student   Student? @relation(fields: [studentId], references: [id])
+
+  examId String
+  exam   Exam   @relation(fields: [examId], references: [id])
+
+  results Result[]
+
+  @@unique([examId, studentEnrollmentNumber])
+  @@index([studentId])
+  @@index([examId])
+  @@index([studentEnrollmentNumber])
+  @@map("exam_results")
+}
+
+model Result {
+  id      String @id @default(cuid())
+  grade   String
+  credits Int
+
+  examResultId String
+  examResult   ExamResult @relation(fields: [examResultId], references: [id])
+
+  subjectId String
+  subject   Subject @relation(fields: [subjectId], references: [id])
+
+  @@unique([examResultId, subjectId])
+  @@index([examResultId])
+  @@index([subjectId])
+  @@map("results")
 }
