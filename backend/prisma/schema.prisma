@@ -55,6 +55,14 @@ enum ResultStatus {
   WITHHELD
 }
 
+// Feature: Attendance
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  MEDICAL_LEAVE
+  AUTHORIZED_LEAVE
+}
+
 model College {
   id            String         @id @default(cuid())
   name          String         @unique
@@ -195,6 +203,7 @@ model Course {
   division   Division @relation(fields: [divisionId], references: [id])
 
   enrollments StudentEnrollment[]
+  Attendance  Attendance[]
 
   @@unique([subjectId, facultyId, semesterId, divisionId, lectureType, batch])
   @@index([subjectId])
@@ -237,6 +246,7 @@ model Student {
 
   enrollments StudentEnrollment[]
   ExamResult  ExamResult[]
+  Attendance  Attendance[]
 
   @@index([departmentId])
   @@index([semesterId])
@@ -298,4 +308,23 @@ model Result {
   @@index([examResultId])
   @@index([subjectId])
   @@map("results")
+}
+
+// Feature: Attendance
+model Attendance {
+  id     String           @id @default(cuid())
+  date   DateTime         @db.Date
+  status AttendanceStatus
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+
+  // A student can only have one attendance record for a specific course on a specific day.
+  @@unique([courseId, studentId, date])
+  @@index([courseId])
+  @@index([studentId])
+  @@map("attendances")
 }

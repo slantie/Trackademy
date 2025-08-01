@@ -12,6 +12,7 @@ import {
     facultyExcelRowSchema,
     studentExcelRowSchema,
     subjectExcelRowSchema,
+    attendanceExcelRowSchema,
 } from "../validations/upload.validation";
 import { hashPassword } from "../utils/hash";
 import {
@@ -24,6 +25,7 @@ import {
     ResultStatus,
     Prisma,
     ExamType,
+    AttendanceStatus,
 } from "@prisma/client";
 import { emailService } from "./email.service";
 import { generateRandomPassword } from "../utils/generator";
@@ -886,6 +888,152 @@ class UploadService {
             createdCount,
             skippedCount,
             warningsCount,
+        };
+    }
+
+    /**
+     * Processes an Attendance Excel file to create Attendance records for a specific course on a specific day.
+     */
+    public async processAttendanceData(
+        fileBuffer: Buffer,
+        body: {
+            academicYearId: string; // FIX: Use the provided academicYearId
+            departmentId: string;
+            semesterNumber: number;
+            divisionId: string;
+            subjectId: string;
+            lectureType: LectureType;
+            batch?: string | null;
+            date: string;
+        }
+    ) {
+        const {
+            academicYearId,
+            departmentId,
+            semesterNumber,
+            divisionId,
+            subjectId,
+            lectureType,
+            batch,
+            date,
+        } = body;
+
+        // --- Step 1: Find the specific semester instance using the provided IDs ---
+        const semesterInstance = await prisma.semester.findUnique({
+            where: {
+                academicYearId_departmentId_semesterNumber: {
+                    academicYearId,
+                    departmentId,
+                    semesterNumber,
+                },
+            },
+        });
+        if (!semesterInstance)
+            throw new AppError(
+                "The specified semester does not exist for the given academic year and department.",
+                404
+            );
+
+        // --- Step 2: Find the specific Course offering ---
+        const course = await prisma.course.findFirst({
+            where: {
+                semesterId: semesterInstance.id,
+                divisionId,
+                subjectId,
+                lectureType,
+                batch: batch || null,
+            },
+        });
+        if (!course)
+            throw new AppError(
+                "The specified course offering was not found. Please check the faculty matrix.",
+                404
+            );
+
+        // ... the rest of the function remains the same ...
+        const studentsInDivision = await prisma.student.findMany({
+            where: { divisionId },
+        });
+        const studentMap = new Map(
+            studentsInDivision.map((s) => [s.enrollmentNumber, s])
+        );
+
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(fileBuffer);
+        const worksheet = workbook.getWorksheet(1);
+        if (!worksheet)
+            throw new AppError(
+                "Attendance Excel file is empty or the first sheet is missing.",
+                400
+            );
+
+        const rows = worksheet.getRows(2, worksheet.rowCount) ?? [];
+        let createdCount = 0,
+            skippedCount = 0;
+        const attendanceToCreate = [];
+
+        for (const [index, row] of rows.entries()) {
+            const rowNum = index + 2;
+            const rawData = {
+                enrollmentNumber:
+                    row.getCell(1).value?.toString()?.trim() || "",
+                status: Number(row.getCell(3).value),
+            };
+
+            if (!rawData.enrollmentNumber) continue;
+
+            const validation = attendanceExcelRowSchema.safeParse(rawData);
+            if (!validation.success) {
+                console.warn(
+                    `Row ${rowNum}: Skipping attendance. Validation error:`,
+                    validation.error.flatten().fieldErrors
+                );
+                skippedCount++;
+                continue;
+            }
+
+            const { enrollmentNumber, status } = validation.data;
+            const student = studentMap.get(enrollmentNumber);
+
+            if (!student) {
+                console.warn(
+                    `Row ${rowNum}: Skipping. Student with enrollment number "${enrollmentNumber}" not found in this division.`
+                );
+                skippedCount++;
+                continue;
+            }
+
+            if (
+                course.lectureType === LectureType.PRACTICAL &&
+                student.batch !== course.batch
+            ) {
+                console.warn(
+                    `Row ${rowNum}: Skipping. Student "${enrollmentNumber}" (Batch ${student.batch}) does not belong to this practical course (Batch ${course.batch}).`
+                );
+                skippedCount++;
+                continue;
+            }
+
+            attendanceToCreate.push({
+                date: new Date(date),
+                status: status as AttendanceStatus,
+                courseId: course.id,
+                studentId: student.id,
+            });
+        }
+
+        if (attendanceToCreate.length > 0) {
+            const result = await prisma.attendance.createMany({
+                data: attendanceToCreate,
+                skipDuplicates: true,
+            });
+            createdCount = result.count;
+        }
+
+        return {
+            message: `Attendance import complete. Recorded attendance for ${createdCount} students. Skipped ${skippedCount} rows.`,
+            createdCount,
+            skippedCount,
         };
     }
 }

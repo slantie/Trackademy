@@ -11,6 +11,7 @@ import { validate } from "../../../middlewares/validate.middleware";
 import {
     facultyMatrixBodySchema,
     resultsUploadBodySchema,
+    attendanceUploadBodySchema,
 } from "../../../validations/upload.validation";
 import { Role } from "@prisma/client";
 
@@ -49,6 +50,13 @@ router.post(
     upload.single("file"),
     validate(resultsUploadBodySchema),
     UploadController.uploadResultsData
+);
+
+router.post(
+    "/attendance",
+    upload.single("file"),
+    validate(attendanceUploadBodySchema),
+    UploadController.uploadAttendanceData
 );
 
 export default router;

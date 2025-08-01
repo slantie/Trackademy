@@ -9,6 +9,7 @@ import {
     SubjectType,
     SemesterType,
     ExamType,
+    LectureType,
 } from "@prisma/client";
 
 // Helper to map various string inputs to the Designation enum
@@ -108,4 +109,56 @@ export const resultsUploadBodySchema = z.object({
                 message: "A valid semester number is required.",
             }),
     }),
+});
+
+// Schema for validating the body of an attendance upload request
+export const attendanceUploadBodySchema = z.object({
+    body: z.object({
+        // FIX: Require the specific academicYearId to make the lookup unambiguous
+        academicYearId: z
+            .string()
+            .cuid("A valid academic year ID is required."),
+        departmentId: z.string().cuid("A valid department ID is required."),
+        semesterNumber: z
+            .string()
+            .regex(/^\d+$/, "Semester number must be a valid number.")
+            .transform(Number)
+            .refine((num) => num >= 1, {
+                message: "Semester number must be at least 1.",
+            }),
+        divisionId: z.string().cuid("A valid division ID is required."),
+        subjectId: z.string().cuid("A valid subject ID is required."),
+        lectureType: z.nativeEnum(LectureType),
+        batch: z.string().min(1).optional().nullable(),
+        date: z
+            .string()
+            .regex(/^\d{2}-\d{2}-\d{4}$/, "Date must be in DD-MM-YYYY format.")
+            .transform((dateStr, ctx) => {
+                const [day, month, year] = dateStr.split("-").map(Number);
+                const date = new Date(year, month - 1, day);
+                if (
+                    date.getFullYear() !== year ||
+                    date.getMonth() !== month - 1 ||
+                    date.getDate() !== day
+                ) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: "The provided date is invalid.",
+                    });
+                    return z.NEVER;
+                }
+                return date.toISOString();
+            }),
+    }),
+});
+
+// Schema for validating a single row in the attendance Excel file
+export const attendanceExcelRowSchema = z.object({
+    enrollmentNumber: z.string().min(1, "Enrollment number is required."),
+    status: z
+        .number()
+        .int()
+        .min(0)
+        .max(1)
+        .transform((val) => (val === 1 ? "PRESENT" : "ABSENT")),
 });
