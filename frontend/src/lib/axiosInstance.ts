@@ -1,80 +1,77 @@
 /**
  * @file src/lib/axiosInstance.ts
- * @description Axios instance with interceptors for authentication and error handling
+ * @description Centralized Axios instance with robust interceptors for auth and error handling.
  */
-
 "use client";
 
 import axios from "axios";
-import Cookies from "js-cookie";
-import { showToast } from "@/lib/toast";
-import { BASE_URL } from "@/constants/apiEndpoints";
+import { API_V1_URL } from "../constants/apiEndpoints";
+import { showToast } from "./toast";
 
-// Axios instance setup
 const axiosInstance = axios.create({
-    baseURL: BASE_URL,
-    withCredentials: true,
+    baseURL: API_V1_URL,
 });
 
-// Request interceptor for auth and content-type
-axiosInstance.interceptors.request.use(
-    (config) => {
-        const token = Cookies.get("authToken");
-        if (!config.headers) {
-            config.headers = {};
-        }
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        if (
-            !config.headers["Content-Type"] &&
-            !(config.data instanceof FormData)
-        ) {
-            config.headers["Content-Type"] = "application/json";
-        }
-        return config;
-    },
-    (error) => Promise.reject(error)
-);
+/**
+ * Sets the authorization token for all subsequent API requests.
+ * This is called by the AuthProvider upon login or session restoration.
+ * @param token - The JWT token.
+ */
+export const setAuthToken = (token: string | null) => {
+    if (token) {
+        axiosInstance.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${token}`;
+    } else {
+        delete axiosInstance.defaults.headers.common["Authorization"];
+    }
+};
 
-// Response interceptor for error handling
+// --- Response Interceptor for Global Error Handling ---
 axiosInstance.interceptors.response.use(
-    (response) => response,
+    (response) => response, // Simply return successful responses
     (error) => {
         if (error.response) {
             const { status, data } = error.response;
             const errorMessage =
-                data.message || "An unexpected error occurred.";
+                data?.message || "An unexpected error occurred.";
+
             switch (status) {
-                case 400:
-                    showToast.error(`Bad Request: ${errorMessage}`);
+                case 401: // Unauthorized
+                    showToast.error("Session expired. Please log in again.");
+                    // This logic assumes you'll clear auth state elsewhere (e.g., in AuthProvider)
+                    // Forcing a redirect is a robust way to handle this.
+                    if (typeof window !== "undefined") {
+                        localStorage.removeItem("authToken");
+                        window.location.href = "/login";
+                    }
                     break;
-                case 401:
-                    showToast.error(`Unauthorized: Please log in again.`);
-                    Cookies.remove("authToken");
-                    window.location.href = "/login";
-                    break;
-                case 403:
-                    showToast.error(`Forbidden: You don't have permission.`);
-                    break;
-                case 404:
+                case 403: // Forbidden
                     showToast.error(
-                        `Not Found: The resource could not be found.`
+                        "Forbidden: You don't have permission to perform this action."
                     );
                     break;
-                case 500:
+                case 404: // Not Found
+                    showToast.error(
+                        "Not Found: The requested resource could not be found."
+                    );
+                    break;
+                case 500: // Internal Server Error
                     showToast.error(`Server Error: ${errorMessage}`);
                     break;
                 default:
                     showToast.error(`Error ${status}: ${errorMessage}`);
             }
         } else if (error.request) {
+            // The request was made but no response was received
             showToast.error(
-                "No response from server. Check internet or try again."
+                "Network Error: No response from the server. Please check your connection."
             );
         } else {
+            // Something happened in setting up the request that triggered an Error
             showToast.error(`Request Error: ${error.message}`);
         }
+
         return Promise.reject(error);
     }
 );

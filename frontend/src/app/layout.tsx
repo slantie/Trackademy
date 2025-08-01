@@ -5,10 +5,10 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
-// import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ToastProvider } from "@/providers/ToastProvider";
+import { QueryProvider } from "@/providers/QueryProvider";
 
 import { DM_Sans } from "next/font/google";
 
@@ -38,11 +38,11 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body className={dmsans.className}>
                 <ThemeProvider>
-                    {/* <ReactQueryProvider> */}
-                    <AuthProvider>
-                        <ToastProvider>{children}</ToastProvider>
-                    </AuthProvider>
-                    {/* </ReactQueryProvider> */}
+                    <QueryProvider>
+                        <AuthProvider>
+                            <ToastProvider>{children}</ToastProvider>
+                        </AuthProvider>
+                    </QueryProvider>
                 </ThemeProvider>
             </body>
         </html>

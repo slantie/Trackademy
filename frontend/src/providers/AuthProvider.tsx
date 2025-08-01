@@ -1,16 +1,15 @@
-"use client"; // This directive is necessary for using hooks in Next.js App Router
+/**
+ * @file src/providers/auth.provider.ts
+ * @description The authentication provider component that manages user state and actions.
+ */
+"use client";
 
 import React, { useState, useEffect, ReactNode, useCallback } from "react";
-import { AuthContext } from "@/contexts/authContext";
-import { authService, setAuthToken } from "@/services/authService";
-import {
-    User,
-    LoginRequest,
-    RegisterStudentRequest,
-    RegisterFacultyRequest,
-    RegisterAdminRequest,
-    RegisterResponse,
-} from "../interfaces/auth";
+import { AuthContext, AuthContextType } from "@/contexts/auth.context";
+import { authService } from "@/services/auth.service";
+import { setAuthToken } from "@/lib/axiosInstance";
+import { User, LoginRequest } from "../interfaces/auth.types";
+import { showToast } from "@/lib/toast";
 
 interface AuthProviderProps {
     children: ReactNode;
@@ -18,97 +17,62 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true); // Start as true to check for session
 
-    // Function to handle logout
-    const logout = useCallback(async (): Promise<void> => {
+    const logout = useCallback(() => {
         setUser(null);
         setAuthToken(null);
-        localStorage.removeItem("token");
+        localStorage.removeItem("authToken");
     }, []);
 
-    // Effect to check for an existing token and validate it with the server
+    // Check for an existing session token on initial app load
     useEffect(() => {
-        const validateToken = async () => {
-            const storedToken = localStorage.getItem("token");
-            if (storedToken) {
-                setAuthToken(storedToken);
+        const checkAuthStatus = async () => {
+            const token = localStorage.getItem("authToken");
+            if (token) {
+                setAuthToken(token);
                 try {
                     const currentUser = await authService.getMe();
                     setUser(currentUser);
                 } catch (error) {
-                    console.error("Session validation failed:", error);
-                    logout(); // Token is invalid or expired
+                    console.error(
+                        "Session token is invalid or expired.",
+                        error
+                    );
+                    logout(); // Clear invalid token
                 }
             }
             setIsLoading(false);
         };
-
-        validateToken();
+        checkAuthStatus();
     }, [logout]);
 
-    // Login function
     const login = async (credentials: LoginRequest) => {
         try {
-            const { token, user: loggedInUser } = await authService.login(
-                credentials
-            );
-            setUser(loggedInUser);
+            const response = await authService.login(credentials);
+            const { token, data } = response;
+
+            setUser(data.user);
             setAuthToken(token);
-            localStorage.setItem("token", token);
-        } catch (error) {
+            localStorage.setItem("authToken", token);
+            showToast.success("Login successful!");
+        } catch (error: any) {
             console.error("Login failed:", error);
+            const errorMessage =
+                error.response?.data?.message ||
+                "Invalid credentials or server error.";
+            showToast.error(`Login failed: ${errorMessage}`);
             logout(); // Ensure clean state on failure
             throw error; // Re-throw to be handled by the UI component
         }
     };
 
-    // Registration functions
-    const registerStudent = async (
-        data: RegisterStudentRequest
-    ): Promise<RegisterResponse> => {
-        return authService.registerStudent(data);
-    };
-
-    const registerFaculty = async (
-        data: RegisterFacultyRequest
-    ): Promise<RegisterResponse> => {
-        return authService.registerFaculty(data);
-    };
-
-    const registerAdmin = async (
-        data: RegisterAdminRequest
-    ): Promise<RegisterResponse> => {
-        return authService.registerAdmin(data);
-    };
-
-    // The context value that will be supplied to all children
-    const loading = isLoading; // Alias for compatibility with AuthContextType
-    const checkAuth = useCallback(async (): Promise<void> => {
-        const storedToken = localStorage.getItem("token");
-        if (storedToken) {
-            setAuthToken(storedToken);
-            try {
-                const currentUser = await authService.getMe();
-                setUser(currentUser);
-            } catch (error) {
-                logout();
-                console.error("Session check failed:", error);
-            }
-        }
-    }, [logout]);
-
-    const authContextValue = {
+    const authContextValue: AuthContextType = {
         user,
         isAuthenticated: !!user,
         isLoading,
         login,
         logout,
-        registerStudent,
-        registerFaculty,
-        registerAdmin,
-        loading,
-        checkAuth,
     };
 
     return (

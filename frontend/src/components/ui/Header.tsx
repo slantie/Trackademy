@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/contexts/authContext"; // Ensure this path is correct
+import { useAuth } from "@/contexts/auth.context"; // Ensure this path is correct
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
@@ -10,7 +10,7 @@ import Image from "next/image";
 import logo from "../../../public/Trackademy2.svg";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/lib/toast"; // Ensure showToast is imported correctly
-import { Role } from "@/interfaces/auth"; // Assuming Role enum is defined here
+import { Role } from "@/interfaces/auth.types"; // Assuming Role enum is defined here
 
 // Helper component for navigation links
 const HeaderRoute = ({ route, label }: { route: string; label: string }) => {
@@ -207,9 +207,7 @@ export function Header() {
                                                dark:bg-red-700 dark:hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                                 >
                                     {loading ? ( // Show loading spinner and text when loading
-                                        <>
-                                            Logging Out...
-                                        </>
+                                        <>Logging Out...</>
                                     ) : (
                                         <>
                                             <LogOut className="h-4 w-4" />{" "}
@@ -352,9 +350,7 @@ export function Header() {
                                            dark:bg-red-700 dark:hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                             >
                                 {loading ? (
-                                    <>
-                                        Logging Out...
-                                    </>
+                                    <>Logging Out...</>
                                 ) : (
                                     <>
                                         <LogOut className="h-5 w-5" />

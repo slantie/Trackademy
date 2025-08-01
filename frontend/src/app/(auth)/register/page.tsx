@@ -11,8 +11,8 @@ import Link from "next/link";
 import {
     RegisterStudentRequest,
     RegisterFacultyRequest,
-} from "@/interfaces/auth";
-import { useAuth } from "@/contexts/authContext";
+} from "@/interfaces/auth.types";
+import { useAuth } from "@/contexts/auth.context";
 import { PublicRoute } from "@/components/PublicRoute";
 import { cn } from "@/lib/utils";
 import {
@@ -463,9 +463,7 @@ export default function RegisterPage() {
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? (
-                                    <>
-                                        Creating Account...
-                                    </>
+                                    <>Creating Account...</>
                                 ) : (
                                     "Create Account"
                                 )}

@@ -7,8 +7,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LoginRequest } from "@/interfaces/auth"; // Assuming LoginRequest is defined here
-import { useAuth } from "@/contexts/authContext"; // Your updated AuthContext
+import { LoginRequest } from "@/interfaces/auth.types"; // Assuming LoginRequest is defined here
+import { useAuth } from "@/contexts/auth.context"; // Your updated AuthContext
 import { PublicRoute } from "@/components/PublicRoute"; // Assuming this component exists
 import { cn } from "@/lib/utils"; // Assuming this utility exists
 import { Loader, LogIn } from "lucide-react"; // For the main icon and loading spinner
@@ -188,9 +188,7 @@ export default function LoginPage() {
                                 disabled={isOperationInProgress}
                             >
                                 {isOperationInProgress ? (
-                                    <>
-                                        Signing In...
-                                    </>
+                                    <>Signing In...</>
                                 ) : (
                                     "Sign In"
                                 )}

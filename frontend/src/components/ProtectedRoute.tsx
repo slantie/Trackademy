@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/authContext";
+import { useAuth } from "@/contexts/auth.context";
 import { PageLoader } from "@/components/ui/LoadingSpinner";
 import { showToast } from "@/lib/toast";
-import { Role } from "@/interfaces/auth";
+import { Role } from "@/interfaces/auth.types";
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
