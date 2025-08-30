@@ -34,7 +34,7 @@ export class CollegeController {
             const colleges = await collegeService.getAll();
             res.status(200).json({
                 status: "success",
-                results: colleges.length,
+                results: colleges.data.length,
                 data: {
                     colleges,
                 },
@@ -91,6 +91,27 @@ export class CollegeController {
         try {
             await collegeService.delete(req.params.id);
             res.status(204).send();
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    static async getCollegeCount(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> {
+        try {
+            const { search, includeDeleted } = req.query;
+            const result = await collegeService.getCount({
+                search: search as string,
+                includeDeleted: includeDeleted === "true",
+            });
+            res.status(200).json({
+                status: "success",
+                message: "College count retrieved successfully",
+                data: result,
+            });
         } catch (error) {
             next(error);
         }

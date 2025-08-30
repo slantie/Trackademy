@@ -21,6 +21,7 @@ import courseRoutes from "./course.routes";
 import examRoutes from "./exam.routes";
 import examResultRoutes from "./examResult.routes";
 import attendanceRoutes from "./attendance.routes";
+import dashboardRoutes from "./dashboard.routes";
 
 const router = Router();
 
@@ -44,5 +45,6 @@ router.use("/courses", courseRoutes);
 router.use("/exams", examRoutes);
 router.use("/exam-results", examResultRoutes);
 router.use("/attendance", attendanceRoutes);
+router.use("/dashboard", dashboardRoutes);
 
 export default router;

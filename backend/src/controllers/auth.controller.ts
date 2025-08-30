@@ -149,11 +149,11 @@ export class AuthController {
         next: NextFunction
     ): Promise<void> {
         try {
-            // req.user.id should be populated by an authentication middleware
-            const userId = (req as any).user?.id;
+            // Support both legacy 'id' and current 'userId' keys from JWT payload
+            const userId = (req as any).user?.userId || (req as any).user?.id;
             if (!userId) {
                 throw new AppError(
-                    "Authentication error: User ID not found.",
+                    "Authentication error: User ID not found in token payload.",
                     401
                 );
             }

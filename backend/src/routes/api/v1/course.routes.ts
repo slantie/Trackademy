@@ -21,7 +21,7 @@ router.use(authenticate, authorize(Role.ADMIN));
 router
     .route("/")
     .post(validate(createCourseSchema), CourseController.createCourse)
-    .get(validate(courseQuerySchema), CourseController.getAllCourses);
+    .get(CourseController.getAllCourses);
 
 router
     .route("/:id")

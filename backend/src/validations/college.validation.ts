@@ -16,6 +16,21 @@ export const createCollegeSchema = z.object({
             .string()
             .nonempty("Abbreviation is required.")
             .min(2, "Abbreviation must be at least 2 characters long."),
+        website: z
+            .string()
+            .url("Invalid website URL format.")
+            .optional()
+            .or(z.literal("")),
+        address: z
+            .string()
+            .min(10, "Address must be at least 10 characters long.")
+            .optional()
+            .or(z.literal("")),
+        contactNumber: z
+            .string()
+            .regex(/^[+]?[\d\s\-()]{10,15}$/, "Invalid contact number format.")
+            .optional()
+            .or(z.literal("")),
     }),
 });
 
@@ -28,12 +43,33 @@ export const updateCollegeSchema = z.object({
         .object({
             name: z.string().min(3).optional(),
             abbreviation: z.string().min(2).optional(),
+            website: z
+                .string()
+                .url("Invalid website URL format.")
+                .optional()
+                .or(z.literal("")),
+            address: z
+                .string()
+                .min(10, "Address must be at least 10 characters long.")
+                .optional()
+                .or(z.literal("")),
+            contactNumber: z
+                .string()
+                .regex(
+                    /^[+]?[\d\s\-()]{10,15}$/,
+                    "Invalid contact number format."
+                )
+                .optional()
+                .or(z.literal("")),
             isDeleted: z.boolean().optional(),
         })
         .refine(
             (data) =>
                 data.name !== undefined ||
                 data.abbreviation !== undefined ||
+                data.website !== undefined ||
+                data.address !== undefined ||
+                data.contactNumber !== undefined ||
                 data.isDeleted !== undefined,
             { message: "At least one field must be provided for update." }
         ),

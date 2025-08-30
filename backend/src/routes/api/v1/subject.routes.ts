@@ -1,6 +1,6 @@
 /**
  * @file src/routes/api/v1/subject.routes.ts
- * @description Defines API routes for the master Subject resource.
+ * @description Defines API routes for the Subject resource.
  */
 
 import { Router } from "express";
@@ -12,13 +12,19 @@ import {
     updateSubjectSchema,
     subjectIdParamSchema,
     subjectQuerySchema,
+    subjectCountQuerySchema,
+    subjectSearchQuerySchema,
+    subjectTypeParamSchema,
+    subjectDeleteSchema,
 } from "../../../validations/subject.validation";
 import { Role } from "@prisma/client";
 
 const router = Router();
 
+// Apply authentication to all routes
 router.use(authenticate);
 
+// Main subject routes
 router
     .route("/")
     .post(
@@ -28,6 +34,22 @@ router
     )
     .get(validate(subjectQuerySchema), SubjectController.getAllSubjects);
 
+// Count route
+router
+    .route("/count")
+    .get(validate(subjectCountQuerySchema), SubjectController.getSubjectCount);
+
+// Search route
+router
+    .route("/search")
+    .get(validate(subjectSearchQuerySchema), SubjectController.searchSubjects);
+
+// Type-based retrieval route
+router
+    .route("/type/:type")
+    .get(validate(subjectTypeParamSchema), SubjectController.getSubjectsByType);
+
+// Individual subject routes
 router
     .route("/:id")
     .get(validate(subjectIdParamSchema), SubjectController.getSubjectById)
@@ -38,7 +60,7 @@ router
     )
     .delete(
         authorize(Role.ADMIN),
-        validate(subjectIdParamSchema),
+        validate(subjectDeleteSchema),
         SubjectController.deleteSubject
     );
 

@@ -44,6 +44,34 @@ describe("College API Endpoints", () => {
         newCollegeId = response.body.data.college.id;
     });
 
+    // -- 2B. TEST COLLEGE CREATION WITH ALL FIELDS --
+    it("should create a college with contact information", async () => {
+        const collegeData = {
+            name: "Test College with Contact",
+            abbreviation: "TCWC",
+            website: "https://testcollege.edu",
+            address:
+                "123 Education Street, Learning City, Knowledge State 12345",
+            contactNumber: "+91-9876543210",
+        };
+
+        const response = await request(app)
+            .post("/api/v1/colleges")
+            .set("Authorization", `Bearer ${adminToken}`)
+            .send(collegeData);
+
+        expect(response.status).toBe(201);
+        expect(response.body.data.college.name).toBe(collegeData.name);
+        expect(response.body.data.college.website).toBe(collegeData.website);
+        expect(response.body.data.college.address).toBe(collegeData.address);
+        expect(response.body.data.college.contactNumber).toBe(
+            collegeData.contactNumber
+        );
+
+        // Cleanup this test college
+        await prisma.college.deleteMany({ where: { abbreviation: "TCWC" } });
+    });
+
     // -- 3. TEST GETTING ALL COLLEGES --
     it("should get all colleges, including the newly created one", async () => {
         const response = await request(app)
@@ -75,6 +103,44 @@ describe("College API Endpoints", () => {
 
         expect(response.status).toBe(200);
         expect(response.body.data.college.abbreviation).toBe("ITCE");
+    });
+
+    // -- 5B. TEST UPDATING COLLEGE CONTACT INFORMATION --
+    it("should update the college's contact information", async () => {
+        const updateData = {
+            website: "https://updated-college.edu",
+            address: "456 New Address Lane, Updated City, Modern State 67890",
+            contactNumber: "+91-8765432109",
+        };
+
+        const response = await request(app)
+            .patch(`/api/v1/colleges/${newCollegeId}`)
+            .set("Authorization", `Bearer ${adminToken}`)
+            .send(updateData);
+
+        expect(response.status).toBe(200);
+        expect(response.body.data.college.website).toBe(updateData.website);
+        expect(response.body.data.college.address).toBe(updateData.address);
+        expect(response.body.data.college.contactNumber).toBe(
+            updateData.contactNumber
+        );
+    });
+
+    // -- 5C. TEST CLEARING OPTIONAL FIELDS WITH EMPTY STRINGS --
+    it("should handle empty strings for optional fields by setting them to null", async () => {
+        const response = await request(app)
+            .patch(`/api/v1/colleges/${newCollegeId}`)
+            .set("Authorization", `Bearer ${adminToken}`)
+            .send({
+                website: "",
+                address: "",
+                contactNumber: "",
+            });
+
+        expect(response.status).toBe(200);
+        expect(response.body.data.college.website).toBeNull();
+        expect(response.body.data.college.address).toBeNull();
+        expect(response.body.data.college.contactNumber).toBeNull();
     });
 
     // -- 6. TEST DELETING A COLLEGE --

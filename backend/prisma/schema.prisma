@@ -67,6 +67,9 @@ model College {
   id            String         @id @default(cuid())
   name          String         @unique
   abbreviation  String         @unique
+  website       String?
+  address       String?
+  contactNumber String?
   isDeleted     Boolean        @default(false)
   departments   Department[]
   academicYears AcademicYear[]
@@ -327,4 +330,10 @@ model Attendance {
   @@index([courseId])
   @@index([studentId])
   @@map("attendances")
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../ERD.svg" // or "./prisma/ERD.svg", adjust as needed
+  theme    = "forest" // optional: "default", "forest", "dark", "neutral"
 }

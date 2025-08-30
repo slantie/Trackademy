@@ -12,13 +12,18 @@ import {
     updateDepartmentSchema,
     departmentIdParamSchema,
     departmentQuerySchema,
+    departmentCountQuerySchema,
+    departmentSearchQuerySchema,
+    departmentDeleteSchema,
 } from "../../../validations/department.validation";
 import { Role } from "@prisma/client";
 
 const router = Router();
 
+// Apply authentication to all routes
 router.use(authenticate);
 
+// Main department routes
 router
     .route("/")
     .post(
@@ -31,6 +36,23 @@ router
         DepartmentController.getAllDepartments
     );
 
+// Count route
+router
+    .route("/count")
+    .get(
+        validate(departmentCountQuerySchema),
+        DepartmentController.getDepartmentCount
+    );
+
+// Search route
+router
+    .route("/search")
+    .get(
+        validate(departmentSearchQuerySchema),
+        DepartmentController.searchDepartments
+    );
+
+// Individual department routes
 router
     .route("/:id")
     .get(
@@ -44,7 +66,7 @@ router
     )
     .delete(
         authorize(Role.ADMIN),
-        validate(departmentIdParamSchema),
+        validate(departmentDeleteSchema),
         DepartmentController.deleteDepartment
     );
 

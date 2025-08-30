@@ -1,6 +1,6 @@
 /**
  * @file src/routes/api/v1/division.routes.ts
- * @description Defines API routes for the Division resource.
+ * @description Enhanced API routes for the Division resource with comprehensive endpoints.
  */
 
 import { Router } from "express";
@@ -12,6 +12,11 @@ import {
     updateDivisionSchema,
     divisionIdParamSchema,
     divisionQuerySchema,
+    getAllDivisionsQuerySchema,
+    getDivisionCountQuerySchema,
+    searchDivisionsQuerySchema,
+    departmentParamSchema,
+    academicYearParamSchema,
 } from "../../../validations/division.validation";
 import { Role } from "@prisma/client";
 
@@ -19,6 +24,53 @@ const router = Router();
 
 router.use(authenticate);
 
+// Special routes that must come before the /:id route to avoid conflicts
+router.get(
+    "/count",
+    validate(getDivisionCountQuerySchema),
+    DivisionController.getDivisionCount
+);
+
+router.get(
+    "/search",
+    validate(searchDivisionsQuerySchema),
+    DivisionController.searchDivisions
+);
+
+router.get(
+    "/by-semester",
+    validate(divisionQuerySchema),
+    DivisionController.getDivisionsBySemester
+);
+
+router.get(
+    "/department/:departmentId",
+    validate(departmentParamSchema),
+    DivisionController.getDivisionsByDepartment
+);
+
+router.get(
+    "/academic-year/:academicYearId",
+    validate(academicYearParamSchema),
+    DivisionController.getDivisionsByAcademicYear
+);
+
+// Restore and hard delete routes
+router.patch(
+    "/:id/restore",
+    authorize(Role.ADMIN),
+    validate(divisionIdParamSchema),
+    DivisionController.restoreDivision
+);
+
+router.delete(
+    "/:id/hard",
+    authorize(Role.ADMIN),
+    validate(divisionIdParamSchema),
+    DivisionController.hardDeleteDivision
+);
+
+// Main CRUD routes
 router
     .route("/")
     .post(
@@ -26,7 +78,10 @@ router
         validate(createDivisionSchema),
         DivisionController.createDivision
     )
-    .get(validate(divisionQuerySchema), DivisionController.getAllDivisions);
+    .get(
+        validate(getAllDivisionsQuerySchema),
+        DivisionController.getAllDivisions
+    );
 
 router
     .route("/:id")

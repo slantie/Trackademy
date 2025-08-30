@@ -1,6 +1,6 @@
 /**
  * @file src/routes/api/v1/semester.routes.ts
- * @description Defines API routes for the Semester resource.
+ * @description Enhanced API routes for the Semester resource with comprehensive endpoints.
  */
 
 import { Router } from "express";
@@ -12,6 +12,11 @@ import {
     updateSemesterSchema,
     semesterIdParamSchema,
     semesterQuerySchema,
+    getAllSemestersQuerySchema,
+    getSemesterCountQuerySchema,
+    searchSemestersQuerySchema,
+    semesterNumberParamSchema,
+    semesterTypeParamSchema,
 } from "../../../validations/semester.validation";
 import { Role } from "@prisma/client";
 
@@ -19,6 +24,53 @@ const router = Router();
 
 router.use(authenticate);
 
+// Special routes that must come before the /:id route to avoid conflicts
+router.get(
+    "/count",
+    validate(getSemesterCountQuerySchema),
+    SemesterController.getSemesterCount
+);
+
+router.get(
+    "/search",
+    validate(searchSemestersQuerySchema),
+    SemesterController.searchSemesters
+);
+
+router.get(
+    "/by-department-year",
+    validate(semesterQuerySchema),
+    SemesterController.getSemestersByDepartmentAndYear
+);
+
+router.get(
+    "/number/:semesterNumber",
+    validate(semesterNumberParamSchema),
+    SemesterController.getSemestersBySemesterNumber
+);
+
+router.get(
+    "/type/:semesterType",
+    validate(semesterTypeParamSchema),
+    SemesterController.getSemestersBySemesterType
+);
+
+// Restore and hard delete routes
+router.patch(
+    "/:id/restore",
+    authorize(Role.ADMIN),
+    validate(semesterIdParamSchema),
+    SemesterController.restoreSemester
+);
+
+router.delete(
+    "/:id/hard",
+    authorize(Role.ADMIN),
+    validate(semesterIdParamSchema),
+    SemesterController.hardDeleteSemester
+);
+
+// Main CRUD routes
 router
     .route("/")
     .post(
@@ -26,7 +78,10 @@ router
         validate(createSemesterSchema),
         SemesterController.createSemester
     )
-    .get(validate(semesterQuerySchema), SemesterController.getAllSemesters);
+    .get(
+        validate(getAllSemestersQuerySchema),
+        SemesterController.getAllSemesters
+    );
 
 router
     .route("/:id")

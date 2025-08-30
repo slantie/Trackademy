@@ -32,7 +32,7 @@ const config: AppConfig = {
     nodeEnv: (process.env.NODE_ENV as AppConfig["nodeEnv"]) || "development",
     databaseUrl: process.env.DATABASE_URL,
     jwtSecret: process.env.JWT_SECRET as string,
-    jwtExpiresIn: process.env.JWT_EXPIRES_IN || "24h",
+    jwtExpiresIn: process.env.JWT_EXPIRES_IN || "1h",
     emailHost: process.env.EMAIL_HOST,
     emailPort: process.env.EMAIL_PORT
         ? parseInt(process.env.EMAIL_PORT, 10)

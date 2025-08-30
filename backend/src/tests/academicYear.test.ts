@@ -87,6 +87,43 @@ describe("Academic Year API Endpoints", () => {
         expect(getResponse.status).toBe(404);
     });
 
+    it("should restore a soft-deleted academic year when creating with the same year", async () => {
+        // First, verify the year is soft-deleted
+        const checkResponse = await request(app)
+            .get(`/api/v1/academic-years?collegeId=${testCollegeId}`)
+            .set("Authorization", `Bearer ${adminToken}`);
+        expect(checkResponse.body.results).toBe(0); // Should be 0 since it's soft-deleted
+
+        // Try to create a new academic year with the same year
+        const createResponse = await request(app)
+            .post("/api/v1/academic-years")
+            .set("Authorization", `Bearer ${adminToken}`)
+            .send({
+                year: "2026-2027", // Same year as the soft-deleted one
+                collegeId: testCollegeId,
+                isActive: true,
+            });
+
+        expect(createResponse.status).toBe(201);
+        expect(createResponse.body.data.academicYear.year).toBe("2026-2027");
+        expect(createResponse.body.data.academicYear.isActive).toBe(true);
+        expect(createResponse.body.data.academicYear.isDeleted).toBe(false);
+
+        // The ID should be the same as the original (restored, not newly created)
+        expect(createResponse.body.data.academicYear.id).toBe(
+            newAcademicYearId
+        );
+
+        // Verify it's now visible in the list
+        const getAllResponse = await request(app)
+            .get(`/api/v1/academic-years?collegeId=${testCollegeId}`)
+            .set("Authorization", `Bearer ${adminToken}`);
+        expect(getAllResponse.body.results).toBe(1);
+        expect(getAllResponse.body.data.academicYears[0].id).toBe(
+            newAcademicYearId
+        );
+    });
+
     afterAll(async () => {
         await prisma.academicYear.deleteMany({
             where: { collegeId: testCollegeId },
