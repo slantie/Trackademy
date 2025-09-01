@@ -22,6 +22,9 @@ import examRoutes from "./exam.routes";
 import examResultRoutes from "./examResult.routes";
 import attendanceRoutes from "./attendance.routes";
 import dashboardRoutes from "./dashboard.routes";
+import analyticsRoutes from "./analytics.routes";
+import assignmentRoutes from "./assignment.routes";
+import submissionRoutes from "./submission.routes";
 
 const router = Router();
 
@@ -46,5 +49,8 @@ router.use("/exams", examRoutes);
 router.use("/exam-results", examResultRoutes);
 router.use("/attendance", attendanceRoutes);
 router.use("/dashboard", dashboardRoutes);
+router.use("/analytics", analyticsRoutes);
+router.use("/assignments", assignmentRoutes);
+router.use("/submissions", submissionRoutes);
 
 export default router;

@@ -40,7 +40,7 @@ class UploadService {
      */
     public async processFacultyData(fileBuffer: Buffer) {
         const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.load(fileBuffer);
+        await workbook.xlsx.load(fileBuffer as any);
         const worksheet = workbook.getWorksheet(1);
         if (!worksheet)
             throw new AppError(
@@ -189,7 +189,7 @@ class UploadService {
      */
     public async processStudentData(fileBuffer: Buffer) {
         const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.load(fileBuffer);
+        await workbook.xlsx.load(fileBuffer as any);
         const worksheet = workbook.getWorksheet(1);
         if (!worksheet)
             throw new AppError(
@@ -379,7 +379,7 @@ class UploadService {
      */
     public async processSubjectData(fileBuffer: Buffer) {
         const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.load(fileBuffer);
+        await workbook.xlsx.load(fileBuffer as any);
         const worksheet = workbook.getWorksheet(1);
         if (!worksheet)
             throw new AppError(
@@ -959,7 +959,7 @@ class UploadService {
         );
 
         const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.load(fileBuffer);
+        await workbook.xlsx.load(fileBuffer as any);
         const worksheet = workbook.getWorksheet(1);
         if (!worksheet)
             throw new AppError(
