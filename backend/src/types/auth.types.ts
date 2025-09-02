@@ -8,33 +8,33 @@ import { Role, Designation, Student, Faculty, User } from "@prisma/client";
 // --- API Request & Response Types ---
 
 export interface LoginRequest {
-    identifier: string; // Can be an email (for Faculty/Admin) or enrollment number (for Student)
-    password: string;
+  identifier: string; // Can be an email (for Faculty/Admin) or enrollment number (for Student)
+  password: string;
 }
 
 export interface LoginResponse {
-    token: string;
-    user: AuthenticatedUser;
+  token: string;
+  user: AuthenticatedUser;
 }
 
 export interface RegisterFacultyRequest {
-    email: string;
-    password: string;
-    fullName: string;
-    designation: Designation; // Enforces the use of the Designation enum
-    departmentId: string;
+  email: string;
+  password: string;
+  fullName: string;
+  designation: Designation; // Enforces the use of the Designation enum
+  departmentId: string;
 }
 
 export interface RegisterAdminRequest {
-    email: string;
-    password: string;
-    fullName: string; // Admins should also have a name
+  email: string;
+  password: string;
+  fullName: string; // Admins should also have a name
 }
 
 // A generic response for registration endpoints.
 export interface RegisterResponse {
-    message: string;
-    user: Omit<User, "password">;
+  message: string;
+  user: Omit<User, "password">;
 }
 
 // --- Core & JWT Types ---
@@ -44,12 +44,12 @@ export interface RegisterResponse {
  * This object is used throughout the application frontend to represent the logged-in user.
  */
 export interface AuthenticatedUser {
-    id: string;
-    email: string;
-    role: Role;
-    fullName: string;
-    designation?: Designation | null; // Contains the designation for Faculty
-    details?: any;
+  id: string;
+  email: string;
+  role: Role;
+  fullName: string;
+  designation?: Designation | null; // Contains the designation for Faculty
+  details?: any;
 }
 
 /**
@@ -57,7 +57,7 @@ export interface AuthenticatedUser {
  * This is the payload that will be available in authenticated requests.
  */
 export interface JWTPayload {
-    userId: string;
-    email: string;
-    role: Role;
+  userId: string;
+  email: string;
+  role: Role;
 }

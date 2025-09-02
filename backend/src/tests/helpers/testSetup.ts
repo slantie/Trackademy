@@ -21,8 +21,9 @@ export async function cleanDatabaseAndSeedAdmin(): Promise<void> {
     await prisma.attendance.deleteMany({});
     await prisma.examResult.deleteMany({});
 
-    // 3. Delete student enrollments
+    // 3. Delete student enrollments and internships
     await prisma.studentEnrollment.deleteMany({});
+    await prisma.internship.deleteMany({});
 
     // 4. Delete courses
     await prisma.course.deleteMany({});
@@ -104,6 +105,11 @@ export async function cleanupTestData(options: {
 
     // Clean up students and faculty
     if (options.users?.length) {
+      // Delete internships first (they reference students)
+      await prisma.internship.deleteMany({
+        where: { student: { user: { email: { in: options.users } } } },
+      });
+
       await prisma.student.deleteMany({
         where: { user: { email: { in: options.users } } },
       });

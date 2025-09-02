@@ -25,6 +25,7 @@ import dashboardRoutes from "./dashboard.routes";
 import analyticsRoutes from "./analytics.routes";
 import assignmentRoutes from "./assignment.routes";
 import submissionRoutes from "./submission.routes";
+import internshipRoutes from "./internship.routes";
 
 const router = Router();
 
@@ -52,5 +53,6 @@ router.use("/dashboard", dashboardRoutes);
 router.use("/analytics", analyticsRoutes);
 router.use("/assignments", assignmentRoutes);
 router.use("/submissions", submissionRoutes);
+router.use("/internships", internshipRoutes);
 
 export default router;

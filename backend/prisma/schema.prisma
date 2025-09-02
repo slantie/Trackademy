@@ -70,6 +70,14 @@ enum SubmissionStatus {
   PENDING_REVIEW
 }
 
+// Feature: Internships
+enum InternshipStatus {
+  APPLIED
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
 model College {
   id            String         @id @default(cuid())
   name          String         @unique
@@ -259,6 +267,7 @@ model Student {
   ExamResult  ExamResult[]
   Attendance  Attendance[]
   submissions Submission[]
+  internships Internship[]
 
   @@index([departmentId])
   @@index([semesterId])
@@ -387,8 +396,35 @@ model Submission {
   @@map("submissions")
 }
 
-generator erd {
-  provider = "prisma-erd-generator"
-  output   = "../ERD.svg"
-  theme    = "forest"
+// Feature: Internships
+model Internship {
+  id                       String            @id @default(cuid())
+  companyName              String
+  role                     String
+  description              String?
+  startDate                DateTime          @db.Date
+  endDate                  DateTime?         @db.Date
+  status                   InternshipStatus  @default(APPLIED)
+  stipend                  Float?
+  location                 String?
+  offerLetterPath          String?
+  nocPath                  String?
+  completionCertificatePath String?
+  isDeleted                Boolean           @default(false)
+  createdAt                DateTime          @default(now())
+  updatedAt                DateTime          @updatedAt
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+
+  @@index([studentId])
+  @@index([status])
+  @@index([startDate])
+  @@map("internships")
 }
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output   = "../ERD.svg"
+//   theme    = "forest"
+// }
