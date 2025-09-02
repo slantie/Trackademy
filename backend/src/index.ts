@@ -12,23 +12,27 @@ const app = express();
 
 // --- CORS Configuration ---
 // Define the origins that are allowed to make requests to this server.
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173", // Vite default port
+  "http://localhost:4173", // Vite preview port
+];
 
 const corsOptions: cors.CorsOptions = {
-    origin: (origin, callback) => {
-        // Allow requests with no origin (like mobile apps or server-to-server requests)
-        if (!origin) return callback(null, true);
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or server-to-server requests)
+    if (!origin) return callback(null, true);
 
-        // If the origin of the request is in our list of allowed origins, allow it.
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            // Otherwise, block the request.
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true, // This allows cookies to be sent with requests.
-    optionsSuccessStatus: 200, // For legacy browser support.
+    // If the origin of the request is in our list of allowed origins, allow it.
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      // Otherwise, block the request.
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // This allows cookies to be sent with requests.
+  optionsSuccessStatus: 200, // For legacy browser support.
 };
 
 // --- Middleware Setup ---
@@ -44,22 +48,22 @@ app.use("/api/v1", apiRoutesv1);
 
 // --- Health Check and Server Startup ---
 app.get("/", (req, res) => {
-    const message =
-        env.NODE_ENV === "production"
-            ? "NodeJS Backend running in production!"
-            : "NodeJS Backend running!";
-    res.json({ message, status: "healthy" });
+  const message =
+    env.NODE_ENV === "production"
+      ? "NodeJS Backend running in production!"
+      : "NodeJS Backend running!";
+  res.json({ message, status: "healthy" });
 });
 
 if (env.NODE_ENV !== "production") {
-    const port = env.PORT || 4000;
+  const port = env.PORT || 4000;
 
-    app.listen(port, () => {
-        console.log(`Server running at http://localhost:${port}`);
-    });
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
 } else {
-    // In a production environment (like on Render), the platform handles starting the server.
-    console.log("NodeJS Backend running in production!");
+  // In a production environment (like on Render), the platform handles starting the server.
+  console.log("NodeJS Backend running in production!");
 }
 
 export default app; // Also export the app as default for consistency
