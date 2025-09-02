@@ -81,7 +81,7 @@ router.patch(
  * @access Private - Students can delete their own only
  */
 router.delete(
-  "/:id",
+"/:id",
   authorize(Role.STUDENT),
   InternshipController.deleteInternship
 );

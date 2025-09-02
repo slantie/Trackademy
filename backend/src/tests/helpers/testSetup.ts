@@ -21,9 +21,10 @@ export async function cleanDatabaseAndSeedAdmin(): Promise<void> {
     await prisma.attendance.deleteMany({});
     await prisma.examResult.deleteMany({});
 
-    // 3. Delete student enrollments and internships
+    // 3. Delete student enrollments, internships, and certificates
     await prisma.studentEnrollment.deleteMany({});
     await prisma.internship.deleteMany({});
+    await prisma.certificate.deleteMany({});
 
     // 4. Delete courses
     await prisma.course.deleteMany({});
@@ -105,8 +106,11 @@ export async function cleanupTestData(options: {
 
     // Clean up students and faculty
     if (options.users?.length) {
-      // Delete internships first (they reference students)
+      // Delete internships and certificates first (they reference students)
       await prisma.internship.deleteMany({
+        where: { student: { user: { email: { in: options.users } } } },
+      });
+      await prisma.certificate.deleteMany({
         where: { student: { user: { email: { in: options.users } } } },
       });
 
@@ -125,7 +129,7 @@ export async function cleanupTestData(options: {
       });
     }
 
-    // Clean up all related entities for departments first
+    // Clean up all related entities for departments and colleges
     if (options.departments?.length || options.colleges?.length) {
       // Clean up all dependent entities that might be related to these colleges/departments
       await prisma.division.deleteMany({
@@ -167,20 +171,27 @@ export async function cleanupTestData(options: {
           ? { college: { name: { in: options.colleges } } }
           : {},
       });
-    }
 
-    // Clean up departments BEFORE colleges
-    if (options.departments?.length) {
-      await prisma.department.deleteMany({
-        where: { name: { in: options.departments } },
-      });
-    }
+      // Clean up departments BEFORE colleges (fix the constraint violation)
+      if (options.departments?.length) {
+        await prisma.department.deleteMany({
+          where: { name: { in: options.departments } },
+        });
+      }
 
-    // Clean up colleges LAST (after all dependencies are gone)
-    if (options.colleges?.length) {
-      await prisma.college.deleteMany({
-        where: { name: { in: options.colleges } },
-      });
+      // Also clean up any departments that belong to colleges we're deleting
+      if (options.colleges?.length) {
+        await prisma.department.deleteMany({
+          where: { college: { name: { in: options.colleges } } },
+        });
+      }
+
+      // Clean up colleges LAST (after departments are deleted)
+      if (options.colleges?.length) {
+        await prisma.college.deleteMany({
+          where: { name: { in: options.colleges } },
+        });
+      }
     }
 
     // Clean up test users

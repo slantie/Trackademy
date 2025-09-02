@@ -263,11 +263,12 @@ model Student {
   semester   Semester   @relation(fields: [semesterId], references: [id])
   division   Division   @relation(fields: [divisionId], references: [id])
 
-  enrollments StudentEnrollment[]
-  ExamResult  ExamResult[]
-  Attendance  Attendance[]
-  submissions Submission[]
-  internships Internship[]
+  enrollments  StudentEnrollment[]
+  ExamResult   ExamResult[]
+  Attendance   Attendance[]
+  submissions  Submission[]
+  internships  Internship[]
+  certificates Certificate[]
 
   @@index([departmentId])
   @@index([semesterId])
@@ -372,16 +373,16 @@ model Assignment {
 }
 
 model Submission {
-  id             String           @id @default(cuid())
-  content        String?
-  filePath       String?
-  submittedAt    DateTime         @default(now())
-  marksAwarded   Int?
-  feedback       String?
-  status         SubmissionStatus @default(SUBMITTED)
-  isDeleted      Boolean          @default(false)
-  gradedAt       DateTime?
-  updatedAt      DateTime         @updatedAt
+  id           String           @id @default(cuid())
+  content      String?
+  filePath     String?
+  submittedAt  DateTime         @default(now())
+  marksAwarded Int?
+  feedback     String?
+  status       SubmissionStatus @default(SUBMITTED)
+  isDeleted    Boolean          @default(false)
+  gradedAt     DateTime?
+  updatedAt    DateTime         @updatedAt
 
   assignmentId String
   assignment   Assignment @relation(fields: [assignmentId], references: [id])
@@ -398,21 +399,21 @@ model Submission {
 
 // Feature: Internships
 model Internship {
-  id                       String            @id @default(cuid())
-  companyName              String
-  role                     String
-  description              String?
-  startDate                DateTime          @db.Date
-  endDate                  DateTime?         @db.Date
-  status                   InternshipStatus  @default(APPLIED)
-  stipend                  Float?
-  location                 String?
-  offerLetterPath          String?
-  nocPath                  String?
+  id                        String           @id @default(cuid())
+  companyName               String
+  role                      String
+  description               String?
+  startDate                 DateTime         @db.Date
+  endDate                   DateTime?        @db.Date
+  status                    InternshipStatus @default(APPLIED)
+  stipend                   Float?
+  location                  String?
+  offerLetterPath           String?
+  nocPath                   String?
   completionCertificatePath String?
-  isDeleted                Boolean           @default(false)
-  createdAt                DateTime          @default(now())
-  updatedAt                DateTime          @updatedAt
+  isDeleted                 Boolean          @default(false)
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
 
   studentId String
   student   Student @relation(fields: [studentId], references: [id])
@@ -421,6 +422,26 @@ model Internship {
   @@index([status])
   @@index([startDate])
   @@map("internships")
+}
+
+// Feature: Certificates Collection & Tracking
+model Certificate {
+  id                  String   @id @default(cuid())
+  title               String
+  issuingOrganization String
+  issueDate           DateTime @db.Date
+  description         String?
+  certificatePath     String
+  isDeleted           Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+
+  @@index([studentId])
+  @@index([issueDate])
+  @@map("certificates")
 }
 
 // generator erd {
