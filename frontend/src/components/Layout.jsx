@@ -5,15 +5,29 @@ import Footer from "./Footer";
 
 const Layout = ({ children }) => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <Box 
+      sx={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        minHeight: "100vh",
+        background: (theme) => theme.palette.mode === 'dark' 
+          ? 'linear-gradient(135deg, #1B1B1F 0%, #161618 100%)'
+          : 'linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)',
+      }}
+    >
       <Header />
-      <Container
+      <Box
         component="main"
-        maxWidth="lg"
-        sx={{ mt: 4, mb: 4, flexGrow: 1 }}
+        sx={{ 
+          mt: 3, 
+          mb: 4, 
+          flexGrow: 1,
+          px: { xs: 2, md: 3 },
+          width: '100%',
+        }}
       >
         {children}
-      </Container>
+      </Box>
       <Footer />
     </Box>
   );

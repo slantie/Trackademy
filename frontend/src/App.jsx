@@ -1,11 +1,11 @@
 // src/App.jsx
 import React from "react";
-import { ThemeProvider, CssBaseline, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import muiTheme from "./theme/muiTheme";
 import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -23,8 +23,7 @@ function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={muiTheme}>
-        <CssBaseline />
+      <ThemeProvider>
         <AuthProvider>
           <BrowserRouter>
             <Routes>
@@ -36,6 +35,9 @@ function App() {
                       display: "flex",
                       flexDirection: "column",
                       minHeight: "100vh",
+                      background: (theme) => theme.palette.mode === 'dark' 
+                        ? 'linear-gradient(135deg, #1B1B1F 0%, #161618 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)',
                     }}
                   >
                     <Header />
@@ -51,7 +53,10 @@ function App() {
                     sx={{
                       display: "flex",
                       flexDirection: "column",
-                      // minHeight: "100vh",
+                      minHeight: "100vh",
+                      background: (theme) => theme.palette.mode === 'dark' 
+                        ? 'linear-gradient(135deg, #1B1B1F 0%, #161618 100%)'
+                        : 'linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)',
                     }}
                   >
                     <Header />

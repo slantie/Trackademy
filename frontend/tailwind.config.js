@@ -7,14 +7,38 @@ export default {
       colors: {
         primary: {
           main: "#8155c6",
-          light: "#ff7070",
-          lighter: "#fc6f6f",
+          light: "#a478d1",
+          dark: "#5d3c8b",
+          50: "#f3f0ff",
+          100: "#e9e5ff",
+          200: "#d6ceff",
+          300: "#b9a8ff",
+          400: "#9678ff",
+          500: "#8155c6",
+          600: "#6d47b3",
+          700: "#5d3c8b",
+          800: "#4e3274",
+          900: "#3f2959",
         },
-
+        secondary: {
+          main: "#667eea",
+          light: "#8fa3ee",
+          dark: "#4756b3",
+          50: "#eff2ff",
+          100: "#e2e8ff",
+          200: "#cad5ff",
+          300: "#a8baff",
+          400: "#8594ff",
+          500: "#667eea",
+          600: "#4756b3",
+          700: "#3d4a9a",
+          800: "#343e7c",
+          900: "#2e3564",
+        },
         dark: {
           text: "#DFDFD6",
           background: "#1B1B1F",
-          highlight: "#8155c6",
+          surface: "#202127",
           muted: {
             text: "#FFFFFF",
             background: "#202127",
@@ -27,11 +51,10 @@ export default {
           secondary: "#32363F",
           tertiary: "#98989F",
         },
-
         light: {
           text: "#3C3C43",
           background: "#FFFFFF",
-          highlight: "#8155c6",
+          surface: "#F6F6F7",
           muted: {
             text: "#67676C",
             background: "#F6F6F7",
@@ -44,10 +67,32 @@ export default {
           secondary: "#EBEBEF",
           tertiary: "#98989F",
         },
+        success: {
+          main: "#43e97b",
+          light: "#69ed95",
+          dark: "#2fb563",
+        },
+        error: {
+          main: "#f5576c",
+          light: "#f77588",
+          dark: "#d13851",
+        },
+        warning: {
+          main: "#f093fb",
+          light: "#f3a8fc",
+          dark: "#e673f8",
+        },
+        info: {
+          main: "#38bdf8",
+          light: "#5ccafc",
+          dark: "#0284c7",
+        },
       },
       fontFamily: {
         sans: [
           "Poppins",
+          "DM Sans",
+          "Inter",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
@@ -63,6 +108,34 @@ export default {
           '"Segoe UI Symbol"',
           '"Noto Color Emoji"',
         ],
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.3s ease-out',
+        'scale-in': 'scaleIn 0.2s ease-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        scaleIn: {
+          '0%': { transform: 'scale(0.95)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
+      },
+      boxShadow: {
+        'glass': '0 8px 32px rgba(0, 0, 0, 0.08)',
+        'glass-dark': '0 8px 32px rgba(0, 0, 0, 0.25)',
+        'primary': '0 8px 32px rgba(129, 85, 198, 0.3)',
+        'secondary': '0 8px 32px rgba(102, 126, 234, 0.3)',
+      },
+      backdropBlur: {
+        xs: '2px',
       },
     },
   },
