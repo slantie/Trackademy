@@ -1,10 +1,3 @@
-import React from "react";
-
-const AssignmentService = () => {
-  return <div></div>;
-};
-
-export default AssignmentService;
 // src/api/assignmentService.js
 import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "../constants/apiEndpoints";
@@ -15,7 +8,7 @@ import { API_ENDPOINTS } from "../constants/apiEndpoints";
  * @returns {Promise<object>} The API response data.
  */
 export const getAssignments = async (params) => {
-  const response = await apiClient.get(API_ENDPOINTS.ASSIGNMENTS.BASE, {
+  const response = await apiClient.get(API_ENDPOINTS.ASSIGNMENTS.LIST_CREATE, {
     params,
   });
   return response.data;
@@ -27,7 +20,7 @@ export const getAssignments = async (params) => {
  * @returns {Promise<object>} The API response data.
  */
 export const getAssignmentById = async (id) => {
-  const response = await apiClient.get(API_ENDPOINTS.ASSIGNMENTS.BY_ID(id));
+  const response = await apiClient.get(API_ENDPOINTS.ASSIGNMENTS.DETAILS(id));
   return response.data;
 };
 
@@ -38,7 +31,7 @@ export const getAssignmentById = async (id) => {
  */
 export const createAssignment = async (assignmentData) => {
   const response = await apiClient.post(
-    API_ENDPOINTS.ASSIGNMENTS.BASE,
+    API_ENDPOINTS.ASSIGNMENTS.LIST_CREATE,
     assignmentData
   );
   return response.data;
@@ -52,7 +45,7 @@ export const createAssignment = async (assignmentData) => {
  */
 export const updateAssignment = async ({ id, assignmentData }) => {
   const response = await apiClient.put(
-    API_ENDPOINTS.ASSIGNMENTS.BY_ID(id),
+    API_ENDPOINTS.ASSIGNMENTS.UPDATE(id),
     assignmentData
   );
   return response.data;
@@ -64,6 +57,6 @@ export const updateAssignment = async ({ id, assignmentData }) => {
  * @returns {Promise<object>} The API response data.
  */
 export const deleteAssignment = async (id) => {
-  const response = await apiClient.delete(API_ENDPOINTS.ASSIGNMENTS.BY_ID(id));
+  const response = await apiClient.delete(API_ENDPOINTS.ASSIGNMENTS.DELETE(id));
   return response.data;
 };

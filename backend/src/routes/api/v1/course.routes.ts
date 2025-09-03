@@ -8,23 +8,31 @@ import { CourseController } from "../../../controllers/course.controller";
 import { authenticate, authorize } from "../../../middlewares/auth.middleware";
 import { validate } from "../../../middlewares/validate.middleware";
 import {
-    createCourseSchema,
-    courseIdParamSchema,
-    courseQuerySchema,
+  createCourseSchema,
+  courseIdParamSchema,
+  courseQuerySchema,
 } from "../../../validations/course.validation";
 import { Role } from "@prisma/client";
 
 const router = Router();
 
-router.use(authenticate, authorize(Role.ADMIN));
+router.use(authenticate);
 
 router
-    .route("/")
-    .post(validate(createCourseSchema), CourseController.createCourse)
-    .get(CourseController.getAllCourses);
+  .route("/")
+  .post(
+    authorize(Role.ADMIN),
+    validate(createCourseSchema),
+    CourseController.createCourse
+  )
+  .get(authorize(Role.ADMIN, Role.FACULTY), CourseController.getAllCourses);
 
 router
-    .route("/:id")
-    .delete(validate(courseIdParamSchema), CourseController.deleteCourse);
+  .route("/:id")
+  .delete(
+    authorize(Role.ADMIN),
+    validate(courseIdParamSchema),
+    CourseController.deleteCourse
+  );
 
 export default router;

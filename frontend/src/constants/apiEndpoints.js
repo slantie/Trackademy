@@ -1,28 +1,15 @@
 // src/constants/apiEndpoints.js
+
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
     PROFILE: "/auth/me",
-    UPDATE_PASSWORD: "/auth/update-password",
-    REGISTER_FACULTY: "/auth/register/faculty",
-    REGISTER_ADMIN: "/auth/register/admin",
   },
-  ASSIGNMENTS: {
-    BASE: "/assignments",
-    STATISTICS: "/assignments/statistics",
-    BY_ID: (id) => `/assignments/${id}`,
+  DASHBOARD: {
+    SUMMARY: "/dashboard/summary",
   },
-  SUBMISSIONS: {
-    BASE: "/submissions",
-    BY_ID: (id) => `/submissions/${id}`,
-  },
-  INTERNSHIPS: {
-    BASE: "/internships",
-    BY_ID: (id) => `/internships/${id}`,
-  },
-  CERTIFICATES: {
-    BASE: "/certificates",
-    BY_ID: (id) => `/certificates/${id}`,
+  ANALYTICS: {
+    RESULTS: "/analytics/results",
   },
   COLLEGES: {
     LIST_CREATE: "/colleges",
@@ -79,36 +66,27 @@ export const API_ENDPOINTS = {
     UPDATE: (courseId) => `/courses/${courseId}`,
     DELETE: (courseId) => `/courses/${courseId}`,
   },
-  EXAMS: {
-    BASE: "/exams",
-    BY_ID: (id) => `/exams/${id}`,
-  },
-  EXAM_RESULTS: {
-    BASE: "/exam-results",
-    BY_ID: (id) => `/exam-results/${id}`,
-  },
   ATTENDANCE: {
-    BASE: "/attendance",
-    BY_ID: (id) => `/attendance/${id}`,
+    LIST: "/attendance",
+    UPDATE: (attendanceId) => `/attendance/${attendanceId}`,
+    UPLOAD: "/upload/attendance",
   },
-  DASHBOARD: {
-    BASE: "/dashboard",
-    SUMMARY: "/dashboard/summary",
+  ASSIGNMENTS: {
+    LIST_CREATE: "/assignments",
+    DETAILS: (assignmentId) => `/assignments/${assignmentId}`,
+    UPDATE: (assignmentId) => `/assignments/${assignmentId}`,
+    DELETE: (assignmentId) => `/assignments/${assignmentId}`,
   },
-  ANALYTICS: {
-    BASE: "/analytics",
-    RESULTS: "/analytics/results",
-  },
-  DATABASE: {
-    BASE: "/database",
-  },
-  SERVICE: {
-    BASE: "/service",
+  SUBMISSIONS: {
+    LIST_CREATE: "/submissions",
+    GRADE: (submissionId) => `/submissions/${submissionId}/grade`,
+    FOR_ASSIGNMENT: (assignmentId) => `/submissions/assignment/${assignmentId}`,
   },
   UPLOAD: {
-    BASE: "/upload",
-  },
-  PROTECTED: {
-    BASE: "/protected",
+    FACULTY_DATA: "/upload/faculty",
+    STUDENT_DATA: "/upload/students",
+    ATTENDANCE_DATA: "/upload/attendance",
+    FACULTY_MATRIX: "/upload/faculty-matrix",
+    RESULTS_DATA: "/upload/results",
   },
 };

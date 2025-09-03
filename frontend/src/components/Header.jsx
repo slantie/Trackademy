@@ -66,6 +66,9 @@ const getNavItems = (role) => {
         { name: "Subjects", path: "/subject", icon: AssignmentIcon },
         { name: "Faculty", path: "/faculty", icon: PersonIcon },
         { name: "Semesters", path: "/semester", icon: SchoolIcon },
+        { name: "Divisions", path: "/division", icon: SchoolIcon },
+        { name: "Students", path: "/student", icon: SchoolIcon },
+        { name: "Courses", path: "/course", icon: SchoolIcon },
       ];
     default:
       return [];
@@ -78,7 +81,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const _isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -107,13 +110,13 @@ const Header = () => {
 
   // Logo component
   const Logo = () => (
-    <Box 
-      component={Link} 
-      to="/" 
-      sx={{ 
-        textDecoration: 'none',
-        display: 'flex',
-        alignItems: 'center',
+    <Box
+      component={Link}
+      to="/"
+      sx={{
+        textDecoration: "none",
+        display: "flex",
+        alignItems: "center",
         gap: 1,
       }}
     >
@@ -122,13 +125,13 @@ const Header = () => {
           width: 40,
           height: 40,
           borderRadius: 2,
-          background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'white',
+          background: "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "white",
           fontWeight: 800,
-          fontSize: '1.2rem',
+          fontSize: "1.2rem",
         }}
       >
         T
@@ -139,11 +142,11 @@ const Header = () => {
         sx={{
           color: "primary.main",
           fontWeight: 800,
-          fontSize: { xs: '1.3rem', md: '1.5rem' },
-          background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
+          fontSize: { xs: "1.3rem", md: "1.5rem" },
+          background: "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
         }}
       >
         Trackademy
@@ -153,7 +156,7 @@ const Header = () => {
 
   // Desktop Navigation
   const DesktopNav = () => (
-    <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, ml: 4 }}>
+    <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1, ml: 4 }}>
       {navItems.map((item, index) => (
         <Button
           key={index}
@@ -161,22 +164,24 @@ const Header = () => {
           to={item.path}
           startIcon={<item.icon />}
           sx={{
-            color: isActive(item.path) ? 'primary.main' : 'text.primary',
+            color: isActive(item.path) ? "primary.main" : "text.primary",
             fontWeight: isActive(item.path) ? 700 : 500,
             px: 2,
             py: 1,
             borderRadius: 3,
-            background: isActive(item.path) 
-              ? (theme) => theme.palette.mode === 'dark' 
-                ? 'rgba(129, 85, 198, 0.1)' 
-                : 'rgba(129, 85, 198, 0.05)'
-              : 'transparent',
-            transition: 'all 0.2s ease-in-out',
-            '&:hover': {
-              background: (theme) => theme.palette.mode === 'dark' 
-                ? 'rgba(129, 85, 198, 0.15)' 
-                : 'rgba(129, 85, 198, 0.08)',
-              transform: 'translateY(-1px)',
+            background: isActive(item.path)
+              ? (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "rgba(129, 85, 198, 0.1)"
+                    : "rgba(129, 85, 198, 0.05)"
+              : "transparent",
+            transition: "all 0.2s ease-in-out",
+            "&:hover": {
+              background: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "rgba(129, 85, 198, 0.15)"
+                  : "rgba(129, 85, 198, 0.08)",
+              transform: "translateY(-1px)",
             },
           }}
         >
@@ -194,22 +199,24 @@ const Header = () => {
           onClick={toggleTheme}
           sx={{
             mr: 1,
-            color: 'text.primary',
-            background: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(255, 255, 255, 0.05)' 
-              : 'rgba(0, 0, 0, 0.03)',
-            '&:hover': {
-              background: (theme) => theme.palette.mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.1)' 
-                : 'rgba(0, 0, 0, 0.08)',
+            color: "text.primary",
+            background: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(255, 255, 255, 0.05)"
+                : "rgba(0, 0, 0, 0.03)",
+            "&:hover": {
+              background: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.1)"
+                  : "rgba(0, 0, 0, 0.08)",
             },
           }}
         >
-          {mode === 'dark' ? <LightMode /> : <DarkMode />}
+          {mode === "dark" ? <LightMode /> : <DarkMode />}
         </IconButton>
       </Tooltip>
-      
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <Chip
           label={user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
           size="small"
@@ -221,8 +228,8 @@ const Header = () => {
           onClick={handleUserMenuOpen}
           sx={{
             p: 0.5,
-            '&:hover': {
-              background: 'transparent',
+            "&:hover": {
+              background: "transparent",
             },
           }}
         >
@@ -230,12 +237,12 @@ const Header = () => {
             sx={{
               width: 36,
               height: 36,
-              bgcolor: 'primary.main',
-              fontSize: '0.9rem',
+              bgcolor: "primary.main",
+              fontSize: "0.9rem",
               fontWeight: 600,
             }}
           >
-            {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+            {user?.name?.charAt(0)?.toUpperCase() || "U"}
           </Avatar>
         </IconButton>
       </Box>
@@ -249,17 +256,24 @@ const Header = () => {
             mt: 1,
             borderRadius: 2,
             minWidth: 200,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-            border: '1px solid',
-            borderColor: 'divider',
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
+            border: "1px solid",
+            borderColor: "divider",
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid', borderColor: 'divider' }}>
+        <Box
+          sx={{
+            px: 2,
+            py: 1.5,
+            borderBottom: "1px solid",
+            borderColor: "divider",
+          }}
+        >
           <Typography variant="subtitle2" fontWeight={600}>
-            {user?.name || 'User'}
+            {user?.name || "User"}
           </Typography>
           <Typography variant="caption" color="text.secondary">
             {user?.email}
@@ -282,33 +296,50 @@ const Header = () => {
       PaperProps={{
         sx: {
           width: 280,
-          background: (theme) => theme.palette.mode === 'dark' 
-            ? 'rgba(27, 27, 31, 0.95)' 
-            : 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(20px)',
+          background: (theme) =>
+            theme.palette.mode === "dark"
+              ? "rgba(27, 27, 31, 0.95)"
+              : "rgba(255, 255, 255, 0.95)",
+          backdropFilter: "blur(20px)",
         },
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
           <Logo />
           <IconButton onClick={toggleMobileMenu}>
             <CloseIcon />
           </IconButton>
         </Box>
-        
+
         {isAuthenticated && (
           <>
-            <Box sx={{ p: 2, mb: 2, borderRadius: 2, background: 'rgba(129, 85, 198, 0.05)' }}>
+            <Box
+              sx={{
+                p: 2,
+                mb: 2,
+                borderRadius: 2,
+                background: "rgba(129, 85, 198, 0.05)",
+              }}
+            >
               <Typography variant="subtitle2" fontWeight={600}>
-                {user?.name || 'User'}
+                {user?.name || "User"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
                 {user?.email}
               </Typography>
               <Box sx={{ mt: 1 }}>
                 <Chip
-                  label={user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+                  label={
+                    user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)
+                  }
                   size="small"
                   color="primary"
                   variant="outlined"
@@ -329,27 +360,27 @@ const Header = () => {
               sx={{
                 borderRadius: 2,
                 mb: 0.5,
-                background: isActive(item.path) 
-                  ? 'rgba(129, 85, 198, 0.1)' 
-                  : 'transparent',
-                color: isActive(item.path) ? 'primary.main' : 'text.primary',
-                '&:hover': {
-                  background: 'rgba(129, 85, 198, 0.08)',
+                background: isActive(item.path)
+                  ? "rgba(129, 85, 198, 0.1)"
+                  : "transparent",
+                color: isActive(item.path) ? "primary.main" : "text.primary",
+                "&:hover": {
+                  background: "rgba(129, 85, 198, 0.08)",
                 },
               }}
             >
-              <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+              <ListItemIcon sx={{ color: "inherit", minWidth: 40 }}>
                 <item.icon />
               </ListItemIcon>
-              <ListItemText 
-                primary={item.name} 
-                primaryTypographyProps={{ 
-                  fontWeight: isActive(item.path) ? 600 : 400 
+              <ListItemText
+                primary={item.name}
+                primaryTypographyProps={{
+                  fontWeight: isActive(item.path) ? 600 : 400,
                 }}
               />
             </ListItem>
           ))}
-          
+
           {isAuthenticated && (
             <>
               <Divider sx={{ my: 1 }} />
@@ -360,17 +391,21 @@ const Header = () => {
                 }}
                 sx={{
                   borderRadius: 2,
-                  '&:hover': {
-                    background: 'rgba(129, 85, 198, 0.08)',
+                  "&:hover": {
+                    background: "rgba(129, 85, 198, 0.08)",
                   },
                 }}
               >
                 <ListItemIcon sx={{ minWidth: 40 }}>
-                  {mode === 'dark' ? <LightMode /> : <DarkMode />}
+                  {mode === "dark" ? <LightMode /> : <DarkMode />}
                 </ListItemIcon>
-                <ListItemText primary={`Switch to ${mode === 'dark' ? 'Light' : 'Dark'} Mode`} />
+                <ListItemText
+                  primary={`Switch to ${
+                    mode === "dark" ? "Light" : "Dark"
+                  } Mode`}
+                />
               </ListItem>
-              
+
               <ListItem
                 onClick={() => {
                   handleLogout();
@@ -378,13 +413,13 @@ const Header = () => {
                 }}
                 sx={{
                   borderRadius: 2,
-                  color: 'error.main',
-                  '&:hover': {
-                    background: 'rgba(245, 87, 108, 0.08)',
+                  color: "error.main",
+                  "&:hover": {
+                    background: "rgba(245, 87, 108, 0.08)",
                   },
                 }}
               >
-                <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+                <ListItemIcon sx={{ color: "inherit", minWidth: 40 }}>
                   <LogoutIcon />
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
@@ -398,27 +433,30 @@ const Header = () => {
 
   return (
     <>
-      <AppBar 
-        position="sticky" 
+      <AppBar
+        position="sticky"
         elevation={0}
         sx={{
-          background: (theme) => theme.palette.mode === 'dark' 
-            ? 'rgba(27, 27, 31, 0.8)' 
-            : 'rgba(255, 255, 255, 0.8)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
+          background: (theme) =>
+            theme.palette.mode === "dark"
+              ? "rgba(27, 27, 31, 0.8)"
+              : "rgba(255, 255, 255, 0.8)",
+          backdropFilter: "blur(20px)",
+          borderBottom: "1px solid",
+          borderColor: "divider",
         }}
       >
         <Toolbar sx={{ px: { xs: 2, md: 4 } }}>
           <Logo />
-          
+
           {isAuthenticated && <DesktopNav />}
 
           <Box sx={{ flexGrow: 1 }} />
 
           {/* Desktop Actions */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+          <Box
+            sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
+          >
             {isAuthenticated ? (
               <UserMenu />
             ) : (
@@ -428,13 +466,14 @@ const Header = () => {
                     onClick={toggleTheme}
                     sx={{
                       mr: 2,
-                      color: 'text.primary',
-                      background: (theme) => theme.palette.mode === 'dark' 
-                        ? 'rgba(255, 255, 255, 0.05)' 
-                        : 'rgba(0, 0, 0, 0.03)',
+                      color: "text.primary",
+                      background: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "rgba(255, 255, 255, 0.05)"
+                          : "rgba(0, 0, 0, 0.03)",
                     }}
                   >
-                    {mode === 'dark' ? <LightMode /> : <DarkMode />}
+                    {mode === "dark" ? <LightMode /> : <DarkMode />}
                   </IconButton>
                 </Tooltip>
                 <Button
@@ -445,9 +484,11 @@ const Header = () => {
                     px: 3,
                     py: 1,
                     borderRadius: 3,
-                    background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
-                    '&:hover': {
-                      background: 'linear-gradient(135deg, #6d47b3 0%, #5866d1 100%)',
+                    background:
+                      "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(135deg, #6d47b3 0%, #5866d1 100%)",
                     },
                   }}
                 >
@@ -458,29 +499,36 @@ const Header = () => {
           </Box>
 
           {/* Mobile Menu Button */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1 }}>
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             {!isAuthenticated && (
               <Tooltip title="Toggle theme" arrow>
                 <IconButton
                   onClick={toggleTheme}
                   sx={{
-                    color: 'text.primary',
-                    background: (theme) => theme.palette.mode === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.05)' 
-                      : 'rgba(0, 0, 0, 0.03)',
+                    color: "text.primary",
+                    background: (theme) =>
+                      theme.palette.mode === "dark"
+                        ? "rgba(255, 255, 255, 0.05)"
+                        : "rgba(0, 0, 0, 0.03)",
                   }}
                 >
-                  {mode === 'dark' ? <LightMode /> : <DarkMode />}
+                  {mode === "dark" ? <LightMode /> : <DarkMode />}
                 </IconButton>
               </Tooltip>
             )}
-            
+
             {isAuthenticated ? (
               <>
                 <UserMenu />
                 <IconButton
                   onClick={toggleMobileMenu}
-                  sx={{ ml: 1, color: 'text.primary' }}
+                  sx={{ ml: 1, color: "text.primary" }}
                 >
                   <MenuIcon />
                 </IconButton>
@@ -494,7 +542,8 @@ const Header = () => {
                 sx={{
                   px: 2,
                   borderRadius: 2,
-                  background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
+                  background:
+                    "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
                 }}
               >
                 Login

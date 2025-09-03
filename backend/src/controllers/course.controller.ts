@@ -6,6 +6,7 @@
 import { Request, Response, NextFunction } from "express";
 import { courseService } from "../services/course.service";
 import { LectureType } from "@prisma/client";
+import { prisma } from "../config/prisma.service";
 
 export class CourseController {
   static async createCourse(
@@ -34,6 +35,7 @@ export class CourseController {
       const {
         subjectId,
         facultyId,
+        facultyUserId,
         semesterId,
         divisionId,
         lectureType,
@@ -44,9 +46,21 @@ export class CourseController {
         sortOrder,
       } = req.query;
 
+      let resolvedFacultyId = facultyId as string;
+
+      // If facultyUserId is provided, look up the faculty record
+      if (facultyUserId && !facultyId) {
+        const faculty = await prisma.faculty.findUnique({
+          where: { userId: facultyUserId as string, isDeleted: false },
+        });
+        if (faculty) {
+          resolvedFacultyId = faculty.id;
+        }
+      }
+
       const options = {
         subjectId: subjectId as string,
-        facultyId: facultyId as string,
+        facultyId: resolvedFacultyId,
         semesterId: semesterId as string,
         divisionId: divisionId as string,
         lectureType: lectureType as LectureType,
