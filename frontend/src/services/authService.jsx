@@ -36,13 +36,4 @@ export const authService = {
       console.error("Error removing token from localStorage:", error);
     }
   },
-
-  /**
-   * Check if user is authenticated (has a valid token)
-   * @returns {boolean} - true if token exists, false otherwise
-   */
-  isAuthenticated: () => {
-    const token = authService.getToken();
-    return !!token;
-  },
 };

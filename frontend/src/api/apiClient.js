@@ -3,7 +3,6 @@ import { authService } from "../services/authService";
 
 const baseURL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api/v1";
-console.log("🎯 API Client using baseURL:", baseURL);
 
 // Create axios instance with base configuration
 const apiClient = axios.create({
@@ -28,7 +27,7 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor for handling common errors
+// Response interceptor for handling common errors, especially 401
 apiClient.interceptors.response.use(
   (response) => {
     return response;
@@ -37,7 +36,7 @@ apiClient.interceptors.response.use(
     // Handle 401 errors by clearing token and redirecting to login
     if (error.response?.status === 401) {
       authService.removeToken();
-      // Optionally trigger a global logout event here
+      // This will trigger the AuthProvider to re-evaluate and redirect
       window.location.href = "/auth";
     }
     return Promise.reject(error);

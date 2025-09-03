@@ -18,11 +18,6 @@ import { useAuth } from "../hooks/useAuth";
 const AuthPage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [loginData, setLoginData] = useState({ identifier: "", password: "" });
-  // const [registerData, setRegisterData] = useState({
-  //   name: "",
-  //   email: "",
-  //   password: "",
-  // });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -31,43 +26,28 @@ const AuthPage = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
-    setError(""); // Clear errors when switching tabs
+    setError("");
   };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log("🚀 Form submitted with data:", {
-      identifier: loginData.identifier,
-      password: "***",
-    });
-
     setLoading(true);
     setError("");
 
     try {
-      console.log("🔄 Calling login function...");
       const success = await login(loginData.identifier, loginData.password);
-      console.log("📊 Login result:", success);
 
       if (success) {
-        console.log("✅ Login successful, navigating to dashboard");
         navigate("/dashboard");
       } else {
-        console.log("❌ Login failed, showing error message");
         setError("Invalid credentials. Please try again.");
       }
     } catch (err) {
-      console.log("💥 Exception during login:", err);
-      setError("Login failed. Please try again.");
+      setError("Login failed. Please try again.", err);
     } finally {
       setLoading(false);
     }
   };
-
-  // const handleRegisterSubmit = (e) => {
-  //   e.preventDefault();
-  //   setError("Registration functionality will be implemented soon.");
-  // };
 
   const TabPanel = ({ children, value, index }) => {
     return (
@@ -98,7 +78,6 @@ const AuthPage = () => {
           }}
         >
           <CardContent>
-            {/* Logo/Title */}
             <Typography
               variant="h4"
               component="h1"
@@ -112,7 +91,6 @@ const AuthPage = () => {
               Trackademy
             </Typography>
 
-            {/* Tabs */}
             <Tabs
               value={tabValue}
               onChange={handleTabChange}
@@ -144,7 +122,6 @@ const AuthPage = () => {
               />
             </Tabs>
 
-            {/* Login Tab Panel */}
             <TabPanel value={tabValue} index={0}>
               <Typography
                 variant="h5"
@@ -244,7 +221,6 @@ const AuthPage = () => {
               </Box>
             </TabPanel>
 
-            {/* Register Tab Panel */}
             <TabPanel value={tabValue} index={1}>
               <Typography
                 variant="h5"
@@ -335,7 +311,6 @@ const AuthPage = () => {
                       opacity: 0.9,
                     },
                   }}
-                  onClick={() => console.log("Create Account clicked")}
                 >
                   Create Account
                 </Button>

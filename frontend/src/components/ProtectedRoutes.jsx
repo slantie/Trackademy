@@ -1,7 +1,9 @@
+// src/components/ProtectedRoutes.jsx
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { Box, CircularProgress } from "@mui/material";
+import { useAuth } from "../hooks/useAuth";
+import Layout from "./Layout";
 
 const ProtectedRoutes = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -27,8 +29,12 @@ const ProtectedRoutes = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  // If user is authenticated, render the child routes
-  return <Outlet />;
+  // If user is authenticated, render the children wrapped in the main Layout
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 };
 
 export default ProtectedRoutes;

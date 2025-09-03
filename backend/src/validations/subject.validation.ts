@@ -29,8 +29,8 @@ export const createSubjectSchema = z.object({
             .min(3, "Subject code must be at least 3 characters long.")
             .max(20, "Subject code must not exceed 20 characters.")
             .regex(
-                /^[A-Z0-9]+$/,
-                "Subject code must contain only uppercase letters and numbers."
+                /^[A-Z0-9-]+$/,
+                "Subject code must contain only uppercase letters, numbers, and hyphens."
             ),
         type: z.nativeEnum(SubjectType).default(SubjectType.MANDATORY),
         semesterNumber: z

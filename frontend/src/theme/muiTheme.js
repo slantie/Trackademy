@@ -50,7 +50,7 @@ const muiTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Poppins", "sans-serif"].join(","),
+    fontFamily: ["DM Sans", "sans-serif"].join(","),
     h1: {
       fontWeight: 700,
       fontSize: "3rem",

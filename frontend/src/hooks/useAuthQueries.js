@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { loginUser, getUserProfile, updatePassword } from "../api/auth";
+import { loginUser, getUserProfile } from "../api/auth";
 import { authService } from "../services/authService";
 
 // Query keys for consistent cache management
@@ -89,14 +89,14 @@ export const useLogout = () => {
 /**
  * Hook for updating password
  */
-export const useUpdatePassword = () => {
-  return useMutation({
-    mutationFn: updatePassword,
-    onSuccess: (data) => {
-      console.log("🔑 Password updated successfully:", data);
-    },
-    onError: (error) => {
-      console.error("❌ Password update failed:", error);
-    },
-  });
-};
+// export const useUpdatePassword = () => {
+//   return useMutation({
+//     mutationFn: updatePassword,
+//     onSuccess: (data) => {
+//       console.log("🔑 Password updated successfully:", data);
+//     },
+//     onError: (error) => {
+//       console.error("❌ Password update failed:", error);
+//     },
+//   });
+// };

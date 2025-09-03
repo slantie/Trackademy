@@ -1,3 +1,4 @@
+// src/constants/apiEndpoints.js
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
@@ -24,40 +25,59 @@ export const API_ENDPOINTS = {
     BY_ID: (id) => `/certificates/${id}`,
   },
   COLLEGES: {
-    BASE: "/colleges",
-    BY_ID: (id) => `/colleges/${id}`,
+    LIST_CREATE: "/colleges",
+    DETAILS: (collegeId) => `/colleges/${collegeId}`,
+    UPDATE: (collegeId) => `/colleges/${collegeId}`,
+    DELETE: (collegeId) => `/colleges/${collegeId}`,
   },
   ACADEMIC_YEARS: {
-    BASE: "/academic-years",
-    BY_ID: (id) => `/academic-years/${id}`,
+    LIST_CREATE: "/academic-years",
+    DETAILS: (yearId) => `/academic-years/${yearId}`,
+    UPDATE: (yearId) => `/academic-years/${yearId}`,
+    DELETE: (yearId) => `/academic-years/${yearId}`,
+    ACTIVATE: (yearId) => `/academic-years/${yearId}/activate`,
   },
   DEPARTMENTS: {
-    BASE: "/departments",
-    BY_ID: (id) => `/departments/${id}`,
-  },
-  SEMESTERS: {
-    BASE: "/semesters",
-    BY_ID: (id) => `/semesters/${id}`,
-  },
-  DIVISIONS: {
-    BASE: "/divisions",
-    BY_ID: (id) => `/divisions/${id}`,
+    LIST_CREATE: "/departments",
+    DETAILS: (departmentId) => `/departments/${departmentId}`,
+    UPDATE: (departmentId) => `/departments/${departmentId}`,
+    DELETE: (departmentId) => `/departments/${departmentId}`,
   },
   SUBJECTS: {
-    BASE: "/subjects",
-    BY_ID: (id) => `/subjects/${id}`,
+    LIST_CREATE: "/subjects",
+    DETAILS: (subjectId) => `/subjects/${subjectId}`,
+    UPDATE: (subjectId) => `/subjects/${subjectId}`,
+    DELETE: (subjectId) => `/subjects/${subjectId}`,
   },
   FACULTIES: {
-    BASE: "/faculties",
-    BY_ID: (id) => `/faculties/${id}`,
+    LIST_CREATE: "/faculties",
+    DETAILS: (facultyId) => `/faculties/${facultyId}`,
+    UPDATE: (facultyId) => `/faculties/${facultyId}`,
+    DELETE: (facultyId) => `/faculties/${facultyId}`,
+  },
+  SEMESTERS: {
+    LIST_CREATE: "/semesters",
+    DETAILS: (semesterId) => `/semesters/${semesterId}`,
+    UPDATE: (semesterId) => `/semesters/${semesterId}`,
+    DELETE: (semesterId) => `/semesters/${semesterId}`,
+  },
+  DIVISIONS: {
+    LIST_CREATE: "/divisions",
+    DETAILS: (divisionId) => `/divisions/${divisionId}`,
+    UPDATE: (divisionId) => `/divisions/${divisionId}`,
+    DELETE: (divisionId) => `/divisions/${divisionId}`,
   },
   STUDENTS: {
-    BASE: "/students",
-    BY_ID: (id) => `/students/${id}`,
+    LIST_CREATE: "/students",
+    DETAILS: (studentId) => `/students/${studentId}`,
+    UPDATE: (studentId) => `/students/${studentId}`,
+    DELETE: (studentId) => `/students/${studentId}`,
   },
   COURSES: {
-    BASE: "/courses",
-    BY_ID: (id) => `/courses/${id}`,
+    LIST_CREATE: "/courses",
+    DETAILS: (courseId) => `/courses/${courseId}`,
+    UPDATE: (courseId) => `/courses/${courseId}`,
+    DELETE: (courseId) => `/courses/${courseId}`,
   },
   EXAMS: {
     BASE: "/exams",
@@ -73,9 +93,11 @@ export const API_ENDPOINTS = {
   },
   DASHBOARD: {
     BASE: "/dashboard",
+    SUMMARY: "/dashboard/summary",
   },
   ANALYTICS: {
     BASE: "/analytics",
+    RESULTS: "/analytics/results",
   },
   DATABASE: {
     BASE: "/database",
