@@ -19,10 +19,10 @@ const Layout = ({ children }) => {
       <Box
         component="main"
         sx={{ 
-          mt: 3, 
-          mb: 4, 
+          mt: 0, 
+          mb: 0, 
           flexGrow: 1,
-          px: { xs: 2, md: 3 },
+          px: { xs: 0, md: 0 },
           width: '100%',
         }}
       >

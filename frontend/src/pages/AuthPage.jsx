@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   Box,
@@ -15,8 +15,8 @@ import {
   InputAdornment,
   IconButton,
   Chip,
-  Paper,
   Divider,
+  useTheme,
 } from "@mui/material";
 import {
   Visibility,
@@ -31,36 +31,40 @@ import {
 import { useAuth } from "../hooks/useAuth";
 
 const AuthPage = () => {
+  const theme = useTheme();
   const [tabValue, setTabValue] = useState(0);
-  const [loginData, setLoginData] = useState({ identifier: "", password: "" });
-  const [registerData, setRegisterData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    college: "",
-    department: "",
-  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  // Login form state
+  const [loginIdentifier, setLoginIdentifier] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  // Register form state
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerConfirmPassword, setRegisterConfirmPassword] = useState("");
+  const [registerCollege, setRegisterCollege] = useState("");
+  const [registerDepartment, setRegisterDepartment] = useState("");
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = useCallback((event, newValue) => {
     setTabValue(newValue);
     setError("");
-  };
+  }, []);
 
-  const handleLoginSubmit = async (e) => {
+  const handleLoginSubmit = useCallback(async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const success = await login(loginData.identifier, loginData.password);
+      const success = await login(loginIdentifier, loginPassword);
 
       if (success) {
         navigate("/dashboard");
@@ -72,14 +76,14 @@ const AuthPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [loginIdentifier, loginPassword, login, navigate]);
 
-  const handleRegisterSubmit = async (e) => {
+  const handleRegisterSubmit = useCallback(async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    if (registerData.password !== registerData.confirmPassword) {
+    if (registerPassword !== registerConfirmPassword) {
       setError("Passwords do not match.");
       setLoading(false);
       return;
@@ -93,7 +97,7 @@ const AuthPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [registerPassword, registerConfirmPassword]);
 
   const TabPanel = ({ children, value, index }) => {
     return (
@@ -111,9 +115,9 @@ const AuthPage = () => {
         alignItems: "center",
         justifyContent: "center",
         p: 2,
-        background: (theme) => theme.palette.mode === 'dark' 
-          ? 'linear-gradient(135deg, #1B1B1F 0%, #161618 100%)'
-          : 'linear-gradient(135deg, #F6F6F7 0%, #EBEBEF 100%)',
+        background: theme.palette.mode === 'dark' 
+          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
+          : 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)',
       }}
     >
       <Container maxWidth="sm">
@@ -123,19 +127,30 @@ const AuthPage = () => {
             component={Link} 
             to="/"
             sx={{
-              background: (theme) => theme.palette.mode === 'dark' 
+              background: theme.palette.mode === 'dark' 
                 ? 'rgba(255, 255, 255, 0.05)' 
                 : 'rgba(0, 0, 0, 0.03)',
+              border: theme.palette.mode === 'dark' 
+                ? '1px solid rgba(255, 255, 255, 0.08)'
+                : '1px solid rgba(0, 0, 0, 0.08)',
               '&:hover': {
-                background: (theme) => theme.palette.mode === 'dark' 
+                background: theme.palette.mode === 'dark' 
                   ? 'rgba(255, 255, 255, 0.1)' 
                   : 'rgba(0, 0, 0, 0.08)',
+                transform: 'translateY(-2px)',
               },
+              transition: 'all 0.3s ease',
             }}
           >
             <ArrowBackIcon />
           </IconButton>
-          <Typography variant="h6" color="text.secondary">
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              color: theme.palette.text.secondary,
+              fontWeight: 500,
+            }}
+          >
             Back to Home
           </Typography>
         </Box>
@@ -145,24 +160,27 @@ const AuthPage = () => {
             maxWidth: 480,
             mx: "auto",
             borderRadius: 4,
-            background: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(32, 33, 39, 0.95)' 
-              : 'rgba(255, 255, 255, 0.95)',
+            background: theme.palette.mode === 'dark' 
+              ? 'rgba(255, 255, 255, 0.02)' 
+              : '#ffffff',
             backdropFilter: 'blur(20px)',
-            border: '1px solid',
-            borderColor: 'divider',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)',
+            border: theme.palette.mode === 'dark' 
+              ? '1px solid rgba(255, 255, 255, 0.08)'
+              : '1px solid rgba(0, 0, 0, 0.08)',
+            boxShadow: theme.palette.mode === 'dark' 
+              ? '0 20px 60px rgba(0, 0, 0, 0.3)'
+              : '0 20px 60px rgba(0, 0, 0, 0.1)',
           }}
         >
           <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-            {/* Logo */}
+            {/* Logo and Header */}
             <Box sx={{ textAlign: 'center', mb: 4 }}>
               <Box
                 sx={{
                   width: 60,
                   height: 60,
                   borderRadius: 3,
-                  background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
+                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -171,6 +189,7 @@ const AuthPage = () => {
                   fontSize: '1.5rem',
                   mx: 'auto',
                   mb: 2,
+                  boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
                 }}
               >
                 T
@@ -179,17 +198,21 @@ const AuthPage = () => {
                 variant="h4"
                 component="h1"
                 sx={{
-                  fontWeight: 800,
-                  background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  fontWeight: 700,
+                  color: theme.palette.text.primary,
                   mb: 1,
+                  fontSize: { xs: '1.75rem', md: '2rem' },
                 }}
               >
                 Welcome to Trackademy
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  color: theme.palette.text.secondary,
+                  fontSize: '1rem',
+                }}
+              >
                 {tabValue === 0 
                   ? "Sign in to continue to your dashboard" 
                   : "Create your account to get started"
@@ -215,8 +238,14 @@ const AuthPage = () => {
                     fontWeight: 600,
                     textTransform: 'none',
                     fontSize: '1rem',
+                    transition: 'all 0.3s ease',
                     '&.Mui-selected': {
                       color: 'primary.main',
+                    },
+                    '&:hover': {
+                      background: theme.palette.mode === 'dark' 
+                        ? 'rgba(255, 255, 255, 0.05)'
+                        : 'rgba(0, 0, 0, 0.02)',
                     },
                   },
                 }}
@@ -232,6 +261,12 @@ const AuthPage = () => {
                 sx={{ 
                   mb: 3, 
                   borderRadius: 2,
+                  border: theme.palette.mode === 'dark' 
+                    ? '1px solid rgba(244, 67, 54, 0.2)'
+                    : '1px solid rgba(244, 67, 54, 0.1)',
+                  background: theme.palette.mode === 'dark' 
+                    ? 'rgba(244, 67, 54, 0.05)'
+                    : 'rgba(244, 67, 54, 0.05)',
                   '& .MuiAlert-message': {
                     fontSize: '0.9rem',
                   },
@@ -243,20 +278,37 @@ const AuthPage = () => {
 
             {/* Login Tab */}
             <TabPanel value={tabValue} index={0}>
-              <Box component="form" onSubmit={handleLoginSubmit}>
+              <Box component="form" onSubmit={handleLoginSubmit} noValidate>
                 <TextField
                   fullWidth
                   label="Email or Username"
                   variant="outlined"
-                  value={loginData.identifier}
-                  onChange={(e) =>
-                    setLoginData({ ...loginData, identifier: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={loginIdentifier}
+                  onChange={(e) => setLoginIdentifier(e.target.value)}
+                  type="text" // Added type="text" for explicit clarity
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <PersonIcon color="action" />
+                        <PersonIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                   }}
@@ -268,15 +320,31 @@ const AuthPage = () => {
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   variant="outlined"
-                  value={loginData.password}
-                  onChange={(e) =>
-                    setLoginData({ ...loginData, password: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockIcon color="action" />
+                        <LockIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -284,6 +352,8 @@ const AuthPage = () => {
                         <IconButton
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
+                          sx={{ color: 'text.secondary' }}
+                          type="button"
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -302,12 +372,17 @@ const AuthPage = () => {
                   sx={{
                     py: 1.5,
                     mb: 2,
-                    background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     fontSize: '1rem',
                     fontWeight: 600,
                     borderRadius: 3,
+                    textTransform: 'none',
+                    boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #6d47b3 0%, #5866d1 100%)',
+                      background: 'linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 12px 40px rgba(102, 126, 234, 0.4)',
                     },
                   }}
                 >
@@ -321,10 +396,17 @@ const AuthPage = () => {
                 <Button
                   fullWidth
                   variant="text"
+                  type="button"
                   sx={{
                     color: 'text.secondary',
                     textTransform: 'none',
                     fontSize: '0.9rem',
+                    fontWeight: 500,
+                    '&:hover': {
+                      background: theme.palette.mode === 'dark' 
+                        ? 'rgba(255, 255, 255, 0.05)'
+                        : 'rgba(0, 0, 0, 0.02)',
+                    },
                   }}
                 >
                   Forgot your password?
@@ -334,20 +416,37 @@ const AuthPage = () => {
 
             {/* Registration Tab */}
             <TabPanel value={tabValue} index={1}>
-              <Box component="form" onSubmit={handleRegisterSubmit}>
+              <Box component="form" onSubmit={handleRegisterSubmit} noValidate>
                 <TextField
                   fullWidth
                   label="Full Name"
                   variant="outlined"
-                  value={registerData.name}
-                  onChange={(e) =>
-                    setRegisterData({ ...registerData, name: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={registerName}
+                  onChange={(e) => setRegisterName(e.target.value)}
+                  type="text" // Added type="text"
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <PersonIcon color="action" />
+                        <PersonIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                   }}
@@ -359,15 +458,31 @@ const AuthPage = () => {
                   label="Email Address"
                   type="email"
                   variant="outlined"
-                  value={registerData.email}
-                  onChange={(e) =>
-                    setRegisterData({ ...registerData, email: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={registerEmail}
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <EmailIcon color="action" />
+                        <EmailIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                   }}
@@ -378,15 +493,32 @@ const AuthPage = () => {
                   fullWidth
                   label="College/Institution"
                   variant="outlined"
-                  value={registerData.college}
-                  onChange={(e) =>
-                    setRegisterData({ ...registerData, college: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={registerCollege}
+                  onChange={(e) => setRegisterCollege(e.target.value)}
+                  type="text" // Added type="text"
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SchoolIcon color="action" />
+                        <SchoolIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                   }}
@@ -397,15 +529,32 @@ const AuthPage = () => {
                   fullWidth
                   label="Department"
                   variant="outlined"
-                  value={registerData.department}
-                  onChange={(e) =>
-                    setRegisterData({ ...registerData, department: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={registerDepartment}
+                  onChange={(e) => setRegisterDepartment(e.target.value)}
+                  type="text" // Added type="text"
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <BusinessIcon color="action" />
+                        <BusinessIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                   }}
@@ -417,15 +566,31 @@ const AuthPage = () => {
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   variant="outlined"
-                  value={registerData.password}
-                  onChange={(e) =>
-                    setRegisterData({ ...registerData, password: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={registerPassword}
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockIcon color="action" />
+                        <LockIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -433,6 +598,8 @@ const AuthPage = () => {
                         <IconButton
                           onClick={() => setShowPassword(!showPassword)}
                           edge="end"
+                          sx={{ color: 'text.secondary' }}
+                          type="button"
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -447,15 +614,31 @@ const AuthPage = () => {
                   label="Confirm Password"
                   type={showConfirmPassword ? "text" : "password"}
                   variant="outlined"
-                  value={registerData.confirmPassword}
-                  onChange={(e) =>
-                    setRegisterData({ ...registerData, confirmPassword: e.target.value })
-                  }
-                  sx={{ mb: 3 }}
+                  value={registerConfirmPassword}
+                  onChange={(e) => setRegisterConfirmPassword(e.target.value)}
+                  sx={{ 
+                    mb: 3,
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 2,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: theme.palette.mode === 'dark' 
+                            ? 'rgba(255, 255, 255, 0.3)'
+                            : 'rgba(0, 0, 0, 0.3)',
+                        },
+                      },
+                      '&.Mui-focused': {
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderWidth: 2,
+                        },
+                      },
+                    },
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <LockIcon color="action" />
+                        <LockIcon sx={{ color: 'text.secondary' }} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -463,6 +646,8 @@ const AuthPage = () => {
                         <IconButton
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                           edge="end"
+                          sx={{ color: 'text.secondary' }}
+                          type="button"
                         >
                           {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -481,12 +666,17 @@ const AuthPage = () => {
                   sx={{
                     py: 1.5,
                     mb: 2,
-                    background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     fontSize: '1rem',
                     fontWeight: 600,
                     borderRadius: 3,
+                    textTransform: 'none',
+                    boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
+                    transition: 'all 0.3s ease',
                     '&:hover': {
-                      background: 'linear-gradient(135deg, #6d47b3 0%, #5866d1 100%)',
+                      background: 'linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%)',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 12px 40px rgba(102, 126, 234, 0.4)',
                     },
                   }}
                 >
@@ -507,6 +697,9 @@ const AuthPage = () => {
                   bgcolor: 'background.paper',
                   color: 'text.secondary',
                   fontSize: '0.8rem',
+                  border: theme.palette.mode === 'dark' 
+                    ? '1px solid rgba(255, 255, 255, 0.08)'
+                    : '1px solid rgba(0, 0, 0, 0.08)',
                 }} 
               />
             </Divider>
@@ -514,14 +707,37 @@ const AuthPage = () => {
             <Typography 
               variant="body2" 
               color="text.secondary" 
-              sx={{ textAlign: 'center' }}
+              sx={{ 
+                textAlign: 'center',
+                fontSize: '0.9rem',
+              }}
             >
               By signing in, you agree to our{' '}
-              <Button variant="text" size="small" sx={{ textTransform: 'none', p: 0 }}>
+              <Button 
+                variant="text" 
+                size="small" 
+                sx={{ 
+                  textTransform: 'none', 
+                  p: 0, 
+                  minWidth: 'auto',
+                  color: 'primary.main',
+                  fontWeight: 500,
+                }}
+              >
                 Terms of Service
               </Button>
               {' '}and{' '}
-              <Button variant="text" size="small" sx={{ textTransform: 'none', p: 0 }}>
+              <Button 
+                variant="text" 
+                size="small" 
+                sx={{ 
+                  textTransform: 'none', 
+                  p: 0, 
+                  minWidth: 'auto',
+                  color: 'primary.main',
+                  fontWeight: 500,
+                }}
+              >
                 Privacy Policy
               </Button>
             </Typography>
