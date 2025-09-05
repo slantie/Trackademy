@@ -6,8 +6,91 @@
 import { Request, Response, NextFunction } from "express";
 import { submissionService } from "../services/submission.service";
 import { SubmissionStatus } from "@prisma/client";
+import { uploadToCloudinary } from "../config/cloudinary.service";
+import AppError from "../utils/appError";
 
 export class SubmissionController {
+  static async createSubmissionWithFile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      if (!req.user?.userId) {
+        throw new AppError("User ID not found in request.", 401);
+      }
+
+      const { assignmentId, content } = req.body;
+      const file = req.file;
+
+      if (!assignmentId) {
+        throw new AppError("Assignment ID is required.", 400);
+      }
+
+      if (!content && !file) {
+        throw new AppError("Either content or file must be provided.", 400);
+      }
+
+      let filePath: string | undefined;
+
+      // If file is provided, upload to Cloudinary
+      if (file) {
+        // Convert buffer to base64 for Cloudinary
+        const base64String = `data:${
+          file.mimetype
+        };base64,${file.buffer.toString("base64")}`;
+
+        // Determine resource type based on file mimetype
+        let resourceType: "auto" | "image" | "video" | "raw" = "raw";
+        if (file.mimetype.startsWith("image/")) {
+          resourceType = "image";
+        } else if (file.mimetype.startsWith("video/")) {
+          resourceType = "video";
+        }
+
+        const uploadResult = await uploadToCloudinary(base64String, {
+          folder: `trackademy/submissions/${assignmentId}`,
+          public_id: `submission_${Date.now()}_${req.user.userId}`,
+          resource_type: resourceType,
+        });
+
+        if (!uploadResult.success) {
+          throw new AppError(`File upload failed: ${uploadResult.error}`, 500);
+        }
+
+        filePath = uploadResult.data?.secure_url;
+      }
+
+      const submissionData = {
+        assignmentId,
+        content: content || undefined,
+        filePath,
+      };
+
+      const newSubmission = await submissionService.create(
+        submissionData,
+        req.user.userId
+      );
+
+      res.status(201).json({
+        status: "success",
+        message: "Submission created successfully",
+        data: {
+          submission: newSubmission,
+          uploadInfo: file
+            ? {
+                originalName: file.originalname,
+                size: file.size,
+                mimeType: file.mimetype,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async createSubmission(
     req: Request,
     res: Response,

@@ -213,8 +213,9 @@ const SubmissionsPage = () => {
     );
   }
 
-  // Extract submissions data with better error handling
-  const submissions = submissionsData?.data?.submissions || [];
+  // --- Start of modified line ---
+  const submissions = submissionsData?.data?.submissions?.data || [];
+  // --- End of modified line ---
   console.log("Submissions response:", submissionsData);
   console.log("Submissions rows:", submissions);
 

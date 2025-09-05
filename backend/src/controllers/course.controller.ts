@@ -5,8 +5,9 @@
 
 import { Request, Response, NextFunction } from "express";
 import { courseService } from "../services/course.service";
-import { LectureType } from "@prisma/client";
+import { LectureType, Role } from "@prisma/client";
 import { prisma } from "../config/prisma.service";
+import AppError from "../utils/appError";
 
 export class CourseController {
   static async createCourse(
@@ -46,40 +47,84 @@ export class CourseController {
         sortOrder,
       } = req.query;
 
-      let resolvedFacultyId = facultyId as string;
-
-      // If facultyUserId is provided, look up the faculty record
-      if (facultyUserId && !facultyId) {
-        const faculty = await prisma.faculty.findUnique({
-          where: { userId: facultyUserId as string, isDeleted: false },
+      // --- Start of new/modified logic ---
+      if (req.user?.role === Role.STUDENT) {
+        const student = await prisma.student.findUnique({
+          where: { userId: req.user.userId },
         });
-        if (faculty) {
-          resolvedFacultyId = faculty.id;
+        if (!student) {
+          throw new AppError("Student profile not found.", 404);
         }
+        const courses = await courseService.getByStudentId(student.id);
+        res.status(200).json({
+          status: "success",
+          results: courses.length,
+          data: { courses },
+        });
+        // --- End of new/modified logic ---
+      } else if (req.user?.role === Role.FACULTY) {
+        // Automatic faculty filtering - faculty can only see their own courses
+        const faculty = await prisma.faculty.findUnique({
+          where: { userId: req.user.userId, isDeleted: false },
+        });
+        if (!faculty) {
+          throw new AppError("Faculty profile not found.", 404);
+        }
+
+        const options = {
+          subjectId: subjectId as string,
+          facultyId: faculty.id, // Force filter by logged-in faculty
+          semesterId: semesterId as string,
+          divisionId: divisionId as string,
+          lectureType: lectureType as LectureType,
+          batch: batch as string,
+          search: search as string,
+          includeDeleted: includeDeleted === "true",
+          sortBy: sortBy as "subject" | "faculty" | "lectureType" | "createdAt",
+          sortOrder: sortOrder as "asc" | "desc",
+        };
+
+        const result = await courseService.getAll(options);
+
+        res.status(200).json({
+          status: "success",
+          results: result.data.length,
+          data: { courses: result.data },
+        });
+      } else {
+        // Admin role logic - can see all courses with optional filtering
+        let resolvedFacultyId = facultyId as string;
+
+        if (facultyUserId && !facultyId) {
+          const faculty = await prisma.faculty.findUnique({
+            where: { userId: facultyUserId as string, isDeleted: false },
+          });
+          if (faculty) {
+            resolvedFacultyId = faculty.id;
+          }
+        }
+
+        const options = {
+          subjectId: subjectId as string,
+          facultyId: resolvedFacultyId,
+          semesterId: semesterId as string,
+          divisionId: divisionId as string,
+          lectureType: lectureType as LectureType,
+          batch: batch as string,
+          search: search as string,
+          includeDeleted: includeDeleted === "true",
+          sortBy: sortBy as "subject" | "faculty" | "lectureType" | "createdAt",
+          sortOrder: sortOrder as "asc" | "desc",
+        };
+
+        const result = await courseService.getAll(options);
+
+        res.status(200).json({
+          status: "success",
+          results: result.data.length,
+          data: { courses: result.data },
+        });
       }
-
-      const options = {
-        subjectId: subjectId as string,
-        facultyId: resolvedFacultyId,
-        semesterId: semesterId as string,
-        divisionId: divisionId as string,
-        lectureType: lectureType as LectureType,
-        batch: batch as string,
-        search: search as string,
-        includeDeleted: includeDeleted === "true",
-        sortBy: sortBy as "subject" | "faculty" | "lectureType" | "createdAt",
-        sortOrder: sortOrder as "asc" | "desc",
-      };
-
-      // For now, allow all authenticated users to see all courses
-      // TODO: Implement proper student enrollment filtering later
-      const result = await courseService.getAll(options);
-
-      res.status(200).json({
-        status: "success",
-        results: result.data.length,
-        data: { courses: result.data },
-      });
     } catch (error) {
       next(error);
     }

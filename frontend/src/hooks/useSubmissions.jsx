@@ -4,6 +4,7 @@ import {
   getSubmissions,
   getSubmissionsByAssignment,
   createSubmission,
+  createSubmissionWithFile,
   gradeSubmission,
 } from "../api/submissionService";
 
@@ -45,6 +46,22 @@ export const useCreateSubmission = () => {
     onSuccess: () => {
       // Invalidate the main submissions list query to trigger a re-fetch
       queryClient.invalidateQueries({ queryKey: [SUBMISSION_QUERY_KEY] });
+    },
+  });
+};
+
+/**
+ * Custom hook to create a new submission with file upload.
+ * @returns {object} The mutation result object from TanStack Query.
+ */
+export const useCreateSubmissionWithFile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createSubmissionWithFile,
+    onSuccess: () => {
+      // Invalidate relevant queries to trigger a re-fetch
+      queryClient.invalidateQueries({ queryKey: [SUBMISSION_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: ["assignments"] });
     },
   });
 };

@@ -94,7 +94,7 @@ const AssignmentsPage = () => {
   };
 
   const handleRowClick = (params) => {
-    navigate(`/faculty/assignments/${params.row.id}`);
+    navigate(`/faculty/assignment/${params.row.id}`);
   };
 
   const columns = [

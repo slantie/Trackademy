@@ -82,14 +82,26 @@ export const API_ENDPOINTS = {
     UPDATE: (assignmentId) => `/assignments/${assignmentId}`,
     DELETE: (assignmentId) => `/assignments/${assignmentId}`,
   },
+  EXAMS: {
+    LIST_CREATE: "/exams",
+    DETAILS: (examId) => `/exams/${examId}`,
+  },
+  EXAM_RESULTS: {
+    ADMIN_BY_EXAM: (examId) => `/exam-results/admin/exam/${examId}`,
+    ADMIN_BY_STUDENT: (studentId) => `/exam-results/admin/student/${studentId}`,
+    BY_STUDENT: (studentId) => `/exam-results/student/${studentId}`,
+    LIST: "/exam-results",
+  },
   SUBMISSIONS: {
     LIST_CREATE: "/submissions",
+    UPLOAD: "/submissions/upload",
     GRADE: (submissionId) => `/submissions/${submissionId}/grade`,
     FOR_ASSIGNMENT: (assignmentId) => `/submissions/assignment/${assignmentId}`,
   },
   UPLOAD: {
     FACULTY_DATA: "/upload/faculty",
     STUDENT_DATA: "/upload/students",
+    SUBJECT_DATA: "/upload/subjects",
     ATTENDANCE_DATA: "/upload/attendance",
     FACULTY_MATRIX: "/upload/faculty-matrix",
     RESULTS_DATA: "/upload/results",

@@ -40,6 +40,39 @@ export const createSubmission = async (submissionData) => {
 };
 
 /**
+ * Creates a new submission with file upload.
+ * @param {object} submissionData - The submission data including file.
+ * @param {File} submissionData.file - The file to upload (optional).
+ * @param {string} submissionData.content - Text content (optional).
+ * @param {string} submissionData.assignmentId - The assignment ID.
+ * @returns {Promise} The API response for the created submission.
+ */
+export const createSubmissionWithFile = async (submissionData) => {
+  const formData = new FormData();
+
+  if (submissionData.file) {
+    formData.append("file", submissionData.file);
+  }
+
+  if (submissionData.content) {
+    formData.append("content", submissionData.content);
+  }
+
+  formData.append("assignmentId", submissionData.assignmentId);
+
+  const response = await apiClient.post(
+    API_ENDPOINTS.SUBMISSIONS.UPLOAD,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return response.data;
+};
+
+/**
  * Grades a submission (updates marks and feedback).
  * @param {object} param - Object containing submissionId and submissionData.
  * @param {string} param.submissionId - The ID of the submission to grade.
@@ -47,7 +80,7 @@ export const createSubmission = async (submissionData) => {
  * @returns {Promise} The API response for the updated submission.
  */
 export const gradeSubmission = async ({ submissionId, submissionData }) => {
-  const response = await apiClient.patch(
+  const response = await apiClient.post(
     API_ENDPOINTS.SUBMISSIONS.GRADE(submissionId),
     submissionData
   );

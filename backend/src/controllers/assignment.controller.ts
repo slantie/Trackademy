@@ -5,6 +5,7 @@
 
 import { Request, Response, NextFunction } from "express";
 import { assignmentService } from "../services/assignment.service";
+import AppError from "../utils/appError";
 
 export class AssignmentController {
   static async createAssignment(
@@ -16,6 +17,14 @@ export class AssignmentController {
       if (!req.user?.userId) {
         throw new Error("User ID not found in request.");
       }
+
+      console.log("🔍 Assignment Creation Debug:");
+      console.log("Request body:", req.body);
+      console.log("CourseId:", req.body.courseId);
+      console.log("SubjectId:", req.body.subjectId);
+      console.log("FacultyId:", req.body.facultyId);
+      console.log("SemesterId:", req.body.semesterId);
+      console.log("DivisionId:", req.body.divisionId);
 
       const newAssignment = await assignmentService.create(
         req.body,
@@ -50,27 +59,17 @@ export class AssignmentController {
         sortOrder: sortOrder as "asc" | "desc",
       };
 
+      // --- Start of modified logic ---
       // If user is a student, get assignments for their enrolled courses
       if (req.user?.role === "STUDENT") {
-        try {
-          assignments = await assignmentService.getForStudent(
-            req.user.userId,
-            options
-          );
-          // If student has no enrollments, fallback to all assignments temporarily
-          if (assignments.data.length === 0) {
-            console.log(
-              "Student has no enrollments, showing all assignments temporarily"
-            );
-            assignments = await assignmentService.getAll(options);
-          }
-        } catch (error) {
-          console.log(
-            "Student enrollment error, showing all assignments temporarily:",
-            error
-          );
-          assignments = await assignmentService.getAll(options);
+        if (!req.user.userId) {
+          throw new AppError("Student user ID not found in token.", 401);
         }
+        assignments = await assignmentService.getForStudent(
+          req.user.userId,
+          options
+        );
+        // --- End of modified logic ---
       } else if (req.user?.role === "FACULTY") {
         // If user is faculty, get assignments for their courses
         assignments = await assignmentService.getAll({
@@ -86,7 +85,7 @@ export class AssignmentController {
         status: "success",
         results: assignments.data.length,
         data: {
-          assignments,
+          assignments: assignments, // Ensure the response is nested correctly
         },
       });
     } catch (error) {

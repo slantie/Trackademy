@@ -53,7 +53,7 @@ export const submissionService = {
   gradeSubmission: async (submissionId, gradeData) => {
     try {
       console.log("Grading submission:", submissionId, "with data:", gradeData);
-      const response = await apiClient.put(
+      const response = await apiClient.post(
         API_ENDPOINTS.SUBMISSIONS.GRADE(submissionId),
         gradeData
       );

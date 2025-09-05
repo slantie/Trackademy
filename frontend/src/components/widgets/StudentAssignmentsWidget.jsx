@@ -31,12 +31,9 @@ const StudentAssignmentsWidget = () => {
     error,
   } = useGetStudentAssignments();
 
-  // Extract assignments from nested data structure
-  const assignments =
-    assignmentsData?.data?.assignments?.data ||
-    assignmentsData?.data?.assignments ||
-    assignmentsData?.data ||
-    [];
+  // --- Start of modified line ---
+  const assignments = assignmentsData?.data?.assignments?.data || [];
+  // --- End of modified line ---
 
   console.log("StudentAssignmentsWidget - Assignments data:", assignmentsData);
   console.log("StudentAssignmentsWidget - Assignments array:", assignments);

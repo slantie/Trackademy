@@ -15,7 +15,7 @@ import {
   useCreateAssignment,
   useUpdateAssignment,
 } from "../../hooks/useAssignments";
-import { useGetCourses, useGetFacultyCourses } from "../../hooks/useCourses";
+import { useGetFacultyCourses } from "../../hooks/useCourses";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import dayjs from "dayjs";
@@ -27,13 +27,16 @@ const AssignmentForm = ({ onClose, assignment }) => {
   const isEdit = !!assignment;
   const { user } = useAuth();
 
-  const { register, handleSubmit, reset, control } = useForm({
+  const { register, handleSubmit, reset, control, watch } = useForm({
     defaultValues: isEdit
       ? {
           title: assignment.title || "",
           description: assignment.description || "",
           totalMarks: assignment.totalMarks || 0,
           dueDate: dayjs(assignment.dueDate) || null,
+          subject: assignment.course?.subject || null,
+          semester: assignment.course?.semester || null,
+          division: assignment.course?.division || null,
           course: assignment.course || null,
         }
       : {
@@ -41,23 +44,87 @@ const AssignmentForm = ({ onClose, assignment }) => {
           description: "",
           totalMarks: 0,
           dueDate: dayjs().add(1, "day"),
+          subject: null,
+          semester: null,
+          division: null,
           course: null,
         },
   });
 
-  // Fetch ALL courses first (without faculty filter)
-  const { data: allCoursesData, isLoading: coursesLoading } = useGetCourses();
+  // Fetch faculty's courses to get available subjects, semesters, and divisions
+  const { data: facultyCoursesData, isLoading: facultyCoursesLoading } =
+    useGetFacultyCourses(user?.id);
 
-  // Use the specialized hook to fetch courses assigned to this faculty
-  const { data: facultyCoursesData } = useGetFacultyCourses(user?.id);
+  // Extract faculty courses
+  const facultyCourses = facultyCoursesData?.data?.courses || [];
+
+  // Watch for form changes to implement cascading filters
+  const selectedSubject = watch("subject");
+  const selectedSemester = watch("semester");
+  const selectedDivision = watch("division");
+
+  // Smart cascading filtering logic
+  // 1. Get unique subjects from all faculty courses
+  const availableSubjects = facultyCourses.reduce((acc, course) => {
+    if (course.subject && !acc.find((s) => s.id === course.subject.id)) {
+      acc.push(course.subject);
+    }
+    return acc;
+  }, []);
+
+  // 2. Filter semesters based on selected subject
+  const availableSemesters = facultyCourses
+    .filter(
+      (course) => !selectedSubject || course.subject?.id === selectedSubject?.id
+    )
+    .reduce((acc, course) => {
+      if (course.semester && !acc.find((s) => s.id === course.semester.id)) {
+        acc.push(course.semester);
+      }
+      return acc;
+    }, []);
+
+  // 3. Filter divisions based on selected subject and semester
+  const availableDivisions = facultyCourses
+    .filter((course) => {
+      const subjectMatch =
+        !selectedSubject || course.subject?.id === selectedSubject?.id;
+      const semesterMatch =
+        !selectedSemester || course.semester?.id === selectedSemester?.id;
+      return subjectMatch && semesterMatch;
+    })
+    .reduce((acc, course) => {
+      if (course.division && !acc.find((d) => d.id === course.division.id)) {
+        acc.push(course.division);
+      }
+      return acc;
+    }, []);
+
+  // 4. Filter courses based on all selections - this gives the final course options
+  const availableCourses = facultyCourses.filter((course) => {
+    const subjectMatch =
+      !selectedSubject || course.subject?.id === selectedSubject?.id;
+    const semesterMatch =
+      !selectedSemester || course.semester?.id === selectedSemester?.id;
+    const divisionMatch =
+      !selectedDivision || course.division?.id === selectedDivision?.id;
+    return subjectMatch && semesterMatch && divisionMatch;
+  });
 
   const createMutation = useCreateAssignment();
   const updateMutation = useUpdateAssignment();
 
   console.log("AssignmentForm - User:", user);
-  console.log("AssignmentForm - All courses response:", allCoursesData);
-  console.log("AssignmentForm - Faculty courses response:", facultyCoursesData);
-  console.log("AssignmentForm - Courses loading:", coursesLoading);
+  console.log("AssignmentForm - Faculty courses data:", facultyCoursesData);
+  console.log("AssignmentForm - Available subjects:", availableSubjects);
+  console.log("AssignmentForm - Available semesters:", availableSemesters);
+  console.log("AssignmentForm - Available divisions:", availableDivisions);
+  console.log("AssignmentForm - Available courses:", availableCourses);
+  console.log("AssignmentForm - Selected filters:", {
+    selectedSubject,
+    selectedSemester,
+    selectedDivision,
+  });
 
   useEffect(() => {
     if (isEdit && assignment) {
@@ -66,6 +133,9 @@ const AssignmentForm = ({ onClose, assignment }) => {
         description: assignment.description || "",
         totalMarks: assignment.totalMarks || 0,
         dueDate: dayjs(assignment.dueDate) || null,
+        subject: assignment.course?.subject || null,
+        semester: assignment.course?.semester || null,
+        division: assignment.course?.division || null,
         course: assignment.course || null,
       });
     } else {
@@ -74,6 +144,9 @@ const AssignmentForm = ({ onClose, assignment }) => {
         description: "",
         totalMarks: 0,
         dueDate: dayjs().add(1, "day"),
+        subject: null,
+        semester: null,
+        division: null,
         course: null,
       });
     }
@@ -84,6 +157,10 @@ const AssignmentForm = ({ onClose, assignment }) => {
       ...data,
       dueDate: data.dueDate?.toISOString(),
       courseId: data.course?.id,
+      // Remove the filter objects
+      subject: undefined,
+      semester: undefined,
+      division: undefined,
       course: undefined,
     };
 
@@ -131,28 +208,16 @@ const AssignmentForm = ({ onClose, assignment }) => {
     }
   };
 
-  // Extract all courses
-  const allCourses =
-    allCoursesData?.data?.courses?.data ||
-    allCoursesData?.data?.courses ||
-    allCoursesData?.data ||
-    [];
+  // Use the filtered data based on faculty's courses
+  const subjects = availableSubjects;
+  const semesters = availableSemesters;
+  const divisions = availableDivisions;
+  const courses = availableCourses;
 
-  // Extract faculty courses (courses assigned to this faculty)
-  const facultyCourses =
-    facultyCoursesData?.data?.courses?.data ||
-    facultyCoursesData?.data?.courses ||
-    facultyCoursesData?.data ||
-    [];
-
-  // For assignment creation, show only courses assigned to this faculty
-  // If no faculty courses, show all courses as fallback
-  const courses = facultyCourses.length > 0 ? facultyCourses : allCourses;
-
-  console.log("All courses:", allCourses.length);
-  console.log("Faculty courses:", facultyCourses.length);
-  console.log("Courses data for Autocomplete:", courses);
-  console.log("Courses array length:", courses.length);
+  console.log("Subjects:", subjects.length);
+  console.log("Semesters:", semesters.length);
+  console.log("Divisions:", divisions.length);
+  console.log("Courses:", courses.length);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -200,17 +265,15 @@ const AssignmentForm = ({ onClose, assignment }) => {
           />
 
           <Controller
-            name="course"
+            name="subject"
             control={control}
-            rules={{ required: "Course is required" }}
+            rules={{ required: "Subject is required" }}
             render={({ field, fieldState: { error } }) => (
               <Autocomplete
                 {...field}
-                options={courses}
+                options={subjects}
                 getOptionLabel={(option) =>
-                  option.subject?.name && option.division?.name
-                    ? `${option.subject.name} (${option.division.name})`
-                    : ""
+                  option.name ? `${option.name} (${option.code})` : ""
                 }
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 onChange={(event, value) => field.onChange(value)}
@@ -218,7 +281,7 @@ const AssignmentForm = ({ onClose, assignment }) => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    label="Course"
+                    label="Subject"
                     margin="normal"
                     fullWidth
                     required
@@ -228,7 +291,137 @@ const AssignmentForm = ({ onClose, assignment }) => {
                       ...params.InputProps,
                       endAdornment: (
                         <>
-                          {coursesLoading ? (
+                          {facultyCoursesLoading ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            )}
+          />
+
+          <Controller
+            name="course"
+            control={control}
+            rules={{ required: "Course is required" }}
+            render={({ field, fieldState: { error } }) => (
+              <Autocomplete
+                {...field}
+                options={courses}
+                getOptionLabel={(option) =>
+                  option.subject?.name && option.division?.name
+                    ? `${option.subject.name} - ${option.division.name} (${
+                        option.semester?.semesterNumber || ""
+                      })`
+                    : ""
+                }
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                onChange={(event, value) => field.onChange(value)}
+                disabled={isEdit}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Final Course Selection"
+                    margin="normal"
+                    fullWidth
+                    required
+                    error={!!error}
+                    helperText={
+                      error
+                        ? error.message
+                        : "Select subject, semester, and division first to filter courses"
+                    }
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {facultyCoursesLoading ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            )}
+          />
+
+          <Controller
+            name="semester"
+            control={control}
+            rules={{ required: "Semester is required" }}
+            render={({ field, fieldState: { error } }) => (
+              <Autocomplete
+                {...field}
+                options={semesters}
+                getOptionLabel={(option) =>
+                  option.semesterNumber
+                    ? `Semester ${option.semesterNumber} (${
+                        option.department?.abbreviation || ""
+                      })`
+                    : ""
+                }
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                onChange={(event, value) => field.onChange(value)}
+                disabled={isEdit}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Semester"
+                    margin="normal"
+                    fullWidth
+                    required
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {facultyCoursesLoading ? (
+                            <CircularProgress color="inherit" size={20} />
+                          ) : null}
+                          {params.InputProps.endAdornment}
+                        </>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            )}
+          />
+
+          <Controller
+            name="division"
+            control={control}
+            rules={{ required: "Division is required" }}
+            render={({ field, fieldState: { error } }) => (
+              <Autocomplete
+                {...field}
+                options={divisions}
+                getOptionLabel={(option) => (option.name ? option.name : "")}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                onChange={(event, value) => field.onChange(value)}
+                disabled={isEdit}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Division"
+                    margin="normal"
+                    fullWidth
+                    required
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                    InputProps={{
+                      ...params.InputProps,
+                      endAdornment: (
+                        <>
+                          {facultyCoursesLoading ? (
                             <CircularProgress color="inherit" size={20} />
                           ) : null}
                           {params.InputProps.endAdornment}

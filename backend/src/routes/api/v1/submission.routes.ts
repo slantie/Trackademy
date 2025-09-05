@@ -7,6 +7,7 @@ import { Router } from "express";
 import { SubmissionController } from "../../../controllers/submission.controller";
 import { authenticate, authorize } from "../../../middlewares/auth.middleware";
 import { validate } from "../../../middlewares/validate.middleware";
+import { uploadSingle } from "../../../middlewares/upload.middleware";
 import {
   createSubmissionSchema,
   updateSubmissionSchema,
@@ -35,6 +36,15 @@ router
     authorize(Role.ADMIN),
     validate(submissionQuerySchema),
     SubmissionController.getAllSubmissions
+  );
+
+// Create submission with file upload
+router
+  .route("/upload")
+  .post(
+    authorize(Role.STUDENT),
+    uploadSingle("file"),
+    SubmissionController.createSubmissionWithFile
   );
 
 // Get submissions for a specific assignment (faculty view)

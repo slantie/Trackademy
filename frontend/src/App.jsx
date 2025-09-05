@@ -25,9 +25,25 @@ import DashboardHub from "./pages/DashboardHub";
 import AssignmentsPage from "./pages/faculty/AssignmentsPage";
 import AttendancePage from "./pages/faculty/AttendancePage";
 import SubmissionsPage from "./pages/faculty/SubmissionsPage";
+import FacultyAssignmentDetailsPage from "./pages/faculty/FacultyAssignmentDetailsPage";
+import ExamsPage from "./pages/admin/ExamsPage";
+import ExamResultsPage from "./pages/admin/ExamResultsPage";
+import StudentResultsPage from "./pages/student/StudentResultsPage";
+import UploadPage from "./pages/admin/UploadPage";
+import StudentAssignmentsPage from "./pages/student/StudentAssignmentsPage";
 
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 3,
+        refetchOnWindowFocus: false,
+      },
+      mutations: {
+        timeout: 300000, // 5 minutes timeout for mutations (especially file uploads)
+      },
+    },
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
@@ -42,9 +58,10 @@ function App() {
                       display: "flex",
                       flexDirection: "column",
                       minHeight: "100vh",
-                      background: (theme) => theme.palette.mode === 'dark' 
-                        ? 'linear-gradient(135deg, #1B1B1F 0%, #161618 100%)'
-                        : 'linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)',
+                      background: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "linear-gradient(135deg, #1B1B1F 0%, #161618 100%)"
+                          : "linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)",
                     }}
                   >
                     <Header />
@@ -61,9 +78,10 @@ function App() {
                       display: "flex",
                       flexDirection: "column",
                       minHeight: "100vh",
-                      background: (theme) => theme.palette.mode === 'dark' 
-                        ? 'linear-gradient(135deg, #1B1B1F 0%, #161618 100%)'
-                        : 'linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)',
+                      background: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "linear-gradient(135deg, #1B1B1F 0%, #161618 100%)"
+                          : "linear-gradient(135deg, #FFFFFF 0%, #F6F6F7 100%)",
                     }}
                   >
                     <Header />
@@ -90,12 +108,30 @@ function App() {
                   element={<AssignmentsPage />}
                 />
                 <Route
+                  path="/faculty/assignment/:id"
+                  element={<FacultyAssignmentDetailsPage />}
+                />
+                <Route
                   path="/faculty/attendance"
                   element={<AttendancePage />}
                 />
                 <Route
                   path="/faculty/submissions"
                   element={<SubmissionsPage />}
+                />
+                <Route path="/admin/exams" element={<ExamsPage />} />
+                <Route
+                  path="/admin/exams/:examId/results"
+                  element={<ExamResultsPage />}
+                />
+                <Route path="/admin/upload" element={<UploadPage />} />
+                <Route
+                  path="/student/results"
+                  element={<StudentResultsPage />}
+                />
+                <Route
+                  path="/student/assignments"
+                  element={<StudentAssignmentsPage />}
                 />
               </Route>
               <Route path="*" element={<NotFound />} />

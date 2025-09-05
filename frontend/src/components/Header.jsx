@@ -30,11 +30,13 @@ import {
   Dashboard as DashboardIcon,
   School as SchoolIcon,
   Assignment as AssignmentIcon,
+  Assessment as AssessmentIcon,
   Business as BusinessIcon,
   Groups as GroupsIcon,
   Person as PersonIcon,
   ExitToApp as LogoutIcon,
   Close as CloseIcon,
+  CloudUpload as UploadIcon,
 } from "@mui/icons-material";
 import { useAuth } from "../hooks/useAuth";
 import { useThemeMode } from "../contexts/ThemeContext";
@@ -46,7 +48,12 @@ const getNavItems = (role) => {
     case Role.STUDENT:
       return [
         { name: "Dashboard", path: "/dashboard", icon: DashboardIcon },
-        { name: "Assignments", path: "/assignments", icon: AssignmentIcon },
+        {
+          name: "Assignments",
+          path: "/student/assignments",
+          icon: AssignmentIcon,
+        },
+        { name: "Results", path: "/student/results", icon: AssessmentIcon },
         { name: "Certificates", path: "/certificates", icon: SchoolIcon },
         { name: "Internships", path: "/internships", icon: BusinessIcon },
       ];
@@ -59,6 +66,7 @@ const getNavItems = (role) => {
           path: "/faculty/assignment",
           icon: AssignmentIcon,
         },
+        { name: "Exams", path: "/admin/exams", icon: AssessmentIcon },
         {
           name: "Attendance",
           path: "/faculty/attendance",
@@ -78,6 +86,8 @@ const getNavItems = (role) => {
         { name: "Divisions", path: "/division", icon: SchoolIcon },
         { name: "Students", path: "/student", icon: SchoolIcon },
         { name: "Courses", path: "/course", icon: SchoolIcon },
+        { name: "Exams", path: "/admin/exams", icon: AssessmentIcon },
+        { name: "Upload", path: "/admin/upload", icon: UploadIcon },
       ];
     default:
       return [];

@@ -149,9 +149,7 @@ const UpcomingAssignmentsWidget = () => {
                 key={assignment.id}
                 divider
                 sx={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate(`/faculty/assignments/${assignment.id}`)
-                }
+                onClick={() => navigate(`/faculty/assignment/${assignment.id}`)}
               >
                 <ListItemText
                   primary={

@@ -78,7 +78,8 @@ const AttendancePage = () => {
     const file = event.target.files[0];
     if (!file) return;
 
-    if (!selectedCourse || !selectedDate.isValid()) {
+    const course = courses.find((c) => c.id === selectedCourse);
+    if (!course || !selectedDate.isValid()) {
       toast.error("Please select a course and date before uploading.");
       return;
     }
@@ -87,8 +88,19 @@ const AttendancePage = () => {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("courseId", selectedCourse);
-    formData.append("date", selectedDate.toISOString()); // Use ISO format for consistency
+    formData.append("academicYearId", course.semester.academicYear.id);
+    formData.append("departmentId", course.semester.department.id);
+    formData.append(
+      "semesterNumber",
+      course.semester.semesterNumber.toString()
+    );
+    formData.append("divisionId", course.division.id);
+    formData.append("subjectId", course.subject.id);
+    formData.append("lectureType", course.lectureType);
+    if (course.batch) {
+      formData.append("batch", course.batch);
+    }
+    formData.append("date", selectedDate.format("DD-MM-YYYY"));
 
     uploadAttendanceMutation.mutate(formData, {
       onSuccess: () => {

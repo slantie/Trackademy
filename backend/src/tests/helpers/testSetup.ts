@@ -17,8 +17,9 @@ export async function cleanDatabaseAndSeedAdmin(): Promise<void> {
     await prisma.submission.deleteMany({});
     await prisma.assignment.deleteMany({});
 
-    // 2. Delete attendance and exam results
+    // 2. Delete attendance and exam results (delete Result first as it references ExamResult)
     await prisma.attendance.deleteMany({});
+    await prisma.result.deleteMany({});
     await prisma.examResult.deleteMany({});
 
     // 3. Delete student enrollments, internships, and certificates
