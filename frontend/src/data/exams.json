@@ -1,0 +1,723 @@
+{
+  "colleges": [
+    {
+      "id": "c62v8k6v1d7m5x8q0l3s9t1u",
+      "name": "Global University of Science",
+      "abbreviation": "GUSC",
+      "website": "https://www.globaluni.edu",
+      "address": "1000 University Dr, Global City, GC 12345",
+      "contactNumber": "123-456-7890",
+      "isDeleted": false
+    },
+    {
+      "id": "c1f7q9w2e8r3t0y4u6i8o9p0",
+      "name": "Tech Innovations Institute",
+      "abbreviation": "TINI",
+      "website": "https://www.techi.edu",
+      "address": "500 Innovation Blvd, Tech Town, TT 54321",
+      "contactNumber": "987-654-3210",
+      "isDeleted": false
+    }
+  ],
+  "academic_years": [
+    {
+      "id": "c3t1u0v2w4x6y8z0a1b2c3d4",
+      "year": "2023-2024",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "c62v8k6v1d7m5x8q0l3s9t1u"
+    },
+    {
+      "id": "c5r7e9p1q3a5s7d9f0g2h4j6",
+      "year": "2024-2025",
+      "isActive": true,
+      "isDeleted": false,
+      "collegeId": "c62v8k6v1d7m5x8q0l3s9t1u"
+    },
+    {
+      "id": "b1n9m8l7k6j5h4g3f2d1s0a9",
+      "year": "2023-2024",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "c1f7q9w2e8r3t0y4u6i8o9p0"
+    },
+    {
+      "id": "b8v7c6x5z4q3w2e1r0t9y8u7",
+      "year": "2024-2025",
+      "isActive": true,
+      "isDeleted": false,
+      "collegeId": "c1f7q9w2e8r3t0y4u6i8o9p0"
+    }
+  ],
+  "departments": [
+    {
+      "id": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "name": "Computer Engineering",
+      "abbreviation": "CE",
+      "collegeId": "c62v8k6v1d7m5x8q0l3s9t1u",
+      "isDeleted": false
+    },
+    {
+      "id": "c0e2n4d6u8v0w2x4y6z8a0b2",
+      "name": "Electronics & Communication",
+      "abbreviation": "EC",
+      "collegeId": "c62v8k6v1d7m5x8q0l3s9t1u",
+      "isDeleted": false
+    },
+    {
+      "id": "a1b2c3d4e5f6g7h8i9j0k1l2",
+      "name": "Information Technology",
+      "abbreviation": "IT",
+      "collegeId": "c1f7q9w2e8r3t0y4u6i8o9p0",
+      "isDeleted": false
+    }
+  ],
+  "semesters": [
+    {
+      "id": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "academicYearId": "c5r7e9p1q3a5s7d9f0g2h4j6",
+      "isDeleted": false
+    },
+    {
+      "id": "d4g6j8m0p2s4v6y8b0d2f4h6",
+      "semesterNumber": 3,
+      "semesterType": "ODD",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "academicYearId": "c5r7e9p1q3a5s7d9f0g2h4j6",
+      "isDeleted": false
+    },
+    {
+      "id": "d7j9l1n3p5r7t9v1x3z5a7c9",
+      "semesterNumber": 5,
+      "semesterType": "ODD",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "academicYearId": "c5r7e9p1q3a5s7d9f0g2h4j6",
+      "isDeleted": false
+    },
+    {
+      "id": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "semesterNumber": 7,
+      "semesterType": "ODD",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "academicYearId": "c5r7e9p1q3a5s7d9f0g2h4j6",
+      "isDeleted": false
+    },
+    {
+      "id": "e1f2g3h4i5j6k7l8m9n0o1p2",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2",
+      "academicYearId": "b8v7c6x5z4q3w2e1r0t9y8u7",
+      "isDeleted": false
+    },
+    {
+      "id": "e3k5m7o9q1s3u5w7y9a1c3e5",
+      "semesterNumber": 3,
+      "semesterType": "ODD",
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2",
+      "academicYearId": "b8v7c6x5z4q3w2e1r0t9y8u7",
+      "isDeleted": false
+    }
+  ],
+  "divisions": [
+    {
+      "id": "f1g3h5i7j9k1l3m5n7o9p1q3",
+      "name": "A",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "isDeleted": false
+    },
+    {
+      "id": "f4h6j8l0n2p4r6t8v0x2z4a6",
+      "name": "B",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "isDeleted": false
+    },
+    {
+      "id": "g1h2i3j4k5l6m7n8o9p0q1r2",
+      "name": "A",
+      "semesterId": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "isDeleted": false
+    },
+    {
+      "id": "g4j6l8n0p2r4t6v8x0z2a4c6",
+      "name": "B",
+      "semesterId": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "isDeleted": false
+    },
+    {
+      "id": "h1i3j5k7l9m1n3o5p7q9r1s3",
+      "name": "A",
+      "semesterId": "e1f2g3h4i5j6k7l8m9n0o1p2",
+      "isDeleted": false
+    }
+  ],
+  "subjects": [
+    {
+      "id": "i1j3k5l7m9n1o3p5q7r9s1t3",
+      "name": "Intro to Programming",
+      "abbreviation": "IP",
+      "code": "CS101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1"
+    },
+    {
+      "id": "i4j6l8n0p2r4t6v8x0z2a4c6",
+      "name": "Calculus I",
+      "abbreviation": "CAL1",
+      "code": "MA101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1"
+    },
+    {
+      "id": "i7j9l1n3p5r7t9v1x3z5a7c9",
+      "name": "Data Structures",
+      "abbreviation": "DS",
+      "code": "CS201",
+      "type": "MANDATORY",
+      "semesterNumber": 3,
+      "isDeleted": false,
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1"
+    },
+    {
+      "id": "i0m2o4q6s8u0w2y4a6c8e0g2",
+      "name": "Machine Learning",
+      "abbreviation": "ML",
+      "code": "CS701",
+      "type": "ELECTIVE",
+      "semesterNumber": 7,
+      "isDeleted": false,
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1"
+    },
+    {
+      "id": "j1k2l3m4n5o6p7q8r9s0t1u2",
+      "name": "Web Development",
+      "abbreviation": "WEB",
+      "code": "IT101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2"
+    },
+    {
+      "id": "j4l6n8p0r2t4v6x8z0b2d4f6",
+      "name": "Database Management",
+      "abbreviation": "DBMS",
+      "code": "IT301",
+      "type": "MANDATORY",
+      "semesterNumber": 3,
+      "isDeleted": false,
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2"
+    }
+  ],
+  "users": [
+    {
+      "id": "c5s7e9t1a3r5d7f9g0h2j4k6",
+      "email": "admin@trackademy.com",
+      "password": "hashed_admin123",
+      "role": "ADMIN"
+    },
+    {
+      "id": "u1v3w5x7y9z1a3b5c7d9e1f3",
+      "email": "faculty1@ce.com",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u4y6a8d0g2j4m6p8s0v2x4z6",
+      "email": "faculty2@ec.com",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u7b9d1f3h5j7l9n1p3r5t7v9",
+      "email": "faculty3@it.com",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "v1w2x3y4z5a6b7c8d9e0f1g2",
+      "email": "student1@ce.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "v4y6a8c0e2g4i6k8m0o2q4s6",
+      "email": "student2@ce.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "v7b9d1f3h5j7l9n1p3r5t7v9",
+      "email": "student3@it.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "w0x1y2z3a4b5c6d7e8f9g0h1",
+      "email": "student4@ce.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "w3z5b7d9f1h3j5l7n9p1r3t5",
+      "email": "student5@it.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "x0y1z2a3b4c5d6e7f8g9h0i1",
+      "email": "student6@ce.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "x3a5c7e9g1i3k5m7o9q1s3u5",
+      "email": "student7@ce.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "y0z1a2b3c4d5e6f7g8h9i0j1",
+      "email": "student8@it.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "y3b5d7f9h1j3l5n7p9r1t3v5",
+      "email": "student9@ce.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "z0a1b2c3d4e5f6g7h8i9j0k1",
+      "email": "student10@ec.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    }
+  ],
+  "faculties": [
+    {
+      "id": "f1a2c3u4l5t6y7p8r9o0f1e2",
+      "fullName": "Prof. Alice Smith",
+      "designation": "PROFESSOR",
+      "abbreviation": "AS",
+      "joiningDate": "2021-01-15T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u1v3w5x7y9z1a3b5c7d9e1f3",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1"
+    },
+    {
+      "id": "f4o6g8r0m2n4j6k8l0i2h4g6",
+      "fullName": "Dr. Bob Johnson",
+      "designation": "ASST_PROFESSOR",
+      "abbreviation": "BJ",
+      "joiningDate": "2022-03-20T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u4y6a8d0g2j4m6p8s0v2x4z6",
+      "departmentId": "c0e2n4d6u8v0w2x4y6z8a0b2"
+    },
+    {
+      "id": "f7s9u1x3z5b7d9f1h3j5l7n9",
+      "fullName": "Dr. Carol White",
+      "designation": "HOD",
+      "abbreviation": "CW",
+      "joiningDate": "2020-07-01T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u7b9d1f3h5j7l9n1p3r5t7v9",
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2"
+    }
+  ],
+  "students": [
+    {
+      "id": "s1t3u5v7w9x1y3z5a7b9c1d3",
+      "enrollmentNumber": "ENRCE1001",
+      "fullName": "John Doe",
+      "batch": "B1",
+      "isDeleted": false,
+      "userId": "v1w2x3y4z5a6b7c8d9e0f1g2",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "divisionId": "f1g3h5i7j9k1l3m5n7o9p1q3"
+    },
+    {
+      "id": "s4v6x8z0b2d4f6h8j0l2n4p6",
+      "enrollmentNumber": "ENRCE1002",
+      "fullName": "Jane Smith",
+      "batch": "B1",
+      "isDeleted": false,
+      "userId": "v4y6a8c0e2g4i6k8m0o2q4s6",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "divisionId": "f1g3h5i7j9k1l3m5n7o9p1q3"
+    },
+    {
+      "id": "s7b9d1f3h5j7l9n1p3r5t7v9",
+      "enrollmentNumber": "ENRIT1001",
+      "fullName": "Mike White",
+      "batch": "B2",
+      "isDeleted": false,
+      "userId": "v7b9d1f3h5j7l9n1p3r5t7v9",
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2",
+      "semesterId": "e1f2g3h4i5j6k7l8m9n0o1p2",
+      "divisionId": "h1i3j5k7l9m1n3o5p7q9r1s3"
+    },
+    {
+      "id": "s0x1y2z3a4b5c6d7e8f9g0h1",
+      "enrollmentNumber": "ENRCE7001",
+      "fullName": "Alice Brown",
+      "batch": "B1",
+      "isDeleted": false,
+      "userId": "w0x1y2z3a4b5c6d7e8f9g0h1",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "semesterId": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "divisionId": "g1h2i3j4k5l6m7n8o9p0q1r2"
+    },
+    {
+      "id": "s3z5b7d9f1h3j5l7n9p1r3t5",
+      "enrollmentNumber": "ENRIT3001",
+      "fullName": "Bob Green",
+      "batch": "B1",
+      "isDeleted": false,
+      "userId": "w3z5b7d9f1h3j5l7n9p1r3t5",
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2",
+      "semesterId": "e3k5m7o9q1s3u5w7y9a1c3e5",
+      "divisionId": "h1i3j5k7l9m1n3o5p7q9r1s3"
+    },
+    {
+      "id": "s0a1b2c3d4e5f6g7h8i9j0k1",
+      "enrollmentNumber": "ENRCE1003",
+      "fullName": "Charlie Black",
+      "batch": "B2",
+      "isDeleted": false,
+      "userId": "x0y1z2a3b4c5d6e7f8g9h0i1",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "divisionId": "f4h6j8l0n2p4r6t8v0x2z4a6"
+    },
+    {
+      "id": "s3c5e7g9i1k3m5o7q9s1u3w5",
+      "enrollmentNumber": "ENRCE7002",
+      "fullName": "Diana Prince",
+      "batch": "B1",
+      "isDeleted": false,
+      "userId": "x3a5c7e9g1i3k5m7o9q1s3u5",
+      "departmentId": "c9x1y3z5a7b9c1d3e5f7g9h1",
+      "semesterId": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "divisionId": "g1h2i3j4k5l6m7n8o9p0q1r2"
+    },
+    {
+      "id": "s0a1b2c3d4e5f6g7h8i9j0k1",
+      "enrollmentNumber": "ENRIT1002",
+      "fullName": "Eve Adams",
+      "batch": "B2",
+      "isDeleted": false,
+      "userId": "y0z1a2b3c4d5e6f7g8h9i0j1",
+      "departmentId": "a1b2c3d4e5f6g7h8i9j0k1l2",
+      "semesterId": "e1f2g3h4i5j6k7l8m9n0o1p2",
+      "divisionId": "h1i3j5k7l9m1n3o5p7q9r1s3"
+    }
+  ],
+  "courses": [
+    {
+      "id": "c1o3u5r7s9e1t3u5v7w9x1y3",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "i1j3k5l7m9n1o3p5q7r9s1t3",
+      "facultyId": "f1a2c3u4l5t6y7p8r9o0f1e2",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "divisionId": "f1g3h5i7j9k1l3m5n7o9p1q3"
+    },
+    {
+      "id": "c4d6f8h0j2l4n6p8r0t2v4x6",
+      "lectureType": "PRACTICAL",
+      "batch": "B1",
+      "isDeleted": false,
+      "subjectId": "i1j3k5l7m9n1o3p5q7r9s1t3",
+      "facultyId": "f1a2c3u4l5t6y7p8r9o0f1e2",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "divisionId": "f1g3h5i7j9k1l3m5n7o9p1q3"
+    },
+    {
+      "id": "c7g9i1k3m5o7q9s1u3w5y7a9",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "i0m2o4q6s8u0w2y4a6c8e0g2",
+      "facultyId": "f1a2c3u4l5t6y7p8r9o0f1e2",
+      "semesterId": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "divisionId": "g1h2i3j4k5l6m7n8o9p0q1r2"
+    },
+    {
+      "id": "c0j2l4n6p8r0t2v4x6z8b0d2",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "j1k2l3m4n5o6p7q8r9s0t1u2",
+      "facultyId": "f7s9u1x3z5b7d9f1h3j5l7n9",
+      "semesterId": "e1f2g3h4i5j6k7l8m9n0o1p2",
+      "divisionId": "h1i3j5k7l9m1n3o5p7q9r1s3"
+    },
+    {
+      "id": "c3m5o7q9s1u3w5y7a9c1e3g5",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "j4l6n8p0r2t4v6x8z0b2d4f6",
+      "facultyId": "f7s9u1x3z5b7d9f1h3j5l7n9",
+      "semesterId": "e3k5m7o9q1s3u5w7y9a1c3e5",
+      "divisionId": "h1i3j5k7l9m1n3o5p7q9r1s3"
+    },
+    {
+      "id": "c6p8r0t2v4x6z8b0d2f4h6j8",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "i7j9l1n3p5r7t9v1x3z5a7c9",
+      "facultyId": "f1a2c3u4l5t6y7p8r9o0f1e2",
+      "semesterId": "d4g6j8m0p2s4v6y8b0d2f4h6",
+      "divisionId": "f1g3h5i7j9k1l3m5n7o9p1q3"
+    }
+  ],
+  "student_enrollments": [
+    {
+      "id": "e1n3r5o7l9l1m3e5n7t9x1y3",
+      "studentId": "s1t3u5v7w9x1y3z5a7b9c1d3",
+      "courseId": "c1o3u5r7s9e1t3u5v7w9x1y3"
+    },
+    {
+      "id": "e4r6o8l0l2e4n6t8x0z2b4d6",
+      "studentId": "s1t3u5v7w9x1y3z5a7b9c1d3",
+      "courseId": "c4d6f8h0j2l4n6p8r0t2v4x6"
+    },
+    {
+      "id": "e7l9n1o3l5e7n9t1z3b5d7f9",
+      "studentId": "s4v6x8z0b2d4f6h8j0l2n4p6",
+      "courseId": "c1o3u5r7s9e1t3u5v7w9x1y3"
+    },
+    {
+      "id": "e0o2q4s6u8w0y2a4c6e8g0i2",
+      "studentId": "s4v6x8z0b2d4f6h8j0l2n4p6",
+      "courseId": "c4d6f8h0j2l4n6p8r0t2v4x6"
+    },
+    {
+      "id": "e3s5u7w9y1a3c5e7g9i1k3m5",
+      "studentId": "s0x1y2z3a4b5c6d7e8f9g0h1",
+      "courseId": "c7g9i1k3m5o7q9s1u3w5y7a9"
+    },
+    {
+      "id": "e6v8x0z2b4d6f8h0j2l4n6p8",
+      "studentId": "s3c5e7g9i1k3m5o7q9s1u3w5",
+      "courseId": "c7g9i1k3m5o7q9s1u3w5y7a9"
+    },
+    {
+      "id": "e9y1a3c5e7g9i1k3m5o7q9s1",
+      "studentId": "s7b9d1f3h5j7l9n1p3r5t7v9",
+      "courseId": "c0j2l4n6p8r0t2v4x6z8b0d2"
+    },
+    {
+      "id": "e2b4d6f8h0j2l4n6p8r0t2v4",
+      "studentId": "s7b9d1f3h5j7l9n1p3r5t7v9",
+      "courseId": "c3m5o7q9s1u3w5y7a9c1e3g5"
+    },
+    {
+      "id": "e5g7i9k1m3o5q7s9u1w3y5a7",
+      "studentId": "s0a1b2c3d4e5f6g7h8i9j0k1",
+      "courseId": "c1o3u5r7s9e1t3u5v7w9x1y3"
+    },
+    {
+      "id": "e8j0l2n4p6r8t0v2x4z6b8d0",
+      "studentId": "s0a1b2c3d4e5f6g7h8i9j0k1",
+      "courseId": "c4d6f8h0j2l4n6p8r0t2v4x6"
+    },
+    {
+      "id": "e1k3m5o7q9s1u3w5y7a9c1e3",
+      "studentId": "s3z5b7d9f1h3j5l7n9p1r3t5",
+      "courseId": "c3m5o7q9s1u3w5y7a9c1e3g5"
+    },
+    {
+      "id": "e4n6p8r0t2v4x6z8b0d2f4h6",
+      "studentId": "s0x1y2z3a4b5c6d7e8f9g0h1",
+      "courseId": "c6p8r0t2v4x6z8b0d2f4h6j8"
+    }
+  ],
+  "exams": [
+    {
+      "id": "ex1a2m3b4c5d6e7f8g9h0i1j",
+      "name": "1ODD MIDTERM 2024-2025",
+      "examType": "MIDTERM",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "isPublished": true,
+      "isDeleted": false
+    },
+    {
+      "id": "ex4d6f8h0j2l4n6p8r0t2v4x",
+      "name": "1ODD FINAL 2024-2025",
+      "examType": "FINAL",
+      "semesterId": "d1e3f5g7h9i1j3k5l7m9n1o3",
+      "isPublished": true,
+      "isDeleted": false
+    },
+    {
+      "id": "ex7g9i1k3m5o7q9s1u3w5y7a",
+      "name": "7ODD MIDTERM 2024-2025",
+      "examType": "MIDTERM",
+      "semesterId": "d0m2o4q6s8u0w2y4a6c8e0g2",
+      "isPublished": false,
+      "isDeleted": false
+    },
+    {
+      "id": "ex0j2l4n6p8r0t2v4x6z8b0d",
+      "name": "1ODD MIDTERM 2024-2025",
+      "examType": "MIDTERM",
+      "semesterId": "e1f2g3h4i5j6k7l8m9n0o1p2",
+      "isPublished": true,
+      "isDeleted": false
+    },
+    {
+      "id": "ex3m5o7q9s1u3w5y7a9c1e3g",
+      "name": "3ODD FINAL 2024-2025",
+      "examType": "FINAL",
+      "semesterId": "e3k5m7o9q1s3u5w7y9a1c3e5",
+      "isPublished": true,
+      "isDeleted": false
+    }
+  ],
+  "exam_results": [
+    {
+      "id": "er1s3u5v7w9x1y3z5a7b9c1d",
+      "studentEnrollmentNumber": "ENRCE1001",
+      "spi": 8.5,
+      "cpi": 8.0,
+      "status": "PASS",
+      "studentId": "s1t3u5v7w9x1y3z5a7b9c1d3",
+      "examId": "ex1a2m3b4c5d6e7f8g9h0i1j"
+    },
+    {
+      "id": "er4v6x8z0b2d4f6h8j0l2n4p",
+      "studentEnrollmentNumber": "ENRCE1002",
+      "spi": 7.2,
+      "cpi": 7.5,
+      "status": "PASS",
+      "studentId": "s4v6x8z0b2d4f6h8j0l2n4p6",
+      "examId": "ex1a2m3b4c5d6e7f8g9h0i1j"
+    },
+    {
+      "id": "er7b9d1f3h5j7l9n1p3r5t7v",
+      "studentEnrollmentNumber": "ENRIT1001",
+      "spi": 6.8,
+      "cpi": 6.9,
+      "status": "TRIAL",
+      "studentId": "s7b9d1f3h5j7l9n1p3r5t7v9",
+      "examId": "ex0j2l4n6p8r0t2v4x6z8b0d"
+    },
+    {
+      "id": "er0x1y2z3a4b5c6d7e8f9g0h",
+      "studentEnrollmentNumber": "ENRCE7001",
+      "spi": 9.1,
+      "cpi": 9.0,
+      "status": "PASS",
+      "studentId": "s0x1y2z3a4b5c6d7e8f9g0h1",
+      "examId": "ex7g9i1k3m5o7q9s1u3w5y7a"
+    },
+    {
+      "id": "er3z5b7d9f1h3j5l7n9p1r3t",
+      "studentEnrollmentNumber": "ENRCE1001",
+      "spi": 7.8,
+      "cpi": 7.9,
+      "status": "PASS",
+      "studentId": "s1t3u5v7w9x1y3z5a7b9c1d3",
+      "examId": "ex4d6f8h0j2l4n6p8r0t2v4x"
+    },
+    {
+      "id": "er6c8e0g2j4l6n8p0r2t4v6x",
+      "studentEnrollmentNumber": "ENRIT3001",
+      "spi": 5.5,
+      "cpi": 6.0,
+      "status": "FAIL",
+      "studentId": "s3z5b7d9f1h3j5l7n9p1r3t5",
+      "examId": "ex3m5o7q9s1u3w5y7a9c1e3g"
+    },
+    {
+      "id": "er9f1h3j5l7n9p1r3t5v7x9z",
+      "studentEnrollmentNumber": "ENRCE7002",
+      "spi": 8.8,
+      "cpi": 8.7,
+      "status": "PASS",
+      "studentId": "s3c5e7g9i1k3m5o7q9s1u3w5",
+      "examId": "ex7g9i1k3m5o7q9s1u3w5y7a"
+    }
+  ],
+  "results": [
+    {
+      "id": "r1e3s5u7l9t1v3w5x7y9z1a3",
+      "grade": "A",
+      "credits": 4,
+      "examResultId": "er1s3u5v7w9x1y3z5a7b9c1d",
+      "subjectId": "i1j3k5l7m9n1o3p5q7r9s1t3"
+    },
+    {
+      "id": "r4e6s8u0l2t4v6w8x0y2z4a6",
+      "grade": "B+",
+      "credits": 3,
+      "examResultId": "er1s3u5v7w9x1y3z5a7b9c1d",
+      "subjectId": "i4j6l8n0p2r4t6v8x0z2a4c6"
+    },
+    {
+      "id": "r7e9s1u3l5t7v9w1x3y5z7a9",
+      "grade": "A-",
+      "credits": 4,
+      "examResultId": "er4v6x8z0b2d4f6h8j0l2n4p",
+      "subjectId": "i1j3k5l7m9n1o3p5q7r9s1t3"
+    },
+    {
+      "id": "r0t2v4x6z8b0d2f4h6j8l0n2",
+      "grade": "B",
+      "credits": 3,
+      "examResultId": "er4v6x8z0b2d4f6h8j0l2n4p",
+      "subjectId": "i4j6l8n0p2r4t6v8x0z2a4c6"
+    },
+    {
+      "id": "r3m5o7q9s1u3w5y7a9c1e3g5",
+      "grade": "B+",
+      "credits": 3,
+      "examResultId": "er7b9d1f3h5j7l9n1p3r5t7v",
+      "subjectId": "j1k2l3m4n5o6p7q8r9s0t1u2"
+    },
+    {
+      "id": "r6p8r0t2v4x6z8b0d2f4h6j8",
+      "grade": "A",
+      "credits": 4,
+      "examResultId": "er0x1y2z3a4b5c6d7e8f9g0h",
+      "subjectId": "i0m2o4q6s8u0w2y4a6c8e0g2"
+    },
+    {
+      "id": "r9s1u3w5y7a9c1e3g5i7k9m1",
+      "grade": "B",
+      "credits": 4,
+      "examResultId": "er3z5b7d9f1h3j5l7n9p1r3t",
+      "subjectId": "i1j3k5l7m9n1o3p5q7r9s1t3"
+    },
+    {
+      "id": "r2v4x6z8b0d2f4h6j8l0n2p4",
+      "grade": "C+",
+      "credits": 3,
+      "examResultId": "er6c8e0g2j4l6n8p0r2t4v6x",
+      "subjectId": "j4l6n8p0r2t4v6x8z0b2d4f6"
+    },
+    {
+      "id": "r5z7b9d1f3h5j7l9n1p3r5t7",
+      "grade": "A",
+      "credits": 3,
+      "examResultId": "er9f1h3j5l7n9p1r3t5v7x9z",
+      "subjectId": "i0m2o4q6s8u0w2y4a6c8e0g2"
+    }
+  ]
+}

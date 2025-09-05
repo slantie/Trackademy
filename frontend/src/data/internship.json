@@ -1,0 +1,1727 @@
+{
+  "colleges": [
+    {
+      "id": "cl5k6l7m8n9b0v1c2x3z4q5w",
+      "name": "Global Excellence College",
+      "abbreviation": "GEC",
+      "website": "https://www.gec.edu",
+      "address": "100 Visionary Way, Innovate City, CA 90210",
+      "contactNumber": "555-0101-0101",
+      "isDeleted": false
+    },
+    {
+      "id": "cl6r7t8y9u0i1o2p3a4s5d6f",
+      "name": "Tech Advancement Institute",
+      "abbreviation": "TAI",
+      "website": "https://www.tai.org",
+      "address": "200 Future Road, Techville, NY 10001",
+      "contactNumber": "555-0202-0202",
+      "isDeleted": false
+    },
+    {
+      "id": "cl7g8h9j0k1l2m3n4b5v6c7x",
+      "name": "National Innovation Hub",
+      "abbreviation": "NIH",
+      "website": "https://www.nih.org",
+      "address": "300 Research Park, Science City, TX 75001",
+      "contactNumber": "555-0303-0303",
+      "isDeleted": false
+    },
+    {
+      "id": "cl8j9k0l1m2n3b4v5c6x7z8q",
+      "name": "Continental University of Applied Sciences",
+      "abbreviation": "CUAS",
+      "website": "https://www.cuas.edu",
+      "address": "400 Discovery Drive, Metroburg, IL 60601",
+      "contactNumber": "555-0404-0404",
+      "isDeleted": false
+    }
+  ],
+  "academic_years": [
+    {
+      "id": "ay4n5b6v7c8x9z0q1w2e3r4t",
+      "year": "2021-2022",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w"
+    },
+    {
+      "id": "ay5t6y7u8i9o0p1a2s3d4f5g",
+      "year": "2022-2023",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w"
+    },
+    {
+      "id": "ay6u7i8o9p0a1s2d3f4g5h6j",
+      "year": "2023-2024",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w"
+    },
+    {
+      "id": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "year": "2024-2025",
+      "isActive": true,
+      "isDeleted": false,
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w"
+    },
+    {
+      "id": "ay8n9b0v1c2x3z4q5w6e7r8t",
+      "year": "2021-2022",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f"
+    },
+    {
+      "id": "ay9q0w1e2r3t4y5u6i7o8p9a",
+      "year": "2022-2023",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f"
+    },
+    {
+      "id": "ay0a1s2d3f4g5h6j7k8l9m0n",
+      "year": "2023-2024",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f"
+    },
+    {
+      "id": "ay1e2r3t4y5u6i7o8p9a0s1d",
+      "year": "2024-2025",
+      "isActive": true,
+      "isDeleted": false,
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f"
+    },
+    {
+      "id": "ay2f3g4h5j6k7l8m9n0b1v2c",
+      "year": "2021-2022",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl7g8h9j0k1l2m3n4b5v6c7x"
+    },
+    {
+      "id": "ay3h4j5k6l7m8n9b0v1c2x3z",
+      "year": "2022-2023",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl7g8h9j0k1l2m3n4b5v6c7x"
+    },
+    {
+      "id": "ay4k5l6m7n8b9v0c1x2z3q4w",
+      "year": "2023-2024",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl7g8h9j0k1l2m3n4b5v6c7x"
+    },
+    {
+      "id": "ay5n6b7v8c9x0z1q2w3e4r5t",
+      "year": "2024-2025",
+      "isActive": true,
+      "isDeleted": false,
+      "collegeId": "cl7g8h9j0k1l2m3n4b5v6c7x"
+    },
+    {
+      "id": "ay6q7w8e9r0t1y2u3i4o5p6a",
+      "year": "2021-2022",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "ay7t8y9u0i1o2p3a4s5d6f7g",
+      "year": "2022-2023",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "ay8w9e0r1t2y3u4i5o6p7a8s",
+      "year": "2023-2024",
+      "isActive": false,
+      "isDeleted": false,
+      "collegeId": "cl8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "ay9y0u1i2o3p4a5s6d7f8g9h",
+      "year": "2024-2025",
+      "isActive": true,
+      "isDeleted": false,
+      "collegeId": "cl8j9k0l1m2n3b4v5c6x7z8q"
+    }
+  ],
+  "departments": [
+    {
+      "id": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "name": "Software Engineering",
+      "abbreviation": "SWE",
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w",
+      "isDeleted": false
+    },
+    {
+      "id": "dp8i9o0p1a2s3d4f5g6h7j8k",
+      "name": "Computer Science",
+      "abbreviation": "CSE",
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w",
+      "isDeleted": false
+    },
+    {
+      "id": "dp9d0f1g2h3j4k5l6m7n8b9v",
+      "name": "Electronics & Communication",
+      "abbreviation": "ECE",
+      "collegeId": "cl5k6l7m8n9b0v1c2x3z4q5w",
+      "isDeleted": false
+    },
+    {
+      "id": "dp0e1r2t3y4u5i6o7p8a9s0d",
+      "name": "Information Technology",
+      "abbreviation": "IT",
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f",
+      "isDeleted": false
+    },
+    {
+      "id": "dp1f2g3h4j5k6l7m8n9b0v1c",
+      "name": "Mechanical Engineering",
+      "abbreviation": "ME",
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f",
+      "isDeleted": false
+    },
+    {
+      "id": "dp2h3j4k5l6m7n8b9v0c1x2z",
+      "name": "Civil Engineering",
+      "abbreviation": "CEV",
+      "collegeId": "cl6r7t8y9u0i1o2p3a4s5d6f",
+      "isDeleted": false
+    },
+    {
+      "id": "dp3k4l5m7n8b9v0c1x2z3q4w",
+      "name": "Physics",
+      "abbreviation": "PHY",
+      "collegeId": "cl7g8h9j0k1l2m3n4b5v6c7x",
+      "isDeleted": false
+    },
+    {
+      "id": "dp4n5b6v7c8x9z0q1w2e3r4t",
+      "name": "Chemistry",
+      "abbreviation": "CHM",
+      "collegeId": "cl7g8h9j0k1l2m3n4b5v6c7x",
+      "isDeleted": false
+    },
+    {
+      "id": "dp5q6w7e8r9t0y1u2i3o4p5a",
+      "name": "Mathematics",
+      "abbreviation": "MAT",
+      "collegeId": "cl8j9k0l1m2n3b4v5c6x7z8q",
+      "isDeleted": false
+    },
+    {
+      "id": "dp6s7d8f9g0h1j2k3l4z5x6c",
+      "name": "Architecture",
+      "abbreviation": "ARCH",
+      "collegeId": "cl8j9k0l1m2n3b4v5c6x7z8q",
+      "isDeleted": false
+    }
+  ],
+  "semesters": [
+    {
+      "id": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm1e2r3t4y5u6i7o8p9a0s1d",
+      "semesterNumber": 2,
+      "semesterType": "EVEN",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm2f3g4h5j6k7l8m9n0b1v2c",
+      "semesterNumber": 3,
+      "semesterType": "ODD",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm3h4j5k6l7m8n9b0v1c2x3z",
+      "semesterNumber": 4,
+      "semesterType": "EVEN",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm4k5l6m7n8b9v0c1x2z3q4w",
+      "semesterNumber": 5,
+      "semesterType": "ODD",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm5n6b7v8c9x0z1q2w3e4r5t",
+      "semesterNumber": 6,
+      "semesterType": "EVEN",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm6q7w8e9r0t1y2u3i4o5p6a",
+      "semesterNumber": 7,
+      "semesterType": "ODD",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm7t8y9u0i1o2p3a4s5d6f7g",
+      "semesterNumber": 8,
+      "semesterType": "EVEN",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm8w9e0r1t2y3u4i5o6p7a8s",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "dp8i9o0p1a2s3d4f5g6h7j8k",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm9y0u1i2o3p4a5s6d7f8g9h",
+      "semesterNumber": 5,
+      "semesterType": "ODD",
+      "departmentId": "dp8i9o0p1a2s3d4f5g6h7j8k",
+      "academicYearId": "ay7k8l9m0n1b2v3c4x5z6q7w",
+      "isDeleted": false
+    },
+    {
+      "id": "sm0s1d2f3g4h5j6k7l8z9x0c",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "dp0e1r2t3y4u5i6o7p8a9s0d",
+      "academicYearId": "ay1e2r3t4y5u6i7o8p9a0s1d",
+      "isDeleted": false
+    },
+    {
+      "id": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "semesterNumber": 3,
+      "semesterType": "ODD",
+      "departmentId": "dp0e1r2t3y4u5i6o7p8a9s0d",
+      "academicYearId": "ay1e2r3t4y5u6i7o8p9a0s1d",
+      "isDeleted": false
+    },
+    {
+      "id": "sm2y3u4i5o6p7a8s9d0f1g2h",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "dp3k4l5m7n8b9v0c1x2z3q4w",
+      "academicYearId": "ay5n6b7v8c9x0z1q2w3e4r5t",
+      "isDeleted": false
+    },
+    {
+      "id": "sm3b4v5c6x7z8q9w0e1r2t3y",
+      "semesterNumber": 2,
+      "semesterType": "EVEN",
+      "departmentId": "dp3k4l5m7n8b9v0c1x2z3q4w",
+      "academicYearId": "ay5n6b7v8c9x0z1q2w3e4r5t",
+      "isDeleted": false
+    },
+    {
+      "id": "sm4e5r6t7y8u9i0o1p2a3s4d",
+      "semesterNumber": 1,
+      "semesterType": "ODD",
+      "departmentId": "dp5q6w7e8r9t0y1u2i3o4p5a",
+      "academicYearId": "ay9y0u1i2o3p4a5s6d7f8g9h",
+      "isDeleted": false
+    },
+    {
+      "id": "sm5g6h7j8k9l0m1n2b3v4c5x",
+      "semesterNumber": 4,
+      "semesterType": "EVEN",
+      "departmentId": "dp6s7d8f9g0h1j2k3l4z5x6c",
+      "academicYearId": "ay9y0u1i2o3p4a5s6d7f8g9h",
+      "isDeleted": false
+    }
+  ],
+  "divisions": [
+    {
+      "id": "dv0p1a2s3d4f5g6h7j8k9l0m",
+      "name": "A",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "isDeleted": false
+    },
+    {
+      "id": "dv1s2d3f4g5h6j7k8l9m0n1b",
+      "name": "B",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "isDeleted": false
+    },
+    {
+      "id": "dv2f3g4h5j6k7l8m9n0b1v2c",
+      "name": "C",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "isDeleted": false
+    },
+    {
+      "id": "dv3h4j5k6l7m8n9b0v1c2x3z",
+      "name": "A",
+      "semesterId": "sm2f3g4h5j6k7l8m9n0b1v2c",
+      "isDeleted": false
+    },
+    {
+      "id": "dv4k5l6m7n8b9v0c1x2z3q4w",
+      "name": "B",
+      "semesterId": "sm2f3g4h5j6k7l8m9n0b1v2c",
+      "isDeleted": false
+    },
+    {
+      "id": "dv5n6b7v8c9x0z1q2w3e4r5t",
+      "name": "A",
+      "semesterId": "sm6q7w8e9r0t1y2u3i4o5p6a",
+      "isDeleted": false
+    },
+    {
+      "id": "dv6q7w8e9r0t1y2u3i4o5p6a",
+      "name": "B",
+      "semesterId": "sm6q7w8e9r0t1y2u3i4o5p6a",
+      "isDeleted": false
+    },
+    {
+      "id": "dv7t8y9u0i1o2p3a4s5d6f7g",
+      "name": "A",
+      "semesterId": "sm8w9e0r1t2y3u4i5o6p7a8s",
+      "isDeleted": false
+    },
+    {
+      "id": "dv8w9e0r1t2y3u4i5o6p7a8s",
+      "name": "B",
+      "semesterId": "sm8w9e0r1t2y3u4i5o6p7a8s",
+      "isDeleted": false
+    },
+    {
+      "id": "dv9z0b1v2c3x4z5q6w7e8r9t",
+      "name": "A",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8z9x0c",
+      "isDeleted": false
+    },
+    {
+      "id": "dv0t1y2u3i4o5p6a7s8d9f0g",
+      "name": "B",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8z9x0c",
+      "isDeleted": false
+    },
+    {
+      "id": "dv1f2g3h4j5k6l7m8n9b0v1c",
+      "name": "A",
+      "semesterId": "sm2y3u4i5o6p7a8s9d0f1g2h",
+      "isDeleted": false
+    },
+    {
+      "id": "dv2h3j4k5l6m7n8b9v0c1x2z",
+      "name": "B",
+      "semesterId": "sm2y3u4i5o6p7a8s9d0f1g2h",
+      "isDeleted": false
+    },
+    {
+      "id": "dv3k4l5m7n8b9v0c1x2z3q4w",
+      "name": "A",
+      "semesterId": "sm4e5r6t7y8u9i0o1p2a3s4d",
+      "isDeleted": false
+    },
+    {
+      "id": "dv4n5b6v7c8x9z0q1w2e3r4t",
+      "name": "B",
+      "semesterId": "sm4e5r6t7y8u9i0o1p2a3s4d",
+      "isDeleted": false
+    }
+  ],
+  "subjects": [
+    {
+      "id": "su0a1s2d3f4g5h6j7k8l9m0n",
+      "name": "Object-Oriented Programming",
+      "abbreviation": "OOP",
+      "code": "SWE101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "su1e2r3t4y5u6i7o8p9a0s1d",
+      "name": "Software Testing",
+      "abbreviation": "ST",
+      "code": "SWE301",
+      "type": "MANDATORY",
+      "semesterNumber": 3,
+      "isDeleted": false,
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "su2f3g4h5j6k7l8m9n0b1v2c",
+      "name": "Data Structures",
+      "abbreviation": "DS",
+      "code": "CSE101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "dp8i9o0p1a2s3d4f5g6h7j8k"
+    },
+    {
+      "id": "su3h4j5k6l7m8n9b0v1c2x3z",
+      "name": "Digital Communication",
+      "abbreviation": "DCOM",
+      "code": "ECE501",
+      "type": "MANDATORY",
+      "semesterNumber": 5,
+      "isDeleted": false,
+      "departmentId": "dp9d0f1g2h3j4k5l6m7n8b9v"
+    },
+    {
+      "id": "su4k5l6m7n8b9v0c1x2z3q4w",
+      "name": "Web Technologies",
+      "abbreviation": "WEB",
+      "code": "IT101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "dp0e1r2t3y4u5i6o7p8a9s0d"
+    },
+    {
+      "id": "su5n6b7v8c9x0z1q2w3e4r5t",
+      "name": "Thermodynamics",
+      "abbreviation": "THM",
+      "code": "ME301",
+      "type": "MANDATORY",
+      "semesterNumber": 3,
+      "isDeleted": false,
+      "departmentId": "dp1f2g3h4j5k6l7m8n9b0v1c"
+    },
+    {
+      "id": "su6q7w8e9r0t1y2u3i4o5p6a",
+      "name": "Structural Analysis",
+      "abbreviation": "SA",
+      "code": "CEV501",
+      "type": "MANDATORY",
+      "semesterNumber": 5,
+      "isDeleted": false,
+      "departmentId": "dp2h3j4k5l6m7n8b9v0c1x2z"
+    },
+    {
+      "id": "su7t8y9u0i1o2p3a4s5d6f7g",
+      "name": "Quantum Mechanics",
+      "abbreviation": "QM",
+      "code": "PHY701",
+      "type": "ELECTIVE",
+      "semesterNumber": 7,
+      "isDeleted": false,
+      "departmentId": "dp3k4l5m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "su8w9e0r1t2y3u4i5o6p7a8s",
+      "name": "Inorganic Chemistry",
+      "abbreviation": "INCH",
+      "code": "CHM301",
+      "type": "MANDATORY",
+      "semesterNumber": 3,
+      "isDeleted": false,
+      "departmentId": "dp4n5b6v7c8x9z0q1w2e3r4t"
+    },
+    {
+      "id": "su9y0u1i2o3p4a5s6d7f8g9h",
+      "name": "Linear Algebra",
+      "abbreviation": "LA",
+      "code": "MAT101",
+      "type": "MANDATORY",
+      "semesterNumber": 1,
+      "isDeleted": false,
+      "departmentId": "dp5q6w7e8r9t0y1u2i3o4p5a"
+    }
+  ],
+  "users": [
+    {
+      "id": "u0s1d2f3g4h5j6k7l8m9n0b1",
+      "email": "admin@trackademy.com",
+      "password": "hashed_admin123",
+      "role": "ADMIN"
+    },
+    {
+      "id": "u1e2r3t4y5u6i7o8p9a0s1d2",
+      "email": "prof.software@gec.edu",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u2f3g4h5j6k7l8m9n0b1v2c3",
+      "email": "dr.cs@gec.edu",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u3h4j5k6l7m8n9b0v1c2x3z4",
+      "email": "prof.it@tai.org",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u4k5l6m7n8b9v0c1x2z3q4w5",
+      "email": "dr.civil@tai.org",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u5n6b7v8c9x0z1q2w3e4r5t6",
+      "email": "prof.physics@nih.org",
+      "password": "hashed_faculty123",
+      "role": "FACULTY"
+    },
+    {
+      "id": "u6q7w8e9r0t1y2u3i4o5p6a7",
+      "email": "student1@swe.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u7t8y9u0i1o2p3a4s5d6f7g8",
+      "email": "student2@swe.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u8w9e0r1t2y3u4i5o6p7a8s9",
+      "email": "student3@cse.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u9y0u1i2o3p4a5s6d7f8g9h0",
+      "email": "student4@ece.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u0i1o2p3a4s5d6f7g8h9j0k1",
+      "email": "student5@it.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u1k2l3m4n5o6p7a8s9d0f1g2",
+      "email": "student6@me.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u2m3n4o5p6a7s8d9f0g1h2j3",
+      "email": "student7@cev.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u3o4p5a6s7d8f9g0h1j2k3l4",
+      "email": "student8@phy.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u4p5a6s7d8f9g0h1j2k3l4m5",
+      "email": "student9@chm.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u5s6d7f8g9h0j1k2l3m4n5o6",
+      "email": "student10@mat.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u6f7g8h9j0k1l2m3n4o5p6a7",
+      "email": "student11@arch.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u7h8j9k0l1m2n3o4p5a6s7d8",
+      "email": "student12@swe.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u8k9l0m1n2o3p4a5s6d7f8g9",
+      "email": "student13@cse.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u9n0o1p2a3s4d5f6g7h8j9k0",
+      "email": "student14@it.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u0p1a2s3d4f5g6h7j8k9l0m1",
+      "email": "student15@me.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u1s2d3f4g5h6j7k8l9m0n1b2",
+      "email": "student16@cev.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u2v3c4x5z6q7w8e9r0t1y2u3",
+      "email": "student17@phy.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    },
+    {
+      "id": "u3y4u5i6o7p8a9s0d1f2g3h4",
+      "email": "student18@chm.com",
+      "password": "hashed_student123",
+      "role": "STUDENT"
+    }
+  ],
+  "faculties": [
+    {
+      "id": "fa0g1h2j3k4l5m6n7b8v9c0x",
+      "fullName": "Prof. Alan Turing",
+      "designation": "PROFESSOR",
+      "abbreviation": "AT",
+      "joiningDate": "2018-01-01T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u1e2r3t4y5u6i7o8p9a0s1d2",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "fa1j2k3l4m5n6b7v8c9x0z1q",
+      "fullName": "Dr. Grace Hopper",
+      "designation": "HOD",
+      "abbreviation": "GH",
+      "joiningDate": "2017-05-15T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u2f3g4h5j6k7l8m9n0b1v2c3",
+      "departmentId": "dp8i9o0p1a2s3d4f5g6h7j8k"
+    },
+    {
+      "id": "fa2m3n4b5v6c7x8z9q0w1e2r",
+      "fullName": "Prof. Bill Gates",
+      "designation": "PROFESSOR",
+      "abbreviation": "BG",
+      "joiningDate": "2019-11-01T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u3h4j5k6l7m8n9b0v1c2x3z4",
+      "departmentId": "dp0e1r2t3y4u5i6o7p8a9s0d"
+    },
+    {
+      "id": "fa3p4a5s6d7f8g9h0j1k2l3m",
+      "fullName": "Dr. Marie Curie",
+      "designation": "ASST_PROFESSOR",
+      "abbreviation": "MC",
+      "joiningDate": "2023-01-01T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u4k5l6m7n8b9v0c1x2z3q4w5",
+      "departmentId": "dp2h3j4k5l6m7n8b9v0c1x2z"
+    },
+    {
+      "id": "fa4s5d6f7g8h9j0k1l2m3n4b",
+      "fullName": "Prof. Albert Einstein",
+      "designation": "PROFESSOR",
+      "abbreviation": "AE",
+      "joiningDate": "2010-09-01T00:00:00.000Z",
+      "isDeleted": false,
+      "userId": "u5n6b7v8c9x0z1q2w3e4r5t6",
+      "departmentId": "dp3k4l5m7n8b9v0c1x2z3q4w"
+    }
+  ],
+  "students": [
+    {
+      "id": "sd0e1r2t3y4u5i6o7p8a9s0d",
+      "enrollmentNumber": "SWE24001",
+      "fullName": "Oliver Queen",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u6q7w8e9r0t1y2u3i4o5p6a7",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "divisionId": "dv0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "sd1f2g3h4j5k6l7m8n9b0v1c",
+      "enrollmentNumber": "SWE24002",
+      "fullName": "Felicity Smoak",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u7t8y9u0i1o2p3a4s5d6f7g8",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "divisionId": "dv1s2d3f4g5h6j7k8l9m0n1b"
+    },
+    {
+      "id": "sd2h3j4k5l6m7n8b9v0c1x2z",
+      "enrollmentNumber": "CSE24001",
+      "fullName": "Barry Allen",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u8w9e0r1t2y3u4i5o6p7a8s9",
+      "departmentId": "dp8i9o0p1a2s3d4f5g6h7j8k",
+      "semesterId": "sm8w9e0r1t2y3u4i5o6p7a8s",
+      "divisionId": "dv7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "sd3k4l5m7n8b9v0c1x2z3q4w",
+      "enrollmentNumber": "ECE24001",
+      "fullName": "Iris West",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u9y0u1i2o3p4a5s6d7f8g9h0",
+      "departmentId": "dp9d0f1g2h3j4k5l6m7n8b9v",
+      "semesterId": "sm4k5l6m7n8b9v0c1x2z3q4w",
+      "divisionId": "dv4k5l6m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "sd4n5b6v7c8x9z0q1w2e3r4t",
+      "enrollmentNumber": "IT24001",
+      "fullName": "Caitlin Snow",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u0i1o2p3a4s5d6f7g8h9j0k1",
+      "departmentId": "dp0e1r2t3y4u5i6o7p8a9s0d",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8z9x0c",
+      "divisionId": "dv9z0b1v2c3x4z5q6w7e8r9t"
+    },
+    {
+      "id": "sd5q6w7e8r9t0y1u2i3o4p5a",
+      "enrollmentNumber": "ME24001",
+      "fullName": "Cisco Ramon",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u1k2l3m4n5o6p7a8s9d0f1g2",
+      "departmentId": "dp1f2g3h4j5k6l7m8n9b0v1c",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "sd6s7d8f9g0h1j2k3l4z5x6c",
+      "enrollmentNumber": "CEV24001",
+      "fullName": "Harrison Wells",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u2m3n4o5p6a7s8d9f0g1h2j3",
+      "departmentId": "dp2h3j4k5l6m7n8b9v0c1x2z",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "sd7f8g9h0j1k2l3m4n5b6v7c",
+      "enrollmentNumber": "PHY24001",
+      "fullName": "Ronnie Raymond",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u3o4p5a6s7d8f9g0h1j2k3l4",
+      "departmentId": "dp3k4l5m7n8b9v0c1x2z3q4w",
+      "semesterId": "sm2y3u4i5o6p7a8s9d0f1g2h",
+      "divisionId": "dv1f2g3h4j5k6l7m8n9b0v1c"
+    },
+    {
+      "id": "sd8j9k0l1m2n3b4v5c6x7z8q",
+      "enrollmentNumber": "CHM24001",
+      "fullName": "Amunet Black",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u4p5a6s7d8f9g0h1j2k3l4m5",
+      "departmentId": "dp4n5b6v7c8x9z0q1w2e3r4t",
+      "semesterId": "sm5g6h7j8k9l0m1n2b3v4c5x",
+      "divisionId": "dv4n5b6v7c8x9z0q1w2e3r4t"
+    },
+    {
+      "id": "sd9q0w1e2r3t4y5u6i7o8p9a",
+      "enrollmentNumber": "MAT24001",
+      "fullName": "Clifford DeVoe",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u5s6d7f8g9h0j1k2l3m4n5o6",
+      "departmentId": "dp5q6w7e8r9t0y1u2i3o4p5a",
+      "semesterId": "sm4e5r6t7y8u9i0o1p2a3s4d",
+      "divisionId": "dv3k4l5m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "sd0s1d2f3g4h5j6k7l8z9x0c",
+      "enrollmentNumber": "ARCH24001",
+      "fullName": "Eobard Thawne",
+      "batch": "2024",
+      "isDeleted": false,
+      "userId": "u6f7g8h9j0k1l2m3n4o5p6a7",
+      "departmentId": "dp6s7d8f9g0h1j2k3l4z5x6c",
+      "semesterId": "sm5g6h7j8k9l0m1n2b3v4c5x",
+      "divisionId": "dv4n5b6v7c8x9z0q1w2e3r4t"
+    },
+    {
+      "id": "sd1e2r3t4y5u6i7o8p9a0s1d",
+      "enrollmentNumber": "SWE23001",
+      "fullName": "Arthur Curry",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u7h8j9k0l1m2n3o4p5a6s7d8",
+      "departmentId": "dp7t8y9u0i1o2p3a4s5d6f7g",
+      "semesterId": "sm2f3g4h5j6k7l8m9n0b1v2c",
+      "divisionId": "dv3h4j5k6l7m8n9b0v1c2x3z"
+    },
+    {
+      "id": "sd2f3g4h5j6k7l8m9n0b1v2c",
+      "enrollmentNumber": "CSE23002",
+      "fullName": "Bruce Wayne",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u8k9l0m1n2o3p4a5s6d7f8g9",
+      "departmentId": "dp8i9o0p1a2s3d4f5g6h7j8k",
+      "semesterId": "sm9y0u1i2o3p4a5s6d7f8g9h",
+      "divisionId": "dv7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "sd3h4j5k6l7m8n9b0v1c2x3z",
+      "enrollmentNumber": "IT23001",
+      "fullName": "Clark Kent",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u9n0o1p2a3s4d5f6g7h8j9k0",
+      "departmentId": "dp0e1r2t3y4u5i6o7p8a9s0d",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "sd4k5l6m7n8b9v0c1x2z3q4w",
+      "enrollmentNumber": "ME23001",
+      "fullName": "Diana Prince",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u0p1a2s3d4f5g6h7j8k9l0m1",
+      "departmentId": "dp1f2g3h4j5k6l7m8n9b0v1c",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "sd5n6b7v8c9x0z1q2w3e4r5t",
+      "enrollmentNumber": "CIVIL23001",
+      "fullName": "Hal Jordan",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u1s2d3f4g5h6j7k8l9m0n1b2",
+      "departmentId": "dp2h3j4k5l6m7n8b9v0c1x2z",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "sd6q7w8e9r0t1y2u3i4o5p6a",
+      "enrollmentNumber": "PHY23001",
+      "fullName": "Victor Stone",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u2v3c4x5z6q7w8e9r0t1y2u3",
+      "departmentId": "dp3k4l5m7n8b9v0c1x2z3q4w",
+      "semesterId": "sm3b4v5c6x7z8q9w0e1r2t3y",
+      "divisionId": "dv1f2g3h4j5k6l7m8n9b0v1c"
+    },
+    {
+      "id": "sd7t8y9u0i1o2p3a4s5d6f7g",
+      "enrollmentNumber": "CHM23001",
+      "fullName": "Wally West",
+      "batch": "2023",
+      "isDeleted": false,
+      "userId": "u3y4u5i6o7p8a9s0d1f2g3h4",
+      "departmentId": "dp4n5b6v7c8x9z0q1w2e3r4t",
+      "semesterId": "sm5g6h7j8k9l0m1n2b3v4c5x",
+      "divisionId": "dv4n5b6v7c8c9x0z1q2w3e4r5t"
+    }
+  ],
+  "courses": [
+    {
+      "id": "cs0p1a2s3d4f5g6h7j8k9l0m",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su0a1s2d3f4g5h6j7k8l9m0n",
+      "facultyId": "fa0g1h2j3k4l5m6n7b8v9c0x",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "divisionId": "dv0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "cs1s2d3f4g5h6j7k8l9m0n1b",
+      "lectureType": "PRACTICAL",
+      "batch": "A",
+      "isDeleted": false,
+      "subjectId": "su0a1s2d3f4g5h6j7k8l9m0n",
+      "facultyId": "fa0g1h2j3k4l5m6n7b8v9c0x",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8m9n0b",
+      "divisionId": "dv0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "cs2v3c4x5z6q7w8e9r0t1y2u",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su1e2r3t4y5u6i7o8p9a0s1d",
+      "facultyId": "fa0g1h2j3k4l5m6n7b8v9c0x",
+      "semesterId": "sm2f3g4h5j6k7l8m9n0b1v2c",
+      "divisionId": "dv3h4j5k6l7m8n9b0v1c2x3z"
+    },
+    {
+      "id": "cs3e4r5t6y7u8i9o0p1a2s3d",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su2f3g4h5j6k7l8m9n0b1v2c",
+      "facultyId": "fa1j2k3l4m5n6b7v8c9x0z1q",
+      "semesterId": "sm8w9e0r1t2y3u4i5o6p7a8s",
+      "divisionId": "dv7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "cs4h5j6k7l8m9n0b1v2c3x4z",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su3h4j5k6l7m8n9b0v1c2x3z",
+      "facultyId": "fa2m3n4b5v6c7x8z9q0w1e2r",
+      "semesterId": "sm4k5l6m7n8b9v0c1x2z3q4w",
+      "divisionId": "dv4k5l6m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "cs5q6w7e8r9t0y1u2i3o4p5a",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su4k5l6m7n8b9v0c1x2z3q4w",
+      "facultyId": "fa2m3n4b5v6c7x8z9q0w1e2r",
+      "semesterId": "sm0s1d2f3g4h5j6k7l8z9x0c",
+      "divisionId": "dv9z0b1v2c3x4z5q6w7e8r9t"
+    },
+    {
+      "id": "cs6s7d8f9g0h1j2k3l4z5x6c",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su5n6b7v8c9x0z1q2w3e4r5t",
+      "facultyId": "fa3p4a5s6d7f8g9h0j1k2l3m",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "cs7f8g9h0j1k2l3m4n5b6v7c",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su6q7w8e9r0t1y2u3i4o5p6a",
+      "facultyId": "fa3p4a5s6d7f8g9h0j1k2l3m",
+      "semesterId": "sm1x2c3v4b5n6m7q8w9e0r1t",
+      "divisionId": "dv0t1y2u3i4o5p6a7s8d9f0g"
+    },
+    {
+      "id": "cs8j9k0l1m2n3b4v5c6x7z8q",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su7t8y9u0i1o2p3a4s5d6f7g",
+      "facultyId": "fa4s5d6f7g8h9j0k1l2m3n4b",
+      "semesterId": "sm6q7w8e9r0t1y2u3i4o5p6a",
+      "divisionId": "dv5n6b7v8c9x0z1q2w3e4r5t"
+    },
+    {
+      "id": "cs9q0w1e2r3t4y5u6i7o8p9a",
+      "lectureType": "THEORY",
+      "batch": null,
+      "isDeleted": false,
+      "subjectId": "su8w9e0r1t2y3u4i5o6p7a8s",
+      "facultyId": "fa4s5d6f7g8h9j0k1l2m3n4b",
+      "semesterId": "sm3b4v5c6x7z8q9w0e1r2t3y",
+      "divisionId": "dv1f2g3h4j5k6l7m8n9b0v1c"
+    }
+  ],
+  "student_enrollments": [
+    {
+      "id": "se0e1r2t3y4u5i6o7p8a9s0d",
+      "studentId": "sd0e1r2t3y4u5i6o7p8a9s0d",
+      "courseId": "cs0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "se1f2g3h4j5k6l7m8n9b0v1c",
+      "studentId": "sd0e1r2t3y4u5i6o7p8a9s0d",
+      "courseId": "cs1s2d3f4g5h6j7k8l9m0n1b"
+    },
+    {
+      "id": "se2h3j4k5l6m7n8b9v0c1x2z",
+      "studentId": "sd1f2g3h4j5k6l7m8n9b0v1c",
+      "courseId": "cs0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "se3k4l5m7n8b9v0c1x2z3q4w",
+      "studentId": "sd1f2g3h4j5k6l7m8n9b0v1c",
+      "courseId": "cs1s2d3f4g5h6j7k8l9m0n1b"
+    },
+    {
+      "id": "se4n5b6v7c8x9z0q1w2e3r4t",
+      "studentId": "sd2h3j4k5l6m7n8b9v0c1x2z",
+      "courseId": "cs3e4r5t6y7u8i9o0p1a2s3d"
+    },
+    {
+      "id": "se5q6w7e8r9t0y1u2i3o4p5a",
+      "studentId": "sd3k4l5m7n8b9v0c1x2z3q4w",
+      "courseId": "cs4h5j6k7l8m9n0b1v2c3x4z"
+    },
+    {
+      "id": "se6s7d8f9g0h1j2k3l4z5x6c",
+      "studentId": "sd4n5b6v7c8x9z0q1w2e3r4t",
+      "courseId": "cs5q6w7e8r9t0y1u2i3o4p5a"
+    },
+    {
+      "id": "se7f8g9h0j1k2l3m4n5b6v7c",
+      "studentId": "sd5q6w7e8r9t0y1u2i3o4p5a",
+      "courseId": "cs6s7d8f9g0h1j2k3l4z5x6c"
+    },
+    {
+      "id": "se8j9k0l1m2n3b4v5c6x7z8q",
+      "studentId": "sd6s7d8f9g0h1j2k3l4z5x6c",
+      "courseId": "cs7f8g9h0j1k2l3m4n5b6v7c"
+    },
+    {
+      "id": "se9q0w1e2r3t4y5u6i7o8p9a",
+      "studentId": "sd7f8g9h0j1k2l3m4n5b6v7c",
+      "courseId": "cs8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "se0s1d2f3g4h5j6k7l8z9x0c",
+      "studentId": "sd8j9k0l1m2n3b4v5c6x7z8q",
+      "courseId": "cs9q0w1e2r3t4y5u6i7o8p9a"
+    },
+    {
+      "id": "se1e2r3t4y5u6i7o8p9a0s1d",
+      "studentId": "sd9q0w1e2r3t4y5u6i7o8p9a",
+      "courseId": "cs9q0w1e2r3t4y5u6i7o8p9a"
+    },
+    {
+      "id": "se2f3g4h5j6k7l8m9n0b1v2c",
+      "studentId": "sd0s1d2f3g4h5j6k7l8z9x0c",
+      "courseId": "cs8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "se3h4j5k6l7m8n9b0v1c2x3z",
+      "studentId": "sd1e2r3t4y5u6i7o8p9a0s1d",
+      "courseId": "cs0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "se4k5l6m7n8b9v0c1x2z3q4w",
+      "studentId": "sd2f3g4h5j6k7l8m9n0b1v2c",
+      "courseId": "cs3e4r5t6y7u8i9o0p1a2s3d"
+    },
+    {
+      "id": "se5n6b7v8c9x0z1q2w3e4r5t",
+      "studentId": "sd3h4j5k6l7m8n9b0v1c2x3z",
+      "courseId": "cs4h5j6k7l8m9n0b1v2c3x4z"
+    },
+    {
+      "id": "se6q7w8e9r0t1y2u3i4o5p6a",
+      "studentId": "sd4k5l6m7n8b9v0c1x2z3q4w",
+      "courseId": "cs5q6w7e8r9t0y1u2i3o4p5a"
+    },
+    {
+      "id": "se7t8y9u0i1o2p3a4s5d6f7g",
+      "studentId": "sd5n6b7v8c9x0z1q2w3e4r5t",
+      "courseId": "cs6s7d8f9g0h1j2k3l4z5x6c"
+    },
+    {
+      "id": "se8w9e0r1t2y3u4i5o6p7a8s",
+      "studentId": "sd6q7w8e9r0t1y2u3i4o5p6a",
+      "courseId": "cs7f8g9h0j1k2l3m4n5b6v7c"
+    },
+    {
+      "id": "se9y0u1i2o3p4a5s6d7f8g9h",
+      "studentId": "sd7f8g9h0j1k2l3m4n5b6v7c",
+      "courseId": "cs8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "se0i1o2p3a4s5d6f7g8h9j0k",
+      "studentId": "sd8j9k0l1m2n3b4v5c6x7z8q",
+      "courseId": "cs9q0w1e2r3t4y5u6i7o8p9a"
+    },
+    {
+      "id": "se1k2l3m4n5o6p7a8s9d0f1g",
+      "studentId": "sd9q0w1e2r3t4y5u6i7o8p9a",
+      "courseId": "cs0p1a2s3d4f5g6h7j8k9l0m"
+    },
+    {
+      "id": "se2m3n4o5p6a7s8d9f0g1h2j",
+      "studentId": "sd0s1d2f3g4h5j6k7l8z9x0c",
+      "courseId": "cs1s2d3f4g5h6j7k8l9m0n1b"
+    }
+  ],
+  "internships": [
+    {
+      "id": "in5k6l7m8n9b0v1c2x3z4q5w",
+      "companyName": "TechCorp Innovations",
+      "role": "Software Engineer Intern",
+      "description": "Developed backend APIs for a new social media platform.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 30000.0,
+      "location": "Remote",
+      "offerLetterPath": "https://example.com/offer/techcorp_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/techcorp_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-09-01T14:30:00.000Z",
+      "studentId": "sd0e1r2t3y4u5i6o7p8a9s0d"
+    },
+    {
+      "id": "in6r7t8y9u0i1o2p3a4s5d6f",
+      "companyName": "DataDriven Analytics",
+      "role": "Data Science Intern",
+      "description": "Assisted with data collection and machine learning model training.",
+      "startDate": "2024-01-15T00:00:00.000Z",
+      "endDate": "2024-05-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 25000.0,
+      "location": "On-site, Boston",
+      "offerLetterPath": "https://example.com/offer/datadriven_ol.pdf",
+      "nocPath": "https://example.com/noc/datadriven_noc.pdf",
+      "completionCertificatePath": "https://example.com/cert/datadriven_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2023-09-20T11:30:00.000Z",
+      "updatedAt": "2024-06-10T09:00:00.000Z",
+      "studentId": "sd2h3j4k5l6m7n8b9v0c1x2z"
+    },
+    {
+      "id": "in7g8h9j0k1l2m3n4b5v6c7x",
+      "companyName": "Innovate Solutions LLC",
+      "role": "Full Stack Developer Intern",
+      "description": "Contributed to developing new features for client-facing web applications.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 35000.0,
+      "location": "Hybrid",
+      "offerLetterPath": "https://example.com/offer/innovate_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-07-01T15:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd1f2g3h4j5k6l7m8n9b0v1c"
+    },
+    {
+      "id": "in8j9k0l1m2n3b4v5c6x7z8q",
+      "companyName": "Future Electronics Inc.",
+      "role": "Embedded Systems Intern",
+      "description": "Assisted with firmware development and hardware testing.",
+      "startDate": "2024-07-01T00:00:00.000Z",
+      "endDate": "2024-12-31T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 28000.0,
+      "location": "On-site, San Jose",
+      "offerLetterPath": "https://example.com/offer/future_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-05-10T09:00:00.000Z",
+      "updatedAt": "2024-09-01T11:00:00.000Z",
+      "studentId": "sd3k4l5m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "in9l0m1n2b3v4c5x6z7q8w9e",
+      "companyName": "Digital Marketing Pro",
+      "role": "Social Media Marketing Intern",
+      "description": "Managed social media campaigns and created content strategies.",
+      "startDate": "2024-08-01T00:00:00.000Z",
+      "endDate": "2024-11-30T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 18000.0,
+      "location": "Remote",
+      "offerLetterPath": "https://example.com/offer/digital_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-06-15T13:00:00.000Z",
+      "updatedAt": "2024-09-03T16:00:00.000Z",
+      "studentId": "sd4n5b6v7c8x9z0q1w2e3r4t"
+    },
+    {
+      "id": "in0m1n2b3v4c5x6z7q8w9e0r",
+      "companyName": "Global Engineering Group",
+      "role": "Mechanical Design Intern",
+      "description": "Assisted with CAD designs and simulations for new products.",
+      "startDate": "2023-09-01T00:00:00.000Z",
+      "endDate": "2024-02-28T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 20000.0,
+      "location": "On-site, Houston",
+      "offerLetterPath": "https://example.com/offer/globaleng_ol.pdf",
+      "nocPath": "https://example.com/noc/globaleng_noc.pdf",
+      "completionCertificatePath": "https://example.com/cert/globaleng_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2023-07-01T10:00:00.000Z",
+      "updatedAt": "2024-03-10T11:00:00.000Z",
+      "studentId": "sd5q6w7e8r9t0y1u2i3o4p5a"
+    },
+    {
+      "id": "in1b2v3c4x5z6q7w8e9r0t1y",
+      "companyName": "City Builders Inc.",
+      "role": "Civil Engineering Intern",
+      "description": "Worked on site surveys and material testing for infrastructure projects.",
+      "startDate": "2024-05-01T00:00:00.000Z",
+      "endDate": "2024-07-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 22000.0,
+      "location": "On-site, New York",
+      "offerLetterPath": "https://example.com/offer/citybuilders_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/citybuilders_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-03-20T08:00:00.000Z",
+      "updatedAt": "2024-08-05T10:00:00.000Z",
+      "studentId": "sd6s7d8f9g0h1j2k3l4z5x6c"
+    },
+    {
+      "id": "in2c3x4z5q6w7e8r9t0y1u2i",
+      "companyName": "Quantum Research Labs",
+      "role": "Physics Research Intern",
+      "description": "Assisted with experiments in quantum optics.",
+      "startDate": "2024-02-01T00:00:00.000Z",
+      "endDate": "2024-07-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 20000.0,
+      "location": "On-site, Cambridge",
+      "offerLetterPath": "https://example.com/offer/quantum_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/quantum_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2023-12-10T10:00:00.000Z",
+      "updatedAt": "2024-08-01T12:00:00.000Z",
+      "studentId": "sd7f8g9h0j1k2l3m4n5b6v7c"
+    },
+    {
+      "id": "in3e4r5t6y7u8i9o0p1a2s3d",
+      "companyName": "BioChem Solutions",
+      "role": "Lab Assistant Intern",
+      "description": "Prepared chemical solutions and analyzed samples.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-01-31T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 15000.0,
+      "location": "On-site, San Diego",
+      "offerLetterPath": "https://example.com/offer/biochem_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-07-20T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "in4h5j6k7l8m9n0b1v2c3x4z",
+      "companyName": "FinTech Innovations",
+      "role": "Quant Analyst Intern",
+      "description": "Developed quantitative models for financial markets.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 40000.0,
+      "location": "On-site, New York",
+      "offerLetterPath": "https://example.com/offer/fintech_ol.pdf",
+      "nocPath": "https://example.com/noc/fintech_noc.pdf",
+      "completionCertificatePath": "https://example.com/cert/fintech_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-02-01T09:00:00.000Z",
+      "updatedAt": "2024-09-01T15:00:00.000Z",
+      "studentId": "sd9q0w1e2r3t4y5u6i7o8p9a"
+    },
+    {
+      "id": "in5k6l7m8n9b0v1c2x3z4q5w",
+      "companyName": "ArchiDesign Studio",
+      "role": "Architectural Intern",
+      "description": "Assisted with rendering and drafting for residential projects.",
+      "startDate": "2024-03-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 20000.0,
+      "location": "On-site, Los Angeles",
+      "offerLetterPath": "https://example.com/offer/archidesign_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/archidesign_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2023-11-01T10:00:00.000Z",
+      "updatedAt": "2024-09-02T13:00:00.000Z",
+      "studentId": "sd0s1d2f3g4h5j6k7l8z9x0c"
+    },
+    {
+      "id": "in6n7b8v9c0x1z2q3w4e5r6t",
+      "companyName": "SpaceX",
+      "role": "Aerospace Engineering Intern",
+      "description": "Contributed to propulsion system design and testing.",
+      "startDate": "2024-01-01T00:00:00.000Z",
+      "endDate": "2024-06-30T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 50000.0,
+      "location": "On-site, Hawthorne, CA",
+      "offerLetterPath": "https://example.com/offer/spacex_ol.pdf",
+      "nocPath": "https://example.com/noc/spacex_noc.pdf",
+      "completionCertificatePath": "https://example.com/cert/spacex_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2023-09-01T12:00:00.000Z",
+      "updatedAt": "2024-07-05T10:00:00.000Z",
+      "studentId": "sd1e2r3t4y5u6i7o8p9a0s1d"
+    },
+    {
+      "id": "in7q8w9e0r1t2y3u4i5o6p7a",
+      "companyName": "Google",
+      "role": "Software Engineer Intern",
+      "description": "Worked on improving search algorithms and data retrieval efficiency.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 45000.0,
+      "location": "On-site, Mountain View, CA",
+      "offerLetterPath": "https://example.com/offer/google_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/google_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-20T10:00:00.000Z",
+      "updatedAt": "2024-09-01T16:00:00.000Z",
+      "studentId": "sd2f3g4h5j6k7l8m9n0b1v2c"
+    },
+    {
+      "id": "in8t9y0u1i2o3p4a5s6d7f8g",
+      "companyName": "Microsoft",
+      "role": "Cloud Solutions Intern",
+      "description": "Assisted with developing features for Azure cloud services.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 42000.0,
+      "location": "Hybrid, Redmond, WA",
+      "offerLetterPath": "https://example.com/offer/microsoft_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-07-10T11:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd3h4j5k6l7m8n9b0v1c2x3z"
+    },
+    {
+      "id": "in9y0u1i2o3p4a5s6d7f8g9h",
+      "companyName": "Meta Platforms",
+      "role": "Frontend Developer Intern",
+      "description": "Developed UI components for Facebook applications.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 43000.0,
+      "location": "On-site, Menlo Park, CA",
+      "offerLetterPath": "https://example.com/offer/meta_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/meta_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-02-05T10:00:00.000Z",
+      "updatedAt": "2024-09-01T15:00:00.000Z",
+      "studentId": "sd4k5l6m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "in0i1o2p3a4s5d6f7g8h9j0k",
+      "companyName": "Amazon",
+      "role": "Software Development Engineer Intern",
+      "description": "Improved efficiency of fulfillment center algorithms.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 48000.0,
+      "location": "On-site, Seattle, WA",
+      "offerLetterPath": "https://example.com/offer/amazon_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-07-25T09:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd5n6b7v8c9x0z1q2w3e4r5t"
+    },
+    {
+      "id": "in1k2l3m4n5o6p7a8s9d0f1g",
+      "companyName": "Netflix",
+      "role": "Data Engineering Intern",
+      "description": "Built pipelines for streaming data analytics.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 46000.0,
+      "location": "Remote",
+      "offerLetterPath": "https://example.com/offer/netflix_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/netflix_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-10T11:00:00.000Z",
+      "updatedAt": "2024-09-02T14:00:00.000Z",
+      "studentId": "sd6q7w8e9r0t1y2u3i4o5p6a"
+    },
+    {
+      "id": "in2m3n4o5p6a7s8d9f0g1h2j",
+      "companyName": "Tesla",
+      "role": "Robotics Software Intern",
+      "description": "Developed control software for humanoid robots.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 52000.0,
+      "location": "On-site, Austin, TX",
+      "offerLetterPath": "https://example.com/offer/tesla_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-08-01T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd7t8y9u0i1o2p3a4s5d6f7g"
+    },
+    {
+      "id": "in3o4p5a6s7d8f9g0h1j2k3l",
+      "companyName": "Apple",
+      "role": "iOS Development Intern",
+      "description": "Assisted with building features for iOS applications.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 47000.0,
+      "location": "On-site, Cupertino, CA",
+      "offerLetterPath": "https://example.com/offer/apple_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/apple_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-25T09:00:00.000Z",
+      "updatedAt": "2024-09-01T15:00:00.000Z",
+      "studentId": "sd8w9e0r1t2y3u4i5o6p7a8s"
+    },
+    {
+      "id": "in4p5a6s7d8f9g0h1j2k3l4m",
+      "companyName": "IBM",
+      "role": "AI Research Intern",
+      "description": "Explored new techniques in natural language processing.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 38000.0,
+      "location": "Hybrid",
+      "offerLetterPath": "https://example.com/offer/ibm_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-07-30T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd9q0w1e2r3t4y5u6i7o8p9a"
+    },
+    {
+      "id": "in5s6d7f8g9h0j1k2l3m4n5o",
+      "companyName": "Intel",
+      "role": "Hardware Engineering Intern",
+      "description": "Assisted with chip design verification and testing.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 39000.0,
+      "location": "On-site, Santa Clara, CA",
+      "offerLetterPath": "https://example.com/offer/intel_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/intel_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-18T12:00:00.000Z",
+      "updatedAt": "2024-09-03T14:00:00.000Z",
+      "studentId": "sd0s1d2f3g4h5j6k7l8z9x0c"
+    },
+    {
+      "id": "in6f7g8h9j0k1l2m3n4o5p6a",
+      "companyName": "Qualcomm",
+      "role": "Firmware Development Intern",
+      "description": "Developed firmware for 5G modems.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 41000.0,
+      "location": "On-site, San Diego, CA",
+      "offerLetterPath": "https://example.com/offer/qualcomm_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-08-05T11:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd1e2r3t4y5u6i7o8p9a0s1d"
+    },
+    {
+      "id": "in7h8j9k0l1m2n3o4p5a6s7d",
+      "companyName": "NVIDIA",
+      "role": "GPU Software Intern",
+      "description": "Optimized graphics drivers for new GPU architectures.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 49000.0,
+      "location": "On-site, Santa Clara, CA",
+      "offerLetterPath": "https://example.com/offer/nvidia_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/nvidia_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-10T10:00:00.000Z",
+      "updatedAt": "2024-09-01T14:00:00.000Z",
+      "studentId": "sd2f3g4h5j6k7l8m9n0b1v2c"
+    },
+    {
+      "id": "in8k9l0m1n2o3p4a5s6d7f8g",
+      "companyName": "Adobe",
+      "role": "UI/UX Design Intern",
+      "description": "Designed user interfaces for creative cloud applications.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 37000.0,
+      "location": "Remote",
+      "offerLetterPath": "https://example.com/offer/adobe_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-07-28T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd3h4j5k6l7m8n9b0v1c2x3z"
+    },
+    {
+      "id": "in9n0o1p2a3s4d5f6g7h8j9k",
+      "companyName": "Salesforce",
+      "role": "CRM Development Intern",
+      "description": "Customized CRM solutions for enterprise clients.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 36000.0,
+      "location": "On-site, San Francisco, CA",
+      "offerLetterPath": "https://example.com/offer/salesforce_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/salesforce_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-15T11:00:00.000Z",
+      "updatedAt": "2024-09-01T13:00:00.000Z",
+      "studentId": "sd4k5l6m7n8b9v0c1x2z3q4w"
+    },
+    {
+      "id": "in0p1a2s3d4f5g6h7j8k9l0m",
+      "companyName": "Accenture",
+      "role": "IT Consulting Intern",
+      "description": "Assisted with project management and client presentations.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 33000.0,
+      "location": "Hybrid",
+      "offerLetterPath": "https://example.com/offer/accenture_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-08-02T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd5n6b7v8c9x0z1q2w3e4r5t"
+    },
+    {
+      "id": "in1s2d3f4g5h6j7k8l9m0n1b",
+      "companyName": "Deloitte",
+      "role": "Cyber Security Intern",
+      "description": "Performed vulnerability assessments and penetration testing.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 34000.0,
+      "location": "On-site, Dallas, TX",
+      "offerLetterPath": "https://example.com/offer/deloitte_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/deloitte_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-12T09:00:00.000Z",
+      "updatedAt": "2024-09-02T12:00:00.000Z",
+      "studentId": "sd6q7w8e9r0t1y2u3i4o5p6a"
+    },
+    {
+      "id": "in2v3c4x5z6q7w8e9r0t1y2u",
+      "companyName": "EY",
+      "role": "Data Analytics Intern",
+      "description": "Developed dashboards and reports for audit clients.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "ONGOING",
+      "stipend": 31000.0,
+      "location": "On-site, Chicago, IL",
+      "offerLetterPath": "https://example.com/offer/ey_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-08-01T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd7f8g9h0j1k2l3m4n5b6v7c"
+    },
+    {
+      "id": "in3y4u5i6o7p8a9s0d1f2g3h",
+      "companyName": "PwC",
+      "role": "Risk Assurance Intern",
+      "description": "Assisted with IT risk assessments and compliance reviews.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 30000.0,
+      "location": "On-site, Atlanta, GA",
+      "offerLetterPath": "https://example.com/offer/pwc_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/pwc_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-10T10:00:00.000Z",
+      "updatedAt": "2024-09-01T14:30:00.000Z",
+      "studentId": "sd8j9k0l1m2n3b4v5c6x7z8q"
+    },
+    {
+      "id": "in4k5l6m7n8b9v0c1x2z3q4w",
+      "companyName": "Capgemini",
+      "role": "Software Engineering Intern",
+      "description": "Worked on a client project involving Java Spring Boot.",
+      "startDate": "2024-09-01T00:00:00.000Z",
+      "endDate": "2025-02-28T00:00:00.000Z",
+      "status": "APPLIED",
+      "stipend": 28000.0,
+      "location": "Remote",
+      "offerLetterPath": "https://example.com/offer/capgemini_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": null,
+      "isDeleted": false,
+      "createdAt": "2024-08-20T10:00:00.000Z",
+      "updatedAt": "2024-09-05T10:00:00.000Z",
+      "studentId": "sd9q0w1e2r3t4y5u6i7o8p9a"
+    },
+    {
+      "id": "in5n6b7v8c9x0z1q2w3e4r5t",
+      "companyName": "TCS",
+      "role": "IT Analyst Intern",
+      "description": "Assisted with business process analysis and documentation.",
+      "startDate": "2024-06-01T00:00:00.000Z",
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "status": "COMPLETED",
+      "stipend": 26000.0,
+      "location": "On-site, Mumbai, India",
+      "offerLetterPath": "https://example.com/offer/tcs_ol.pdf",
+      "nocPath": null,
+      "completionCertificatePath": "https://example.com/cert/tcs_comp.pdf",
+      "isDeleted": false,
+      "createdAt": "2024-01-05T09:00:00.000Z",
+      "updatedAt": "2024-09-01T14:00:00.000Z",
+      "studentId": "sd0s1d2f3g4h5j6k7l8z9x0c"
+    }
+  ]
+}
