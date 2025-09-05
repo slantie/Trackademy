@@ -13,24 +13,35 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Tooltip,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { useGetFaculties, useDeleteFaculty } from "../../hooks/useFaculties";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import {
+  useGetFaculties,
+  useDeleteFaculty,
+  useResetFacultyPassword,
+} from "../../hooks/useFaculties";
 import FacultyForm from "../../components/forms/FacultyForm";
+import ResetPasswordDialog from "../../components/dialogs/ResetPasswordDialog";
 import { toast } from "react-hot-toast";
 
 const FacultyPage = () => {
   const { data: facultiesData, isLoading, isError } = useGetFaculties();
   const deleteMutation = useDeleteFaculty();
+  const resetPasswordMutation = useResetFacultyPassword();
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [facultyToDelete, setFacultyToDelete] = useState(null);
+
+  const [openPasswordDialog, setOpenPasswordDialog] = useState(false);
+  const [facultyToResetPassword, setFacultyToResetPassword] = useState(null);
 
   const handleOpenCreateModal = () => {
     setSelectedFaculty(null);
@@ -45,6 +56,35 @@ const FacultyPage = () => {
   const handleDeleteClick = (faculty) => {
     setFacultyToDelete(faculty);
     setOpenDeleteDialog(true);
+  };
+
+  const handlePasswordResetClick = (faculty) => {
+    setFacultyToResetPassword(faculty);
+    setOpenPasswordDialog(true);
+  };
+
+  const handleResetPassword = ({ facultyId, newPassword }) => {
+    resetPasswordMutation.mutate(
+      { facultyId, newPassword },
+      {
+        onSuccess: (data) => {
+          toast.success(data.message || "Password reset successfully!");
+          setOpenPasswordDialog(false);
+          setFacultyToResetPassword(null);
+        },
+        onError: (error) => {
+          console.error(
+            "Failed to reset password:",
+            error.response?.data || error
+          );
+          toast.error(
+            `Failed to reset password: ${
+              error.response?.data?.message || error.message
+            }`
+          );
+        },
+      }
+    );
   };
 
   const handleConfirmDelete = () => {
@@ -97,23 +137,35 @@ const FacultyPage = () => {
     {
       field: "actions",
       headerName: "Actions",
-      flex: 0.5,
-      minWidth: 120,
+      flex: 0.8,
+      minWidth: 160,
       sortable: false,
       renderCell: (params) => (
         <Box>
-          <IconButton
-            color="primary"
-            onClick={() => handleOpenEditModal(params.row)}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            color="error"
-            onClick={() => handleDeleteClick(params.row)}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="Edit Faculty">
+            <IconButton
+              color="primary"
+              onClick={() => handleOpenEditModal(params.row)}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Reset Password">
+            <IconButton
+              color="warning"
+              onClick={() => handlePasswordResetClick(params.row)}
+            >
+              <LockResetIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Faculty">
+            <IconButton
+              color="error"
+              onClick={() => handleDeleteClick(params.row)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       ),
     },
@@ -174,6 +226,15 @@ const FacultyPage = () => {
       <Dialog open={openModal} onClose={handleCloseModal}>
         <FacultyForm onClose={handleCloseModal} faculty={selectedFaculty} />
       </Dialog>
+
+      <ResetPasswordDialog
+        open={openPasswordDialog}
+        onClose={() => setOpenPasswordDialog(false)}
+        faculty={facultyToResetPassword}
+        onResetPassword={handleResetPassword}
+        isLoading={resetPasswordMutation.isPending}
+      />
+
       <Dialog
         open={openDeleteDialog}
         onClose={() => setOpenDeleteDialog(false)}

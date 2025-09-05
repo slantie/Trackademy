@@ -25,7 +25,10 @@ router
     validate(createCourseSchema),
     CourseController.createCourse
   )
-  .get(authorize(Role.ADMIN, Role.FACULTY), CourseController.getAllCourses);
+  .get(
+    authorize(Role.ADMIN, Role.FACULTY, Role.STUDENT),
+    CourseController.getAllCourses
+  );
 
 router
   .route("/:id")

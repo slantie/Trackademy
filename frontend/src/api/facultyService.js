@@ -52,3 +52,28 @@ export const deleteFaculty = async (facultyId) => {
   );
   return response.data;
 };
+
+/**
+ * Resets a faculty member's password (admin only).
+ * @param {string} facultyId - The ID of the faculty member whose password to reset.
+ * @param {string} newPassword - The new password to set.
+ * @returns {Promise<object>} The API response data.
+ */
+export const resetFacultyPassword = async ({ facultyId, newPassword }) => {
+  try {
+    console.log("Calling password reset API:", {
+      endpoint: API_ENDPOINTS.FACULTIES.RESET_PASSWORD(facultyId),
+      facultyId,
+      hasPassword: !!newPassword,
+    });
+
+    const response = await apiClient.patch(
+      API_ENDPOINTS.FACULTIES.RESET_PASSWORD(facultyId),
+      { newPassword }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("API call failed:", error);
+    throw error;
+  }
+};

@@ -4,6 +4,10 @@ export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
     PROFILE: "/auth/me",
+    UPDATE_PASSWORD: "/auth/update-password",
+    RESET_USER_PASSWORD: (userId) => `/auth/reset-password/user/${userId}`,
+    RESET_FACULTY_PASSWORD: (facultyId) =>
+      `/auth/reset-password/faculty/${facultyId}`,
   },
   DASHBOARD: {
     SUMMARY: "/dashboard/summary",
@@ -41,6 +45,7 @@ export const API_ENDPOINTS = {
     DETAILS: (facultyId) => `/faculties/${facultyId}`,
     UPDATE: (facultyId) => `/faculties/${facultyId}`,
     DELETE: (facultyId) => `/faculties/${facultyId}`,
+    RESET_PASSWORD: (facultyId) => `/faculties/${facultyId}/reset-password`,
   },
   SEMESTERS: {
     LIST_CREATE: "/semesters",

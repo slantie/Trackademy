@@ -23,6 +23,87 @@ export const useGetAssignments = (params) => {
 };
 
 /**
+ * Custom hook to fetch assignments created by a specific faculty member.
+ * @param {string} facultyUserId - The user ID of the faculty member.
+ * @returns {object} The query result object from TanStack Query.
+ *
+ * Expected Response Structure:
+ * {
+ *   status: "success",
+ *   results: number,
+ *   data: {
+ *     assignments: {
+ *       data: [
+ *         {
+ *           id: string,
+ *           title: string,
+ *           description: string,
+ *           dueDate: string,
+ *           totalMarks: number,
+ *           course: {
+ *             id, subject, faculty, division, semester
+ *           },
+ *           _count: {
+ *             submissions: number
+ *           },
+ *           ...
+ *         }
+ *       ]
+ *     }
+ *   }
+ * }
+ *
+ * Access pattern: response.data.assignments.data
+ */
+export const useGetFacultyAssignments = (facultyUserId) => {
+  return useQuery({
+    queryKey: [ASSIGNMENT_QUERY_KEY, "faculty", facultyUserId],
+    queryFn: () => getAssignments({ facultyUserId }),
+    enabled: !!facultyUserId,
+  });
+};
+
+/**
+ * Custom hook to fetch assignments for the authenticated student.
+ * The backend automatically filters assignments based on the student's enrolled courses.
+ * @returns {object} The query result object from TanStack Query.
+ *
+ * Expected Response Structure:
+ * {
+ *   status: "success",
+ *   results: number,
+ *   data: {
+ *     assignments: {
+ *       data: [
+ *         {
+ *           id: string,
+ *           title: string,
+ *           description: string,
+ *           dueDate: string,
+ *           totalMarks: number,
+ *           course: {
+ *             id, subject, faculty, division, semester
+ *           },
+ *           submission: {
+ *             id, status, submittedAt, grade, feedback
+ *           },
+ *           ...
+ *         }
+ *       ]
+ *     }
+ *   }
+ * }
+ *
+ * Access pattern: response.data.assignments.data
+ */
+export const useGetStudentAssignments = () => {
+  return useQuery({
+    queryKey: [ASSIGNMENT_QUERY_KEY, "student"],
+    queryFn: () => getAssignments(),
+  });
+};
+
+/**
  * Custom hook to fetch a single assignment by ID.
  * @param {string} assignmentId - The ID of the assignment.
  * @returns {object} The query result object from TanStack Query.

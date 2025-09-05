@@ -49,3 +49,16 @@ export const uploadAttendanceFile = async (formData) => {
   );
   return response.data;
 };
+
+/**
+ * Fetches attendance summary for the authenticated student.
+ * @param {Object} params - Query parameters.
+ * @param {string} params.semesterId - The ID of the semester.
+ * @returns {Promise<Object>} The API response data.
+ */
+export const getStudentAttendanceSummary = async (params) => {
+  const response = await apiClient.get(API_ENDPOINTS.ATTENDANCE.LIST, {
+    params,
+  });
+  return response.data;
+};

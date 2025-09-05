@@ -9,7 +9,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  useMediaQuery,
+  // useMediaQuery,
   useTheme,
   Avatar,
   Chip,
@@ -53,9 +53,18 @@ const getNavItems = (role) => {
     case Role.FACULTY:
       return [
         { name: "Dashboard", path: "/dashboard", icon: DashboardIcon },
-        { name: "Courses", path: "/courses", icon: SchoolIcon },
-        { name: "Assignments", path: "/assignments", icon: AssignmentIcon },
-        { name: "Students", path: "/students", icon: GroupsIcon },
+        { name: "Courses", path: "/course", icon: SchoolIcon },
+        {
+          name: "Assignments",
+          path: "/faculty/assignment",
+          icon: AssignmentIcon,
+        },
+        {
+          name: "Attendance",
+          path: "/faculty/attendance",
+          icon: AssignmentIcon,
+        },
+        { name: "Students", path: "/student", icon: GroupsIcon },
       ];
     case Role.ADMIN:
       return [
@@ -221,7 +230,12 @@ const Header = () => {
             transition: "all 0.2s ease-in-out",
           }}
         >
-          {mode === "dark" ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />} {/* Smaller icon */}
+          {mode === "dark" ? (
+            <LightMode fontSize="small" />
+          ) : (
+            <DarkMode fontSize="small" />
+          )}{" "}
+          {/* Smaller icon */}
         </IconButton>
       </Tooltip>
 
@@ -270,7 +284,10 @@ const Header = () => {
             mt: 1.5, // Adjusted margin top for a clean separation
             borderRadius: 2,
             minWidth: 220, // Slightly wider menu
-            boxShadow: theme.palette.mode === 'dark' ? '0 10px 40px rgba(0, 0, 0, 0.4)' : '0 10px 40px rgba(0, 0, 0, 0.1)', // Enhanced shadow
+            boxShadow:
+              theme.palette.mode === "dark"
+                ? "0 10px 40px rgba(0, 0, 0, 0.4)"
+                : "0 10px 40px rgba(0, 0, 0, 0.1)", // Enhanced shadow
             border: "1px solid",
             borderColor: theme.palette.divider,
             background: theme.palette.background.paper, // Ensure background matches theme
@@ -288,16 +305,31 @@ const Header = () => {
             mb: 0.5, // Added margin bottom for separation
           }}
         >
-          <Typography variant="subtitle1" fontWeight={600} color="text.primary"> {/* Enhanced typography */}
+          <Typography variant="subtitle1" fontWeight={600} color="text.primary">
+            {" "}
+            {/* Enhanced typography */}
             {user?.name || "User"}
           </Typography>
-          <Typography variant="body2" color="text.secondary"> {/* Enhanced typography */}
+          <Typography variant="body2" color="text.secondary">
+            {" "}
+            {/* Enhanced typography */}
             {user?.email}
           </Typography>
         </Box>
-        <MenuItem onClick={handleLogout} sx={{ py: 1.2, gap: 1, borderRadius: 1.5, mx: 1, mb: 0.5, '&:hover': { background: theme.palette.action.hover } }}>
+        <MenuItem
+          onClick={handleLogout}
+          sx={{
+            py: 1.2,
+            gap: 1,
+            borderRadius: 1.5,
+            mx: 1,
+            mb: 0.5,
+            "&:hover": { background: theme.palette.action.hover },
+          }}
+        >
           <LogoutIcon fontSize="small" sx={{ color: "error.main" }} />
-          <Typography color="error.main">Logout</Typography> {/* Explicitly set logout color */}
+          <Typography color="error.main">Logout</Typography>{" "}
+          {/* Explicitly set logout color */}
         </MenuItem>
       </Menu>
     </>
@@ -317,7 +349,10 @@ const Header = () => {
               ? "rgba(27, 27, 31, 0.9)" // Slightly more opaque
               : "rgba(255, 255, 255, 0.9)",
           backdropFilter: "blur(15px)", // Slightly less blur
-          boxShadow: theme.palette.mode === 'dark' ? '0 8px 32px rgba(0,0,0,0.5)' : '0 8px 32px rgba(0,0,0,0.1)', // Added shadow
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 8px 32px rgba(0,0,0,0.5)"
+              : "0 8px 32px rgba(0,0,0,0.1)", // Added shadow
         },
       }}
     >
@@ -347,7 +382,11 @@ const Header = () => {
                 border: `1px solid ${theme.palette.divider}`, // Added a subtle border
               }}
             >
-              <Typography variant="subtitle2" fontWeight={600} color="text.primary">
+              <Typography
+                variant="subtitle2"
+                fontWeight={600}
+                color="text.primary"
+              >
                 {user?.name || "User"}
               </Typography>
               <Typography variant="caption" color="text.secondary">
@@ -503,7 +542,11 @@ const Header = () => {
                       transition: "all 0.2s ease-in-out",
                     }}
                   >
-                    {mode === "dark" ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
+                    {mode === "dark" ? (
+                      <LightMode fontSize="small" />
+                    ) : (
+                      <DarkMode fontSize="small" />
+                    )}
                   </IconButton>
                 </Tooltip>
                 <Button
@@ -516,7 +559,7 @@ const Header = () => {
                     borderRadius: 2.5, // Slightly less rounded for a modern look
                     background:
                       "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
-                    fontSize: '0.9rem', // Adjusted font size
+                    fontSize: "0.9rem", // Adjusted font size
                     fontWeight: 600,
                     boxShadow: "0 6px 20px rgba(129, 85, 198, 0.3)", // Stronger but softer shadow
                     transition: "all 0.3s ease",
@@ -563,7 +606,11 @@ const Header = () => {
                     transition: "all 0.2s ease-in-out",
                   }}
                 >
-                  {mode === "dark" ? <LightMode fontSize="small" /> : <DarkMode fontSize="small" />}
+                  {mode === "dark" ? (
+                    <LightMode fontSize="small" />
+                  ) : (
+                    <DarkMode fontSize="small" />
+                  )}
                 </IconButton>
               </Tooltip>
             )}
@@ -602,7 +649,10 @@ const Header = () => {
                       mt: 1.5,
                       borderRadius: 2,
                       minWidth: 220,
-                      boxShadow: theme.palette.mode === 'dark' ? '0 10px 40px rgba(0, 0, 0, 0.4)' : '0 10px 40px rgba(0, 0, 0, 0.1)',
+                      boxShadow:
+                        theme.palette.mode === "dark"
+                          ? "0 10px 40px rgba(0, 0, 0, 0.4)"
+                          : "0 10px 40px rgba(0, 0, 0, 0.1)",
                       border: "1px solid",
                       borderColor: theme.palette.divider,
                       background: theme.palette.background.paper,
@@ -620,14 +670,28 @@ const Header = () => {
                       mb: 0.5,
                     }}
                   >
-                    <Typography variant="subtitle1" fontWeight={600} color="text.primary">
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight={600}
+                      color="text.primary"
+                    >
                       {user?.name || "User"}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       {user?.email}
                     </Typography>
                   </Box>
-                  <MenuItem onClick={handleLogout} sx={{ py: 1.2, gap: 1, borderRadius: 1.5, mx: 1, mb: 0.5, '&:hover': { background: theme.palette.action.hover } }}>
+                  <MenuItem
+                    onClick={handleLogout}
+                    sx={{
+                      py: 1.2,
+                      gap: 1,
+                      borderRadius: 1.5,
+                      mx: 1,
+                      mb: 0.5,
+                      "&:hover": { background: theme.palette.action.hover },
+                    }}
+                  >
                     <LogoutIcon fontSize="small" sx={{ color: "error.main" }} />
                     <Typography color="error.main">Logout</Typography>
                   </MenuItem>
@@ -668,7 +732,7 @@ const Header = () => {
                   borderRadius: 2,
                   background:
                     "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
-                  fontSize: '0.85rem',
+                  fontSize: "0.85rem",
                   fontWeight: 600,
                   boxShadow: "0 4px 12px rgba(129, 85, 198, 0.3)",
                   transition: "all 0.2s ease",

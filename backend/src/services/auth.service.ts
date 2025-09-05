@@ -11,242 +11,310 @@ import { generateToken } from "../utils/jwt"; // Assuming a JWT utility
 import { hashPassword, comparePassword } from "../utils/hash"; // Assuming hashing utilities
 import { isEmail } from "../utils/validation"; // Utility to check if identifier is an email
 import {
-    AuthenticatedUser,
-    RegisterFacultyRequest,
-    RegisterAdminRequest,
-    JWTPayload,
+  AuthenticatedUser,
+  RegisterFacultyRequest,
+  RegisterAdminRequest,
+  JWTPayload,
 } from "../types/auth.types";
 
 class AuthService {
-    public async authenticateUser(
-        identifier: string,
-        password: string
-    ): Promise<{ user: AuthenticatedUser; token: string }> {
-        let user: User | null = null;
-        let userProfile: { fullName: string; details?: any } = { fullName: "" };
+  public async authenticateUser(
+    identifier: string,
+    password: string
+  ): Promise<{ user: AuthenticatedUser; token: string }> {
+    let user: User | null = null;
+    let userProfile: { fullName: string; details?: any } = { fullName: "" };
 
-        if (isEmail(identifier)) {
-            // Login attempt for Faculty or Admin using email
-            const foundUser = await prisma.user.findUnique({
-                where: { email: identifier },
-                include: {
-                    faculty: true, // Include faculty profile if it exists
-                },
-            });
+    if (isEmail(identifier)) {
+      // Login attempt for Faculty or Admin using email
+      const foundUser = await prisma.user.findUnique({
+        where: { email: identifier },
+        include: {
+          faculty: true, // Include faculty profile if it exists
+        },
+      });
 
-            if (foundUser) {
-                user = foundUser;
-                if (foundUser.role === "ADMIN") {
-                    // For Admins, we can use their email or a generic name
-                    userProfile.fullName = "Administrator";
-                } else if (foundUser.role === "FACULTY" && foundUser.faculty) {
-                    userProfile.fullName = foundUser.faculty.fullName;
-                    userProfile.details = foundUser.faculty;
-                } else if (foundUser.role === "STUDENT") {
-                    // If the user is a Student, we can still retrieve their profile
-                    const student = await prisma.student.findUnique({
-                        where: { userId: foundUser.id },
-                    });
-                    if (student) {
-                        userProfile.fullName = student.fullName;
-                        userProfile.details = {
-                            enrollmentNumber: student.enrollmentNumber,
-                        };
-                    }
-                }
-            }
-        } else {
-            // Login attempt for Student using enrollment number
-            const student = await prisma.student.findUnique({
-                where: { enrollmentNumber: identifier },
-                include: { user: true },
-            });
-
-            if (student && student.user) {
-                user = student.user;
-                userProfile.fullName = student.fullName;
-                userProfile.details = student;
-            }
+      if (foundUser) {
+        user = foundUser;
+        if (foundUser.role === "ADMIN") {
+          // For Admins, we can use their email or a generic name
+          userProfile.fullName = "Administrator";
+        } else if (foundUser.role === "FACULTY" && foundUser.faculty) {
+          userProfile.fullName = foundUser.faculty.fullName;
+          userProfile.details = foundUser.faculty;
+        } else if (foundUser.role === "STUDENT") {
+          // If the user is a Student, we can still retrieve their profile
+          const student = await prisma.student.findUnique({
+            where: { userId: foundUser.id },
+          });
+          if (student) {
+            userProfile.fullName = student.fullName;
+            userProfile.details = {
+              enrollmentNumber: student.enrollmentNumber,
+            };
+          }
         }
+      }
+    } else {
+      // Login attempt for Student using enrollment number
+      const student = await prisma.student.findUnique({
+        where: { enrollmentNumber: identifier },
+        include: { user: true },
+      });
 
-        // If no user was found with the identifier, or they are soft-deleted (if applicable)
-        if (!user) {
-            throw new AppError("Invalid credentials.", 401);
-        }
-
-        // Compare the provided password with the stored hash
-        const isPasswordValid = await comparePassword(password, user.password);
-        if (!isPasswordValid) {
-            throw new AppError("Invalid credentials.", 401);
-        }
-
-        // Construct the authenticated user object
-        const authenticatedUser: AuthenticatedUser = {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            fullName: userProfile.fullName,
-            details: userProfile.details,
-        };
-
-        // Find the User's Role and map to the correct Role Enum
-        if (!Object.values(Role).includes(user.role)) {
-            throw new AppError("Invalid user role.", 400);
-        }
-        // If the user is a Faculty, we can also include their designation
-        if (user.role === "FACULTY" && userProfile.details) {
-            authenticatedUser.designation = userProfile.details.designation;
-        }
-
-        const role_enum: Role =
-            user.role === "ADMIN"
-                ? Role.ADMIN
-                : user.role === "FACULTY"
-                ? Role.FACULTY
-                : Role.STUDENT;
-
-        const payload: JWTPayload = {
-            userId: user.id,
-            email: user.email,
-            role: role_enum as Role,
-        };
-
-        // Generate a JWT token for the session
-        const token = generateToken(payload);
-
-        return { user: authenticatedUser, token };
+      if (student && student.user) {
+        user = student.user;
+        userProfile.fullName = student.fullName;
+        userProfile.details = student;
+      }
     }
 
-    public async registerFaculty(
-        data: RegisterFacultyRequest
-    ): Promise<Omit<User, "password">> {
-        // Validate that the provided designation is a valid enum value
-        if (!Object.values(Designation).includes(data.designation)) {
-            throw new AppError("Invalid designation provided.", 400);
-        }
-
-        // Check if a user with this email already exists
-        const existingUser = await prisma.user.findUnique({
-            where: { email: data.email },
-        });
-        if (existingUser) {
-            throw new AppError("A user with this email already exists.", 409); // 409 Conflict
-        }
-
-        const hashedPassword = await hashPassword(data.password);
-
-        // Use a transaction to ensure both User and Faculty records are created successfully
-        const newUser = await prisma.$transaction(async (tx) => {
-            const user = await tx.user.create({
-                data: {
-                    email: data.email,
-                    password: hashedPassword,
-                    role: "FACULTY",
-                },
-            });
-
-            await tx.faculty.create({
-                data: {
-                    userId: user.id,
-                    fullName: data.fullName,
-                    designation: data.designation, // This is now a validated enum value
-                    departmentId: data.departmentId,
-                },
-            });
-
-            return user;
-        });
-
-        const { password, ...userWithoutPassword } = newUser;
-        return userWithoutPassword;
+    // If no user was found with the identifier, or they are soft-deleted (if applicable)
+    if (!user) {
+      throw new AppError("Invalid credentials.", 401);
     }
 
-    public async registerAdmin(
-        data: RegisterAdminRequest
-    ): Promise<Omit<User, "password">> {
-        const existingUser = await prisma.user.findUnique({
-            where: { email: data.email },
-        });
-        if (existingUser) {
-            throw new AppError("A user with this email already exists.", 409);
-        }
-
-        const hashedPassword = await hashPassword(data.password);
-
-        const user = await prisma.user.create({
-            data: {
-                email: data.email,
-                password: hashedPassword,
-                role: "ADMIN",
-            },
-        });
-
-        const { password, ...userWithoutPassword } = user;
-        return userWithoutPassword;
+    // Compare the provided password with the stored hash
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid) {
+      throw new AppError("Invalid credentials.", 401);
     }
 
-    public async getUserProfile(userId: string): Promise<AuthenticatedUser> {
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-            include: {
-                student: true,
-                faculty: true,
-            },
-        });
+    // Construct the authenticated user object
+    const authenticatedUser: AuthenticatedUser = {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      fullName: userProfile.fullName,
+      details: userProfile.details,
+    };
 
-        if (!user) {
-            throw new AppError("User not found.", 404);
-        }
-
-        let fullName = "";
-        let details: any = null;
-
-        if (user.role === "STUDENT" && user.student) {
-            fullName = user.student.fullName;
-            details = user.student;
-        } else if (user.role === "FACULTY" && user.faculty) {
-            fullName = user.faculty.fullName;
-            details = user.faculty;
-        } else if (user.role === "ADMIN") {
-            fullName = "Administrator";
-        }
-
-        return {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-            fullName,
-            // details,
-        };
+    // Find the User's Role and map to the correct Role Enum
+    if (!Object.values(Role).includes(user.role)) {
+      throw new AppError("Invalid user role.", 400);
+    }
+    // If the user is a Faculty, we can also include their designation
+    if (user.role === "FACULTY" && userProfile.details) {
+      authenticatedUser.designation = userProfile.details.designation;
     }
 
-    public async updatePassword(
-        userId: string,
-        currentPassword: string,
-        newPassword: string
-    ): Promise<string> {
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-        });
+    const role_enum: Role =
+      user.role === "ADMIN"
+        ? Role.ADMIN
+        : user.role === "FACULTY"
+        ? Role.FACULTY
+        : Role.STUDENT;
 
-        if (!user) {
-            throw new AppError("User not found.", 404);
-        }
+    const payload: JWTPayload = {
+      userId: user.id,
+      email: user.email,
+      role: role_enum as Role,
+    };
 
-        const isMatch = await comparePassword(currentPassword, user.password);
-        if (!isMatch) {
-            throw new AppError("Current password is incorrect.", 401);
-        }
+    // Generate a JWT token for the session
+    const token = generateToken(payload);
 
-        const hashedNewPassword = await hashPassword(newPassword);
+    return { user: authenticatedUser, token };
+  }
 
-        await prisma.user.update({
-            where: { id: user.id },
-            data: { password: hashedNewPassword },
-        });
-
-        return "Password updated successfully.";
+  public async registerFaculty(
+    data: RegisterFacultyRequest
+  ): Promise<Omit<User, "password">> {
+    // Validate that the provided designation is a valid enum value
+    if (!Object.values(Designation).includes(data.designation)) {
+      throw new AppError("Invalid designation provided.", 400);
     }
+
+    // Check if a user with this email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+    if (existingUser) {
+      throw new AppError("A user with this email already exists.", 409); // 409 Conflict
+    }
+
+    const hashedPassword = await hashPassword(data.password);
+
+    // Use a transaction to ensure both User and Faculty records are created successfully
+    const newUser = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: {
+          email: data.email,
+          password: hashedPassword,
+          role: "FACULTY",
+        },
+      });
+
+      await tx.faculty.create({
+        data: {
+          userId: user.id,
+          fullName: data.fullName,
+          designation: data.designation, // This is now a validated enum value
+          departmentId: data.departmentId,
+        },
+      });
+
+      return user;
+    });
+
+    const { password, ...userWithoutPassword } = newUser;
+    return userWithoutPassword;
+  }
+
+  public async registerAdmin(
+    data: RegisterAdminRequest
+  ): Promise<Omit<User, "password">> {
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+    if (existingUser) {
+      throw new AppError("A user with this email already exists.", 409);
+    }
+
+    const hashedPassword = await hashPassword(data.password);
+
+    const user = await prisma.user.create({
+      data: {
+        email: data.email,
+        password: hashedPassword,
+        role: "ADMIN",
+      },
+    });
+
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
+
+  public async getUserProfile(userId: string): Promise<AuthenticatedUser> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        student: true,
+        faculty: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User not found.", 404);
+    }
+
+    let fullName = "";
+    let details: any = null;
+
+    if (user.role === "STUDENT" && user.student) {
+      fullName = user.student.fullName;
+      details = user.student;
+    } else if (user.role === "FACULTY" && user.faculty) {
+      fullName = user.faculty.fullName;
+      details = user.faculty;
+    } else if (user.role === "ADMIN") {
+      fullName = "Administrator";
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      fullName,
+      // details,
+    };
+  }
+
+  public async updatePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<string> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new AppError("User not found.", 404);
+    }
+
+    const isMatch = await comparePassword(currentPassword, user.password);
+    if (!isMatch) {
+      throw new AppError("Current password is incorrect.", 401);
+    }
+
+    const hashedNewPassword = await hashPassword(newPassword);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedNewPassword },
+    });
+
+    return "Password updated successfully.";
+  }
+
+  /**
+   * Admin-only method to reset a user's password without requiring the current password
+   * @param userId - The ID of the user whose password needs to be reset
+   * @param newPassword - The new password to set
+   * @returns Success message
+   */
+  public async resetUserPassword(
+    userId: string,
+    newPassword: string
+  ): Promise<string> {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        faculty: true,
+        student: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User not found.", 404);
+    }
+
+    const hashedNewPassword = await hashPassword(newPassword);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedNewPassword },
+    });
+
+    let userType = "User";
+    if (user.faculty) {
+      userType = `Faculty member ${user.faculty.fullName}`;
+    } else if (user.student) {
+      userType = `Student ${user.student.fullName}`;
+    }
+
+    return `Password reset successfully for ${userType}.`;
+  }
+
+  /**
+   * Admin-only method to reset a faculty member's password by faculty ID
+   * @param facultyId - The ID of the faculty whose password needs to be reset
+   * @param newPassword - The new password to set
+   * @returns Success message
+   */
+  public async resetFacultyPassword(
+    facultyId: string,
+    newPassword: string
+  ): Promise<string> {
+    const faculty = await prisma.faculty.findUnique({
+      where: { id: facultyId, isDeleted: false },
+      include: { user: true },
+    });
+
+    if (!faculty) {
+      throw new AppError("Faculty member not found.", 404);
+    }
+
+    const hashedNewPassword = await hashPassword(newPassword);
+
+    await prisma.user.update({
+      where: { id: faculty.userId },
+      data: { password: hashedNewPassword },
+    });
+
+    return `Password reset successfully for faculty member ${faculty.fullName}.`;
+  }
 }
 
 export const authService = new AuthService();

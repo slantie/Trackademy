@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import {
-  useGetAssignments,
+  useGetFacultyAssignments,
   useDeleteAssignment,
 } from "../../hooks/useAssignments";
 import { useAuth } from "../../hooks/useAuth";
@@ -35,14 +35,12 @@ const AssignmentsPage = () => {
   console.log("AssignmentsPage - User:", user);
   console.log("AssignmentsPage - User role:", user?.role);
 
-  // Simple CRUD for faculty assignments
+  // Use specialized hook for faculty assignments
   const {
     data: assignmentsData,
     isLoading,
     isError,
-  } = useGetAssignments({
-    facultyUserId: user?.id, // Faculty sees only their assignments
-  });
+  } = useGetFacultyAssignments(user?.id);
 
   const deleteMutation = useDeleteAssignment();
   const navigate = useNavigate();

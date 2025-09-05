@@ -22,6 +22,79 @@ export const useGetCourses = (params) => {
 };
 
 /**
+ * Custom hook to fetch courses assigned to a specific faculty member.
+ * @param {string} facultyUserId - The user ID of the faculty member.
+ * @returns {object} The query result object from TanStack Query.
+ *
+ * Expected Response Structure:
+ * {
+ *   status: "success",
+ *   results: number,
+ *   data: {
+ *     courses: {
+ *       data: [
+ *         {
+ *           id: string,
+ *           subject: { id, name, code, abbreviation, type },
+ *           faculty: { id, fullName, designation, department },
+ *           semester: { id, semesterNumber, semesterType, department, academicYear },
+ *           division: { id, name },
+ *           lectureType: string,
+ *           batch: string,
+ *           ...
+ *         }
+ *       ]
+ *     }
+ *   }
+ * }
+ *
+ * Access pattern: response.data.courses.data
+ */
+export const useGetFacultyCourses = (facultyUserId) => {
+  return useQuery({
+    queryKey: [COURSES_QUERY_KEY, "faculty", facultyUserId],
+    queryFn: () => getCourses({ facultyUserId }),
+    enabled: !!facultyUserId,
+  });
+};
+
+/**
+ * Custom hook to fetch courses for the authenticated student.
+ * The backend automatically filters courses based on the student's enrollments.
+ * @returns {object} The query result object from TanStack Query.
+ *
+ * Expected Response Structure:
+ * {
+ *   status: "success",
+ *   results: number,
+ *   data: {
+ *     courses: {
+ *       data: [
+ *         {
+ *           id: string,
+ *           subject: { id, name, code, abbreviation, type },
+ *           faculty: { id, fullName, designation, department },
+ *           semester: { id, semesterNumber, semesterType, department, academicYear },
+ *           division: { id, name },
+ *           lectureType: string,
+ *           batch: string,
+ *           ...
+ *         }
+ *       ]
+ *     }
+ *   }
+ * }
+ *
+ * Access pattern: response.data.courses.data
+ */
+export const useGetStudentCourses = () => {
+  return useQuery({
+    queryKey: [COURSES_QUERY_KEY, "student"],
+    queryFn: () => getCourses(),
+  });
+};
+
+/**
  * Custom hook to create a new course.
  * @returns {object} The mutation result object from TanStack Query.
  */

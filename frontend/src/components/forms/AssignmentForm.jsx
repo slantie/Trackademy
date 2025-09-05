@@ -15,7 +15,7 @@ import {
   useCreateAssignment,
   useUpdateAssignment,
 } from "../../hooks/useAssignments";
-import { useGetCourses } from "../../hooks/useCourses";
+import { useGetCourses, useGetFacultyCourses } from "../../hooks/useCourses";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import dayjs from "dayjs";
@@ -48,10 +48,8 @@ const AssignmentForm = ({ onClose, assignment }) => {
   // Fetch ALL courses first (without faculty filter)
   const { data: allCoursesData, isLoading: coursesLoading } = useGetCourses();
 
-  // Also fetch courses specifically for this faculty
-  const { data: facultyCoursesData } = useGetCourses({
-    facultyUserId: user?.id,
-  });
+  // Use the specialized hook to fetch courses assigned to this faculty
+  const { data: facultyCoursesData } = useGetFacultyCourses(user?.id);
 
   const createMutation = useCreateAssignment();
   const updateMutation = useUpdateAssignment();

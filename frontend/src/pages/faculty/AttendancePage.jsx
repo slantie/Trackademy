@@ -22,8 +22,8 @@ import { useGetCourses } from "../../hooks/useCourses";
 import {
   useGetAttendance,
   useUpdateAttendance,
-  useUploadAttendance,
-} from "../../hooks/useUploadAttendance";
+  useUploadAttendanceFile,
+} from "../../hooks/useAttendance";
 import { useAuth } from "../../hooks/useAuth";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -61,7 +61,7 @@ const AttendancePage = () => {
   } = useGetAttendance(attendanceParams);
 
   const updateAttendanceMutation = useUpdateAttendance();
-  const uploadAttendanceMutation = useUploadAttendance();
+  const uploadAttendanceMutation = useUploadAttendanceFile();
 
   const handleUpdateStatus = (attendanceId, newStatus) => {
     updateAttendanceMutation.mutate(

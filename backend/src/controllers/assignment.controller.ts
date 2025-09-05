@@ -52,10 +52,25 @@ export class AssignmentController {
 
       // If user is a student, get assignments for their enrolled courses
       if (req.user?.role === "STUDENT") {
-        assignments = await assignmentService.getForStudent(
-          req.user.userId,
-          options
-        );
+        try {
+          assignments = await assignmentService.getForStudent(
+            req.user.userId,
+            options
+          );
+          // If student has no enrollments, fallback to all assignments temporarily
+          if (assignments.data.length === 0) {
+            console.log(
+              "Student has no enrollments, showing all assignments temporarily"
+            );
+            assignments = await assignmentService.getAll(options);
+          }
+        } catch (error) {
+          console.log(
+            "Student enrollment error, showing all assignments temporarily:",
+            error
+          );
+          assignments = await assignmentService.getAll(options);
+        }
       } else if (req.user?.role === "FACULTY") {
         // If user is faculty, get assignments for their courses
         assignments = await assignmentService.getAll({

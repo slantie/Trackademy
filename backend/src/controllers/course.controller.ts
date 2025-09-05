@@ -71,6 +71,8 @@ export class CourseController {
         sortOrder: sortOrder as "asc" | "desc",
       };
 
+      // For now, allow all authenticated users to see all courses
+      // TODO: Implement proper student enrollment filtering later
       const result = await courseService.getAll(options);
 
       res.status(200).json({

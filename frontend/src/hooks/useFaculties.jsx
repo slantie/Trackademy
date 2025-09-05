@@ -5,6 +5,7 @@ import {
   createFaculty,
   updateFaculty,
   deleteFaculty,
+  resetFacultyPassword,
 } from "../api/facultyService";
 
 const FACULTIES_QUERY_KEY = "faculties";
@@ -64,6 +65,21 @@ export const useDeleteFaculty = () => {
     mutationFn: deleteFaculty,
     onSuccess: () => {
       // Invalidate the main faculties list query to trigger a re-fetch
+      queryClient.invalidateQueries({ queryKey: [FACULTIES_QUERY_KEY] });
+    },
+  });
+};
+
+/**
+ * Custom hook to reset a faculty member's password (admin only).
+ * @returns {object} The mutation result object from TanStack Query.
+ */
+export const useResetFacultyPassword = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: resetFacultyPassword,
+    onSuccess: () => {
+      // Optionally invalidate faculty queries if needed
       queryClient.invalidateQueries({ queryKey: [FACULTIES_QUERY_KEY] });
     },
   });
