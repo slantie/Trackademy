@@ -54,8 +54,16 @@ const getNavItems = (role) => {
           icon: AssignmentIcon,
         },
         { name: "Results", path: "/student/results", icon: AssessmentIcon },
-        { name: "Certificates", path: "/certificates", icon: SchoolIcon },
-        { name: "Internships", path: "/internships", icon: BusinessIcon },
+        {
+          name: "Certificates",
+          path: "/student/certificates",
+          icon: SchoolIcon,
+        },
+        {
+          name: "Internships",
+          path: "/student/internships",
+          icon: BusinessIcon,
+        },
       ];
     case Role.FACULTY:
       return [

@@ -6,6 +6,7 @@
 import { Router } from "express";
 import { InternshipController } from "../controllers/internship.controller";
 import { authenticate, authorize } from "../middlewares/auth.middleware";
+import uploadMiddleware from "../middlewares/upload.middleware";
 import { Role } from "@prisma/client";
 
 const router = Router();
@@ -22,6 +23,18 @@ router.post(
   "/",
   authorize(Role.STUDENT),
   InternshipController.createInternship
+);
+
+/**
+ * @route POST /api/v1/internships/upload
+ * @desc Create a new internship record with file upload
+ * @access Private - Students only
+ */
+router.post(
+  "/upload",
+  authorize(Role.STUDENT),
+  uploadMiddleware.single("file"),
+  InternshipController.createInternshipWithFile
 );
 
 /**

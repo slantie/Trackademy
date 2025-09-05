@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CertificateService } from "../services/certificate.service";
 import { prisma } from "../config/prisma.service";
 import { validate } from "../middlewares/validate.middleware";
+import { uploadToCloudinary } from "../config/cloudinary.service";
 import {
   createCertificateSchema,
   updateCertificateSchema,
@@ -42,6 +43,85 @@ export class CertificateController {
       }
     },
   ];
+
+  /**
+   * Create a new certificate with file upload
+   * POST /api/v1/certificates/upload
+   */
+  static async createCertificateWithFile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const studentUserId = req.user?.userId;
+      if (!studentUserId) {
+        throw new AppError("User not authenticated", 401);
+      }
+
+      // Check if file was uploaded
+      const file = (req as any).file;
+      if (!file) {
+        throw new AppError("Certificate file is required", 400);
+      }
+
+      console.log("File received:", {
+        originalname: file.originalname,
+        mimetype: file.mimetype,
+        size: file.size,
+      });
+
+      // Convert buffer to base64 for Cloudinary
+      const base64String = `data:${file.mimetype};base64,${file.buffer.toString(
+        "base64"
+      )}`;
+
+      // Determine resource type based on file mimetype
+      let resourceType: "auto" | "image" | "video" | "raw" = "raw";
+      if (file.mimetype.startsWith("image/")) {
+        resourceType = "image";
+      }
+
+      console.log("Uploading to Cloudinary with resource type:", resourceType);
+
+      // Upload to Cloudinary
+      const uploadResult = await uploadToCloudinary(base64String, {
+        folder: `trackademy/certificates/${studentUserId}`,
+        public_id: `certificate_${Date.now()}_${studentUserId}`,
+        resource_type: resourceType,
+      });
+
+      console.log("Cloudinary upload result:", uploadResult);
+
+      if (!uploadResult.success) {
+        throw new AppError(`File upload failed: ${uploadResult.error}`, 500);
+      }
+
+      // Create certificate data with the uploaded file URL
+      const certificateData = {
+        title: req.body.title,
+        issuingOrganization: req.body.issuingOrganization,
+        issueDate: req.body.issueDate,
+        description: req.body.description || "",
+        certificatePath: uploadResult.data?.secure_url!, // Cloudinary secure URL
+      };
+
+      console.log("Certificate data to create:", certificateData);
+
+      const certificate = await CertificateService.createCertificate(
+        certificateData,
+        studentUserId
+      );
+
+      res.status(201).json({
+        success: true,
+        message: "Certificate created successfully with file upload",
+        data: certificate,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   /**
    * Get all certificates for the authenticated student

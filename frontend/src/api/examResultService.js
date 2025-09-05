@@ -17,6 +17,8 @@ export const getResultsByStudent = async (studentId) => {
 };
 
 export const getStudentResults = async () => {
-  const response = await apiClient.get(API_ENDPOINTS.EXAM_RESULTS.LIST);
+  const response = await apiClient.get(
+    API_ENDPOINTS.EXAM_RESULTS.STUDENT_RESULTS
+  );
   return response.data;
 };

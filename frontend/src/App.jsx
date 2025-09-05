@@ -31,6 +31,9 @@ import ExamResultsPage from "./pages/admin/ExamResultsPage";
 import StudentResultsPage from "./pages/student/StudentResultsPage";
 import UploadPage from "./pages/admin/UploadPage";
 import StudentAssignmentsPage from "./pages/student/StudentAssignmentsPage";
+import StudentCertificatesPage from "./pages/student/StudentCertificatesPage";
+import StudentInternshipsPage from "./pages/student/StudentInternshipsPage";
+import PublicStudentProfilePage from "./pages/PublicStudentProfilePage";
 
 function App() {
   const queryClient = new QueryClient({
@@ -133,7 +136,21 @@ function App() {
                   path="/student/assignments"
                   element={<StudentAssignmentsPage />}
                 />
+                <Route
+                  path="/student/certificates"
+                  element={<StudentCertificatesPage />}
+                />
+                <Route
+                  path="/student/internships"
+                  element={<StudentInternshipsPage />}
+                />
               </Route>
+
+              {/* Public route for student profiles */}
+              <Route
+                path="/student/:id"
+                element={<PublicStudentProfilePage />}
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

@@ -49,7 +49,15 @@ export class InternshipService {
 
     const internship = await prisma.internship.create({
       data: {
-        ...data,
+        companyName: data.companyName,
+        role: data.role,
+        description: data.description,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        status: data.status,
+        stipend: data.stipend,
+        location: data.location,
+        offerLetterPath: data.offerLetterPath,
         studentId,
       },
       include: {

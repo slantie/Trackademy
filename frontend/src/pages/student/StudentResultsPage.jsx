@@ -16,19 +16,43 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useGetStudentResults } from "../../hooks/useExamResults";
 
 const StudentResultsPage = () => {
-  const { data: resultsData, isLoading, isError } = useGetStudentResults();
+  const {
+    data: resultsData,
+    isLoading,
+    isError,
+    error,
+  } = useGetStudentResults();
 
-  if (isLoading) return <CircularProgress />;
-  if (isError)
-    return <Alert severity="error">Failed to load your results.</Alert>;
+  if (isLoading)
+    return (
+      <Container
+        maxWidth="md"
+        sx={{ my: 4, display: "flex", justifyContent: "center" }}
+      >
+        <CircularProgress />
+      </Container>
+    );
 
-  const results = resultsData?.data?.examResults || [];
+  if (isError) {
+    console.error("Error loading results:", error);
+    return (
+      <Container maxWidth="md" sx={{ my: 4 }}>
+        <Alert severity="error">
+          Failed to load your results. Please try again later.
+          {error?.message && <div>Error: {error.message}</div>}
+        </Alert>
+      </Container>
+    );
+  }
+
+  const results = resultsData?.data?.results || [];
 
   return (
     <Container maxWidth="md" sx={{ my: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         My Exam Results
       </Typography>
+
       {results.length === 0 ? (
         <Alert severity="info">No exam results found for your account.</Alert>
       ) : (

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { CertificateController } from "../../../controllers/certificate.controller";
 import { authenticate, authorize } from "../../../middlewares/auth.middleware";
+import { uploadSingle } from "../../../middlewares/upload.middleware";
 import { Role } from "@prisma/client";
 
 const router = Router();
@@ -17,6 +18,18 @@ router.post(
   "/",
   authorize(Role.STUDENT),
   CertificateController.createCertificate
+);
+
+/**
+ * @route   POST /api/v1/certificates/upload
+ * @desc    Create a new certificate with file upload
+ * @access  Students only
+ */
+router.post(
+  "/upload",
+  authorize(Role.STUDENT),
+  uploadSingle("certificate"),
+  CertificateController.createCertificateWithFile
 );
 
 /**
