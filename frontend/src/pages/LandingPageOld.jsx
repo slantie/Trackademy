@@ -86,7 +86,7 @@ const LandingPage = () => {
   return (
     <Box sx={{ flexGrow: 1, minHeight: "100vh" }}>
       {/* Hero Section */}
-      <Container maxWidth="lg" sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 8 } }}>
+      <Container maxWidth="2xl" sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 8 } }}>
         <Box
           sx={{
             textAlign: "center",
@@ -227,7 +227,7 @@ const LandingPage = () => {
       </Container>
 
       {/* Features Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container maxWidth="2xl" sx={{ py: { xs: 6, md: 10 } }}>
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <Typography
             variant="h2"
@@ -325,7 +325,7 @@ const LandingPage = () => {
           py: { xs: 6, md: 10 },
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="2xl">
           <Box sx={{ textAlign: 'center', mb: 8 }}>
             <Typography
               variant="h2"
@@ -387,7 +387,7 @@ const LandingPage = () => {
       </Box>
 
       {/* CTA Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container maxWidth="2xl" sx={{ py: { xs: 6, md: 10 } }}>
         <Paper
           elevation={0}
           sx={{
@@ -493,7 +493,7 @@ const LandingPage = () => {
       </AppBar>
 
       {/* Hero Section */}
-      <Container maxWidth="lg">
+      <Container maxWidth="2xl">
         <Box
           sx={{
             textAlign: "center",
@@ -615,7 +615,7 @@ const LandingPage = () => {
           mt: 8,
         }}
       >
-        <Container maxWidth="lg">
+        <Container maxWidth="2xl">
           <Typography
             variant="body2"
             sx={{

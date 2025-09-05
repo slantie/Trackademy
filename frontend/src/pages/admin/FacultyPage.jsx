@@ -198,7 +198,7 @@ const FacultyPage = () => {
   }));
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="2xl">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Faculties

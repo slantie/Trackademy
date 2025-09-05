@@ -138,7 +138,7 @@ const FacultyDashboardPage = () => {
 
   if (!user) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="2xl" sx={{ py: 4 }}>
         <Alert severity="error">
           You must be logged in to access the faculty dashboard.
         </Alert>
@@ -148,7 +148,7 @@ const FacultyDashboardPage = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Container maxWidth="lg">
+      <Container maxWidth="2xl">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom>
             Welcome, {user?.fullName}!

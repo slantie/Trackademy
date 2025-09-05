@@ -456,7 +456,7 @@ const UploadPage = () => {
   ];
 
   return (
-    <Container maxWidth="lg" sx={{ my: 4 }}>
+    <Container maxWidth="2xl" sx={{ my: 4 }}>
       <Box mb={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Data Upload Center

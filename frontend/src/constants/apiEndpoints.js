@@ -75,6 +75,7 @@ export const API_ENDPOINTS = {
     LIST: "/attendance",
     UPDATE: (attendanceId) => `/attendance/${attendanceId}`,
     UPLOAD: "/upload/attendance",
+    TEMPLATE: (courseId) => `/attendance/course/${courseId}/template`,
   },
   ASSIGNMENTS: {
     LIST_CREATE: "/assignments",

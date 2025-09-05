@@ -2,12 +2,40 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getAttendance,
+  getFacultyCourses,
+  getCourseStudents,
+  createBulkAttendance,
   updateAttendance,
   uploadAttendanceFile,
   getStudentAttendanceSummary,
+  downloadAttendanceTemplate,
 } from "../api/attendanceService";
 
 const ATTENDANCE_QUERY_KEY = "attendance";
+
+/**
+ * Custom hook to fetch courses assigned to the authenticated faculty.
+ * @returns {object} The query result object from TanStack Query.
+ */
+export const useGetFacultyCourses = () => {
+  return useQuery({
+    queryKey: [ATTENDANCE_QUERY_KEY, "faculty-courses"],
+    queryFn: getFacultyCourses,
+  });
+};
+
+/**
+ * Custom hook to fetch students enrolled in a specific course.
+ * @param {string} courseId - The ID of the course.
+ * @returns {object} The query result object from TanStack Query.
+ */
+export const useGetCourseStudents = (courseId) => {
+  return useQuery({
+    queryKey: [ATTENDANCE_QUERY_KEY, "course-students", courseId],
+    queryFn: () => getCourseStudents(courseId),
+    enabled: !!courseId,
+  });
+};
 
 /**
  * Custom hook to fetch attendance records for a course and date.
@@ -55,9 +83,30 @@ export const useGetAttendance = (params, enabled = true) => {
  */
 export const useGetStudentAttendanceSummary = (semesterId) => {
   return useQuery({
-    queryKey: [ATTENDANCE_QUERY_KEY, "summary", semesterId],
-    queryFn: () => getStudentAttendanceSummary({ semesterId }),
-    enabled: !!semesterId,
+    queryKey: [ATTENDANCE_QUERY_KEY, "summary", semesterId || "all"],
+    queryFn: () => {
+      const params = {};
+      if (semesterId) {
+        params.semesterId = semesterId;
+      }
+      return getStudentAttendanceSummary(params);
+    },
+    enabled: true, // Always enabled, no longer dependent on semesterId
+  });
+};
+
+/**
+ * Custom hook to create bulk attendance records.
+ * @returns {object} The mutation result object from TanStack Query.
+ */
+export const useCreateBulkAttendance = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createBulkAttendance,
+    onSuccess: () => {
+      // Invalidate attendance queries to trigger a re-fetch
+      queryClient.invalidateQueries({ queryKey: [ATTENDANCE_QUERY_KEY] });
+    },
   });
 };
 
@@ -88,5 +137,16 @@ export const useUploadAttendanceFile = () => {
       // Invalidate attendance queries to trigger a re-fetch
       queryClient.invalidateQueries({ queryKey: [ATTENDANCE_QUERY_KEY] });
     },
+  });
+};
+
+/**
+ * Custom hook to download an attendance template.
+ * @returns {object} The mutation result object from TanStack Query.
+ */
+export const useDownloadAttendanceTemplate = () => {
+  return useMutation({
+    mutationFn: downloadAttendanceTemplate,
+    retry: false,
   });
 };

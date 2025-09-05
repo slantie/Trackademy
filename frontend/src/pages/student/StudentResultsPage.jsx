@@ -36,7 +36,7 @@ const StudentResultsPage = () => {
   if (isError) {
     console.error("Error loading results:", error);
     return (
-      <Container maxWidth="md" sx={{ my: 4 }}>
+      <Container maxWidth="2xl" sx={{ my: 4 }}>
         <Alert severity="error">
           Failed to load your results. Please try again later.
           {error?.message && <div>Error: {error.message}</div>}
@@ -48,7 +48,7 @@ const StudentResultsPage = () => {
   const results = resultsData?.data?.results || [];
 
   return (
-    <Container maxWidth="md" sx={{ my: 4 }}>
+    <Container maxWidth="2xl" sx={{ my: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         My Exam Results
       </Typography>

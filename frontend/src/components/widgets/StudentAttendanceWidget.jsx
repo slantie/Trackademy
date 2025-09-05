@@ -20,22 +20,18 @@ import { useAuth } from "../../hooks/useAuth";
 const StudentAttendanceWidget = () => {
   const { user } = useAuth();
 
-  // Get semesterId from user details
-  const semesterId = user?.details?.semesterId || user?.semesterId;
-
+  // Get attendance for all courses (no semesterId filter)
   const {
     data: attendanceData,
     isLoading,
     isError,
     error,
-  } = useGetStudentAttendanceSummary(semesterId);
+  } = useGetStudentAttendanceSummary(null); // Pass null to get all courses
 
   // Extract attendance summary from nested data structure
-  const attendanceSummary =
-    attendanceData?.data?.summary || attendanceData?.data || [];
+  const attendanceSummary = attendanceData?.data?.attendance || [];
 
   console.log("StudentAttendanceWidget - User:", user);
-  console.log("StudentAttendanceWidget - SemesterId:", semesterId);
   console.log("StudentAttendanceWidget - Attendance data:", attendanceData);
   console.log("StudentAttendanceWidget - Summary array:", attendanceSummary);
 
@@ -70,22 +66,6 @@ const StudentAttendanceWidget = () => {
     );
   }
 
-  if (!semesterId) {
-    return (
-      <Card sx={{ height: "100%" }}>
-        <CardContent>
-          <Typography variant="h6" component="h2" gutterBottom>
-            Attendance Summary
-          </Typography>
-          <Alert severity="warning" sx={{ mt: 2 }}>
-            Semester information not available. Please contact your
-            administrator.
-          </Alert>
-        </CardContent>
-      </Card>
-    );
-  }
-
   const getAttendanceColor = (percentage) => {
     if (percentage >= 75) return "success";
     if (percentage >= 60) return "warning";
@@ -96,11 +76,11 @@ const StudentAttendanceWidget = () => {
     if (attendanceSummary.length === 0) return 0;
 
     const totalClasses = attendanceSummary.reduce(
-      (sum, course) => sum + (course.totalClasses || 0),
+      (sum, course) => sum + (course.totalLectures || 0),
       0
     );
     const totalAttended = attendanceSummary.reduce(
-      (sum, course) => sum + (course.attendedClasses || 0),
+      (sum, course) => sum + (course.presentCount || 0),
       0
     );
 
@@ -161,12 +141,12 @@ const StudentAttendanceWidget = () => {
             {/* Course-wise Attendance */}
             <List dense>
               {attendanceSummary.map((courseAttendance) => {
-                const percentage = courseAttendance.attendancePercentage || 0;
+                const percentage = courseAttendance.percentage || 0;
                 const attendanceColor = getAttendanceColor(percentage);
 
                 return (
                   <ListItem
-                    key={courseAttendance.course?.id || Math.random()}
+                    key={courseAttendance.courseId || Math.random()}
                     divider
                   >
                     <ListItemText
@@ -179,8 +159,7 @@ const StudentAttendanceWidget = () => {
                           }}
                         >
                           <Typography variant="subtitle1" fontWeight="medium">
-                            {courseAttendance.course?.subject?.name ||
-                              "Unknown Course"}
+                            {courseAttendance.subjectName || "Unknown Course"}
                           </Typography>
                           <Chip
                             label={`${Math.round(percentage)}%`}
@@ -193,12 +172,18 @@ const StudentAttendanceWidget = () => {
                       secondary={
                         <Box>
                           <Typography variant="body2" color="text.secondary">
-                            Code:{" "}
-                            {courseAttendance.course?.subject?.code || "N/A"}
+                            Code: {courseAttendance.subjectCode || "N/A"}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            Classes: {courseAttendance.attendedClasses || 0} /{" "}
-                            {courseAttendance.totalClasses || 0}
+                            Faculty: {courseAttendance.facultyName || "N/A"}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Semester: {courseAttendance.semesterNumber || "N/A"}{" "}
+                            ({courseAttendance.academicYear || "N/A"})
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Classes: {courseAttendance.presentCount || 0} /{" "}
+                            {courseAttendance.totalLectures || 0}
                           </Typography>
                           <Box sx={{ mt: 1 }}>
                             <LinearProgress

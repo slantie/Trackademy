@@ -52,7 +52,7 @@ const ExamsPage = () => {
   const rows = examsData?.data?.exams || [];
 
   return (
-    <Container maxWidth="lg" sx={{ my: 4 }}>
+    <Container maxWidth="2xl" sx={{ my: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Exams
       </Typography>

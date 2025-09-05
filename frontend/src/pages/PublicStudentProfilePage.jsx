@@ -709,7 +709,7 @@ export default function PublicStudentProfilePage() {
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "grey.50", py: 4 }}>
-      <Container maxWidth="lg">
+      <Container maxWidth="2xl">
         <StudentInfoCard student={student} />
 
         <Paper sx={{ borderRadius: 2, overflow: "hidden" }}>

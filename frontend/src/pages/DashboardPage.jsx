@@ -38,48 +38,53 @@ import {
   Analytics as AnalyticsIcon,
 } from "@mui/icons-material";
 
-const StatCard = ({
-  title,
-  value,
-  icon,
-  change = null,
-  subtitle = "",
-  variant = "default",
-}) => {
+const StatCard = ({ title, value, icon, change = null, subtitle = "" }) => {
   const theme = useTheme();
-  
-  const isPositiveChange = change && change.startsWith('+');
-  
+
+  const isPositiveChange = change && change.startsWith("+");
+
   return (
     <Card
       sx={{
         height: "100%",
-        background: theme.palette.mode === 'dark' 
-          ? 'rgba(255, 255, 255, 0.02)'
-          : '#ffffff',
-        border: theme.palette.mode === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.08)'
-          : '1px solid rgba(0, 0, 0, 0.08)',
+        background:
+          theme.palette.mode === "dark"
+            ? "rgba(255, 255, 255, 0.02)"
+            : "#ffffff",
+        border:
+          theme.palette.mode === "dark"
+            ? "1px solid rgba(255, 255, 255, 0.08)"
+            : "1px solid rgba(0, 0, 0, 0.08)",
         borderRadius: 2,
         transition: "all 0.3s ease-in-out",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: theme.palette.mode === 'dark' 
-            ? "0 8px 32px rgba(0, 0, 0, 0.3)"
-            : "0 8px 32px rgba(0, 0, 0, 0.1)",
-          border: theme.palette.mode === 'dark' 
-            ? '1px solid rgba(255, 255, 255, 0.12)'
-            : '1px solid rgba(0, 0, 0, 0.12)',
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+              : "0 8px 32px rgba(0, 0, 0, 0.1)",
+          border:
+            theme.palette.mode === "dark"
+              ? "1px solid rgba(255, 255, 255, 0.12)"
+              : "1px solid rgba(0, 0, 0, 0.12)",
         },
       }}
     >
       <CardContent sx={{ p: 3 }}>
-        <Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", mb: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            mb: 2,
+          }}
+        >
           <Avatar
             sx={{
-              bgcolor: theme.palette.mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.04)',
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.04)",
               width: 48,
               height: 48,
               "& svg": {
@@ -96,52 +101,54 @@ const StatCard = ({
               label={change}
               size="small"
               sx={{
-                bgcolor: isPositiveChange 
-                  ? 'rgba(76, 175, 80, 0.1)' 
-                  : 'rgba(244, 67, 54, 0.1)',
-                color: isPositiveChange 
-                  ? '#4caf50' 
-                  : '#f44336',
-                border: `1px solid ${isPositiveChange ? 'rgba(76, 175, 80, 0.2)' : 'rgba(244, 67, 54, 0.2)'}`,
+                bgcolor: isPositiveChange
+                  ? "rgba(76, 175, 80, 0.1)"
+                  : "rgba(244, 67, 54, 0.1)",
+                color: isPositiveChange ? "#4caf50" : "#f44336",
+                border: `1px solid ${
+                  isPositiveChange
+                    ? "rgba(76, 175, 80, 0.2)"
+                    : "rgba(244, 67, 54, 0.2)"
+                }`,
                 fontWeight: 600,
-                fontSize: '0.75rem',
+                fontSize: "0.75rem",
                 height: 24,
               }}
             />
           )}
         </Box>
-        
+
         <Typography
           variant="h3"
           sx={{
             fontWeight: 700,
             color: theme.palette.text.primary,
             mb: 0.5,
-            fontSize: '2rem',
+            fontSize: "2rem",
             lineHeight: 1.2,
           }}
         >
           {value}
         </Typography>
-        
+
         <Typography
           variant="h6"
           sx={{
             color: theme.palette.text.primary,
             fontWeight: 600,
             mb: subtitle ? 0.5 : 0,
-            fontSize: '1rem',
+            fontSize: "1rem",
           }}
         >
           {title}
         </Typography>
-        
+
         {subtitle && (
           <Typography
             variant="body2"
             sx={{
               color: theme.palette.text.secondary,
-              fontSize: '0.875rem',
+              fontSize: "0.875rem",
             }}
           >
             {subtitle}
@@ -154,24 +161,27 @@ const StatCard = ({
 
 const MetricCard = ({ title, data, icon }) => {
   const theme = useTheme();
-  
+
   return (
     <Card
       sx={{
         height: "100%",
-        background: theme.palette.mode === 'dark' 
-          ? 'rgba(255, 255, 255, 0.02)'
-          : '#ffffff',
-        border: theme.palette.mode === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.08)'
-          : '1px solid rgba(0, 0, 0, 0.08)',
+        background:
+          theme.palette.mode === "dark"
+            ? "rgba(255, 255, 255, 0.02)"
+            : "#ffffff",
+        border:
+          theme.palette.mode === "dark"
+            ? "1px solid rgba(255, 255, 255, 0.08)"
+            : "1px solid rgba(0, 0, 0, 0.08)",
         borderRadius: 2,
         transition: "all 0.3s ease-in-out",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: theme.palette.mode === 'dark' 
-            ? "0 8px 32px rgba(0, 0, 0, 0.3)"
-            : "0 8px 32px rgba(0, 0, 0, 0.1)",
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+              : "0 8px 32px rgba(0, 0, 0, 0.1)",
         },
       }}
     >
@@ -179,9 +189,10 @@ const MetricCard = ({ title, data, icon }) => {
         <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
           <Avatar
             sx={{
-              bgcolor: theme.palette.mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.04)',
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.04)",
               mr: 2,
               width: 40,
               height: 40,
@@ -193,12 +204,12 @@ const MetricCard = ({ title, data, icon }) => {
           >
             {icon}
           </Avatar>
-          <Typography 
-            variant="h6" 
-            sx={{ 
+          <Typography
+            variant="h6"
+            sx={{
               fontWeight: 600,
               color: theme.palette.text.primary,
-              fontSize: '1.1rem',
+              fontSize: "1.1rem",
             }}
           >
             {title}
@@ -208,22 +219,29 @@ const MetricCard = ({ title, data, icon }) => {
         <Stack spacing={2}>
           {data.map((item, index) => (
             <Box key={index}>
-              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1 }}>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 1,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
                     fontWeight: 500,
                     color: theme.palette.text.primary,
                   }}
                 >
                   {item.label}
                 </Typography>
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
+                <Typography
+                  variant="h6"
+                  sx={{
                     fontWeight: 700,
                     color: item.color || theme.palette.text.primary,
-                    fontSize: '1.1rem',
+                    fontSize: "1.1rem",
                   }}
                 >
                   {item.value}
@@ -236,9 +254,10 @@ const MetricCard = ({ title, data, icon }) => {
                   sx={{
                     height: 6,
                     borderRadius: 3,
-                    bgcolor: theme.palette.mode === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.05)' 
-                      : 'rgba(0, 0, 0, 0.05)',
+                    bgcolor:
+                      theme.palette.mode === "dark"
+                        ? "rgba(255, 255, 255, 0.05)"
+                        : "rgba(0, 0, 0, 0.05)",
                     "& .MuiLinearProgress-bar": {
                       borderRadius: 3,
                       bgcolor: item.color || theme.palette.primary.main,
@@ -268,19 +287,22 @@ const PerformanceCard = () => {
     <Card
       sx={{
         height: "100%",
-        background: theme.palette.mode === 'dark' 
-          ? 'rgba(255, 255, 255, 0.02)'
-          : '#ffffff',
-        border: theme.palette.mode === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.08)'
-          : '1px solid rgba(0, 0, 0, 0.08)',
+        background:
+          theme.palette.mode === "dark"
+            ? "rgba(255, 255, 255, 0.02)"
+            : "#ffffff",
+        border:
+          theme.palette.mode === "dark"
+            ? "1px solid rgba(255, 255, 255, 0.08)"
+            : "1px solid rgba(0, 0, 0, 0.08)",
         borderRadius: 2,
         transition: "all 0.3s ease-in-out",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: theme.palette.mode === 'dark' 
-            ? "0 8px 32px rgba(0, 0, 0, 0.3)"
-            : "0 8px 32px rgba(0, 0, 0, 0.1)",
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+              : "0 8px 32px rgba(0, 0, 0, 0.1)",
         },
       }}
     >
@@ -288,22 +310,25 @@ const PerformanceCard = () => {
         <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
           <Avatar
             sx={{
-              bgcolor: theme.palette.mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.04)',
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.04)",
               mr: 2,
               width: 40,
               height: 40,
             }}
           >
-            <SpeedIcon sx={{ color: theme.palette.text.secondary, fontSize: 20 }} />
+            <SpeedIcon
+              sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+            />
           </Avatar>
-          <Typography 
-            variant="h6" 
-            sx={{ 
+          <Typography
+            variant="h6"
+            sx={{
               fontWeight: 600,
               color: theme.palette.text.primary,
-              fontSize: '1.1rem',
+              fontSize: "1.1rem",
             }}
           >
             Performance Metrics
@@ -313,22 +338,29 @@ const PerformanceCard = () => {
         <Stack spacing={3}>
           {metrics.map((metric, index) => (
             <Box key={index}>
-              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 1.5,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
                     fontWeight: 500,
                     color: theme.palette.text.primary,
                   }}
                 >
                   {metric.label}
                 </Typography>
-                <Typography 
-                  variant="body1" 
-                  sx={{ 
+                <Typography
+                  variant="body1"
+                  sx={{
                     fontWeight: 700,
                     color: metric.color,
-                    fontSize: '0.95rem',
+                    fontSize: "0.95rem",
                   }}
                 >
                   {metric.value}%
@@ -340,9 +372,10 @@ const PerformanceCard = () => {
                 sx={{
                   height: 8,
                   borderRadius: 4,
-                  bgcolor: theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.05)' 
-                    : 'rgba(0, 0, 0, 0.05)',
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.05)"
+                      : "rgba(0, 0, 0, 0.05)",
                   "& .MuiLinearProgress-bar": {
                     borderRadius: 4,
                     bgcolor: metric.color,
@@ -361,29 +394,48 @@ const QuickActionsCard = () => {
   const theme = useTheme();
 
   const actions = [
-    { title: "Add Student", icon: GroupsIcon, description: "Register new student" },
-    { title: "Create Course", icon: SubjectIcon, description: "Add new course" },
-    { title: "View Reports", icon: AssessmentIcon, description: "Analytics dashboard" },
-    { title: "Manage Users", icon: BusinessIcon, description: "User management" },
+    {
+      title: "Add Student",
+      icon: GroupsIcon,
+      description: "Register new student",
+    },
+    {
+      title: "Create Course",
+      icon: SubjectIcon,
+      description: "Add new course",
+    },
+    {
+      title: "View Reports",
+      icon: AssessmentIcon,
+      description: "Analytics dashboard",
+    },
+    {
+      title: "Manage Users",
+      icon: BusinessIcon,
+      description: "User management",
+    },
   ];
 
   return (
     <Card
       sx={{
         height: "100%",
-        background: theme.palette.mode === 'dark' 
-          ? 'rgba(255, 255, 255, 0.02)'
-          : '#ffffff',
-        border: theme.palette.mode === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.08)'
-          : '1px solid rgba(0, 0, 0, 0.08)',
+        background:
+          theme.palette.mode === "dark"
+            ? "rgba(255, 255, 255, 0.02)"
+            : "#ffffff",
+        border:
+          theme.palette.mode === "dark"
+            ? "1px solid rgba(255, 255, 255, 0.08)"
+            : "1px solid rgba(0, 0, 0, 0.08)",
         borderRadius: 2,
         transition: "all 0.3s ease-in-out",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: theme.palette.mode === 'dark' 
-            ? "0 8px 32px rgba(0, 0, 0, 0.3)"
-            : "0 8px 32px rgba(0, 0, 0, 0.1)",
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+              : "0 8px 32px rgba(0, 0, 0, 0.1)",
         },
       }}
     >
@@ -391,22 +443,25 @@ const QuickActionsCard = () => {
         <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
           <Avatar
             sx={{
-              bgcolor: theme.palette.mode === 'dark' 
-                ? 'rgba(255, 255, 255, 0.05)'
-                : 'rgba(0, 0, 0, 0.04)',
+              bgcolor:
+                theme.palette.mode === "dark"
+                  ? "rgba(255, 255, 255, 0.05)"
+                  : "rgba(0, 0, 0, 0.04)",
               mr: 2,
               width: 40,
               height: 40,
             }}
           >
-            <GraphIcon sx={{ color: theme.palette.text.secondary, fontSize: 20 }} />
+            <GraphIcon
+              sx={{ color: theme.palette.text.secondary, fontSize: 20 }}
+            />
           </Avatar>
-          <Typography 
-            variant="h6" 
-            sx={{ 
+          <Typography
+            variant="h6"
+            sx={{
               fontWeight: 600,
               color: theme.palette.text.primary,
-              fontSize: '1.1rem',
+              fontSize: "1.1rem",
             }}
           >
             Quick Actions
@@ -424,21 +479,24 @@ const QuickActionsCard = () => {
                 textAlign: "left",
                 py: 1.5,
                 px: 2,
-                border: theme.palette.mode === 'dark' 
-                  ? '1px solid rgba(255, 255, 255, 0.08)'
-                  : '1px solid rgba(0, 0, 0, 0.08)',
+                border:
+                  theme.palette.mode === "dark"
+                    ? "1px solid rgba(255, 255, 255, 0.08)"
+                    : "1px solid rgba(0, 0, 0, 0.08)",
                 borderRadius: 2,
                 color: theme.palette.text.primary,
-                textTransform: 'none',
-                fontSize: '0.95rem',
+                textTransform: "none",
+                fontSize: "0.95rem",
                 fontWeight: 500,
                 "&:hover": {
-                  bgcolor: theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.05)'
-                    : 'rgba(0, 0, 0, 0.02)',
-                  border: theme.palette.mode === 'dark' 
-                    ? '1px solid rgba(255, 255, 255, 0.12)'
-                    : '1px solid rgba(0, 0, 0, 0.12)',
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.05)"
+                      : "rgba(0, 0, 0, 0.02)",
+                  border:
+                    theme.palette.mode === "dark"
+                      ? "1px solid rgba(255, 255, 255, 0.12)"
+                      : "1px solid rgba(0, 0, 0, 0.12)",
                   transform: "translateX(4px)",
                 },
               }}
@@ -447,7 +505,13 @@ const QuickActionsCard = () => {
                 <Typography variant="body1" sx={{ fontWeight: 600 }}>
                   {action.title}
                 </Typography>
-                <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontSize: '0.8rem' }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    fontSize: "0.8rem",
+                  }}
+                >
                   {action.description}
                 </Typography>
               </Box>
@@ -459,34 +523,38 @@ const QuickActionsCard = () => {
   );
 };
 
-const AnalyticsOverview = ({ 
-  totalStudents, 
-  totalFaculties, 
-  passCount, 
-  failCount, 
-  avgSpi, 
-  avgCpi 
+const AnalyticsOverview = ({
+  // _totalStudents,
+  // _totalFaculties,
+  passCount,
+  failCount,
+  avgSpi,
+  avgCpi,
 }) => {
   const theme = useTheme();
   const totalResults = passCount + failCount;
-  const passRate = totalResults > 0 ? ((passCount / totalResults) * 100).toFixed(1) : 0;
+  const passRate =
+    totalResults > 0 ? ((passCount / totalResults) * 100).toFixed(1) : 0;
 
   return (
     <Card
       sx={{
-        background: theme.palette.mode === 'dark' 
-          ? 'rgba(255, 255, 255, 0.02)'
-          : '#ffffff',
-        border: theme.palette.mode === 'dark' 
-          ? '1px solid rgba(255, 255, 255, 0.08)'
-          : '1px solid rgba(0, 0, 0, 0.08)',
+        background:
+          theme.palette.mode === "dark"
+            ? "rgba(255, 255, 255, 0.02)"
+            : "#ffffff",
+        border:
+          theme.palette.mode === "dark"
+            ? "1px solid rgba(255, 255, 255, 0.08)"
+            : "1px solid rgba(0, 0, 0, 0.08)",
         borderRadius: 2,
         transition: "all 0.3s ease-in-out",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: theme.palette.mode === 'dark' 
-            ? "0 8px 32px rgba(0, 0, 0, 0.3)"
-            : "0 8px 32px rgba(0, 0, 0, 0.1)",
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "0 8px 32px rgba(0, 0, 0, 0.3)"
+              : "0 8px 32px rgba(0, 0, 0, 0.1)",
         },
       }}
     >
@@ -498,7 +566,7 @@ const AnalyticsOverview = ({
               fontWeight: 700,
               color: theme.palette.text.primary,
               mb: 1,
-              fontSize: '1.75rem',
+              fontSize: "1.75rem",
             }}
           >
             Academic Performance Overview
@@ -511,7 +579,8 @@ const AnalyticsOverview = ({
               mx: "auto",
             }}
           >
-            Comprehensive analytics of institutional performance and student outcomes
+            Comprehensive analytics of institutional performance and student
+            outcomes
           </Typography>
         </Box>
 
@@ -522,28 +591,28 @@ const AnalyticsOverview = ({
               value: passCount.toLocaleString(),
               subtitle: `${passRate}% Success Rate`,
               color: "#4caf50",
-              icon: "✓"
+              icon: "✓",
             },
             {
-              title: "Need Support", 
+              title: "Need Support",
               value: failCount.toLocaleString(),
               subtitle: "Intervention Required",
               color: "#f44336",
-              icon: "!"
+              icon: "!",
             },
             {
               title: "Average SPI",
               value: avgSpi,
               subtitle: "Semester Performance",
               color: "#2196f3",
-              icon: "📊"
+              icon: "📊",
             },
             {
               title: "Average CPI",
               value: avgCpi,
-              subtitle: "Cumulative Performance", 
+              subtitle: "Cumulative Performance",
               color: "#9c27b0",
-              icon: "🎯"
+              icon: "🎯",
             },
           ].map((metric, index) => (
             <Grid xs={12} sm={6} md={3} key={index}>
@@ -552,23 +621,26 @@ const AnalyticsOverview = ({
                 sx={{
                   textAlign: "center",
                   p: 3,
-                  bgcolor: theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.02)'
-                    : '#fafafa',
-                  border: theme.palette.mode === 'dark' 
-                    ? '1px solid rgba(255, 255, 255, 0.05)'
-                    : '1px solid rgba(0, 0, 0, 0.05)',
+                  bgcolor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.02)"
+                      : "#fafafa",
+                  border:
+                    theme.palette.mode === "dark"
+                      ? "1px solid rgba(255, 255, 255, 0.05)"
+                      : "1px solid rgba(0, 0, 0, 0.05)",
                   borderRadius: 2,
                   transition: "all 0.3s ease",
                   "&:hover": {
-                    bgcolor: theme.palette.mode === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.04)'
-                      : '#f5f5f5',
+                    bgcolor:
+                      theme.palette.mode === "dark"
+                        ? "rgba(255, 255, 255, 0.04)"
+                        : "#f5f5f5",
                     transform: "translateY(-2px)",
                   },
                 }}
               >
-                <Typography variant="h4" sx={{ mb: 1, fontSize: '1.5rem' }}>
+                <Typography variant="h4" sx={{ mb: 1, fontSize: "1.5rem" }}>
                   {metric.icon}
                 </Typography>
                 <Typography
@@ -577,18 +649,18 @@ const AnalyticsOverview = ({
                     fontWeight: 700,
                     color: metric.color,
                     mb: 1,
-                    fontSize: '1.75rem',
+                    fontSize: "1.75rem",
                   }}
                 >
                   {metric.value}
                 </Typography>
                 <Typography
                   variant="h6"
-                  sx={{ 
-                    fontWeight: 600, 
+                  sx={{
+                    fontWeight: 600,
                     mb: 0.5,
                     color: theme.palette.text.primary,
-                    fontSize: '1rem',
+                    fontSize: "1rem",
                   }}
                 >
                   {metric.title}
@@ -627,21 +699,22 @@ const DashboardPage = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
-          background: theme.palette.mode === 'dark' 
-            ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
-            : 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)',
+          background:
+            theme.palette.mode === "dark"
+              ? "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"
+              : "linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)",
         }}
       >
         <Stack alignItems="center" spacing={3}>
-          <CircularProgress 
-            size={48} 
-            sx={{ 
+          <CircularProgress
+            size={48}
+            sx={{
               color: theme.palette.primary.main,
-            }} 
+            }}
           />
-          <Typography 
-            variant="h6" 
-            sx={{ 
+          <Typography
+            variant="h6"
+            sx={{
               color: theme.palette.text.secondary,
               fontWeight: 500,
             }}
@@ -655,12 +728,12 @@ const DashboardPage = () => {
 
   if (summaryError || analyticsError) {
     return (
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Alert 
-          severity="error" 
-          sx={{ 
+      <Container maxWidth="2xl" sx={{ py: 4 }}>
+        <Alert
+          severity="error"
+          sx={{
             borderRadius: 2,
-            border: '1px solid rgba(244, 67, 54, 0.2)',
+            border: "1px solid rgba(244, 67, 54, 0.2)",
           }}
         >
           Failed to load dashboard data. Please try again later.
@@ -677,29 +750,32 @@ const DashboardPage = () => {
   const totalSubjects = summaryData?.data?.subjects || 0;
   const totalAssignments = summaryData?.data?.assignments || 0;
   const totalColleges = summaryData?.data?.colleges || 0;
-  const totalSemesters = summaryData?.data?.semesters || 0;
+  const _totalSemesters = summaryData?.data?.semesters || 0;
 
   const passCount = analyticsData?.data?.statistics?.passCount || 0;
   const failCount = analyticsData?.data?.statistics?.failCount || 0;
   const totalResults = passCount + failCount;
-  const passRate = totalResults > 0 ? ((passCount / totalResults) * 100).toFixed(1) : 0;
-  const failRate = totalResults > 0 ? ((failCount / totalResults) * 100).toFixed(1) : 0;
+  const passRate =
+    totalResults > 0 ? ((passCount / totalResults) * 100).toFixed(1) : 0;
+  const failRate =
+    totalResults > 0 ? ((failCount / totalResults) * 100).toFixed(1) : 0;
 
   const avgSpi = analyticsData?.data?.statistics?.averageSpi || 0;
   const avgCpi = analyticsData?.data?.statistics?.averageCpi || 0;
 
   return (
-    <Box 
-      sx={{ 
-        background: theme.palette.mode === 'dark' 
-          ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)'
-          : 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)',
-        minHeight: "100vh", 
+    <Box
+      sx={{
+        background:
+          theme.palette.mode === "dark"
+            ? "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"
+            : "linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)",
+        minHeight: "100vh",
         py: 4,
         px: 3,
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="2xl">
         {/* Header */}
         <Box sx={{ mb: 4 }}>
           <Typography
@@ -708,16 +784,16 @@ const DashboardPage = () => {
               fontWeight: 700,
               color: theme.palette.text.primary,
               mb: 1,
-              fontSize: { xs: '1.75rem', md: '2.25rem' },
+              fontSize: { xs: "1.75rem", md: "2.25rem" },
             }}
           >
             Dashboard
           </Typography>
-          <Typography 
-            variant="body1" 
-            sx={{ 
+          <Typography
+            variant="body1"
+            sx={{
               color: theme.palette.text.secondary,
-              fontSize: '1rem',
+              fontSize: "1rem",
             }}
           >
             Welcome back! Here's what's happening with your institution today.
@@ -828,18 +904,18 @@ const DashboardPage = () => {
                   color: "#2196f3",
                 },
                 {
-                  label: "Average CPI", 
+                  label: "Average CPI",
                   value: avgCpi,
                   color: "#9c27b0",
                 },
               ]}
             />
           </Grid>
-          
+
           <Grid xs={12} md={4}>
             <PerformanceCard />
           </Grid>
-          
+
           <Grid xs={12} md={4}>
             <QuickActionsCard />
           </Grid>

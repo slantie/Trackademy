@@ -250,7 +250,7 @@ const StudentAssignmentsPage = () => {
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="2xl" sx={{ mt: 4, mb: 4 }}>
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <CircularProgress size={60} />
         </Box>
@@ -260,7 +260,7 @@ const StudentAssignmentsPage = () => {
 
   if (isError) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="2xl" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="error">
           Failed to load assignments:{" "}
           {error?.message || "Please try again later."}
@@ -270,7 +270,7 @@ const StudentAssignmentsPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="2xl" sx={{ mt: 4, mb: 4 }}>
       <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
         <AssignmentIcon sx={{ mr: 2, fontSize: 32, color: "primary.main" }} />
         <Typography variant="h4" component="h1" fontWeight="bold">

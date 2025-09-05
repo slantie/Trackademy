@@ -13,14 +13,14 @@ const StudentDashboardPage = () => {
 
   if (!user) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="2xl" sx={{ py: 4 }}>
         <Alert severity="error">User authentication required.</Alert>
       </Container>
     );
   }
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="2xl">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Welcome, {user?.fullName}!

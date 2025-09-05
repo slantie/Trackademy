@@ -180,7 +180,7 @@ const StudentCertificatesPage = () => {
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="2xl" sx={{ mt: 4, mb: 4 }}>
         <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
           <CircularProgress size={60} />
         </Box>
@@ -190,7 +190,7 @@ const StudentCertificatesPage = () => {
 
   if (isError) {
     return (
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Container maxWidth="2xl" sx={{ mt: 4, mb: 4 }}>
         <Alert severity="error">
           Failed to load certificates. Please try again later.
           {error?.message && <div>Error: {error.message}</div>}
@@ -200,7 +200,7 @@ const StudentCertificatesPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="2xl" sx={{ mt: 4, mb: 4 }}>
       {/* Header */}
       <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
         <SchoolIcon sx={{ mr: 2, fontSize: 32, color: "primary.main" }} />

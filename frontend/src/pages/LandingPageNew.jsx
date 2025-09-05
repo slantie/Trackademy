@@ -35,7 +35,8 @@ const LandingPage = () => {
     {
       icon: <CoPresentIcon sx={{ fontSize: 48, color: "secondary.main" }} />,
       title: "Attendance Monitoring",
-      description: "Real-time attendance tracking with automated notifications to keep students and faculty connected.",
+      description:
+        "Real-time attendance tracking with automated notifications to keep students and faculty connected.",
       color: "secondary",
     },
     {
@@ -46,7 +47,9 @@ const LandingPage = () => {
       color: "success",
     },
     {
-      icon: <WorkspacePremiumIcon sx={{ fontSize: 48, color: "warning.main" }} />,
+      icon: (
+        <WorkspacePremiumIcon sx={{ fontSize: 48, color: "warning.main" }} />
+      ),
       title: "Portfolio Building",
       description:
         "Track internships, certificates, and achievements to build comprehensive professional portfolios.",
@@ -63,26 +66,30 @@ const LandingPage = () => {
 
   const benefits = [
     {
-      icon: <SpeedIcon sx={{ color: 'primary.main', fontSize: 40 }} />,
+      icon: <SpeedIcon sx={{ color: "primary.main", fontSize: 40 }} />,
       title: "Lightning Fast",
-      description: "Optimized performance for instant loading and seamless user experience."
+      description:
+        "Optimized performance for instant loading and seamless user experience.",
     },
     {
-      icon: <SecurityIcon sx={{ color: 'success.main', fontSize: 40 }} />,
+      icon: <SecurityIcon sx={{ color: "success.main", fontSize: 40 }} />,
       title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime guarantee."
+      description: "Enterprise-grade security with 99.9% uptime guarantee.",
     },
     {
-      icon: <TrendingUpIcon sx={{ color: 'secondary.main', fontSize: 40 }} />,
+      icon: <TrendingUpIcon sx={{ color: "secondary.main", fontSize: 40 }} />,
       title: "Data-Driven Insights",
-      description: "Advanced analytics to track progress and improve outcomes."
+      description: "Advanced analytics to track progress and improve outcomes.",
     },
   ];
 
   return (
     <Box sx={{ flexGrow: 1, minHeight: "100vh" }}>
       {/* Hero Section */}
-      <Container maxWidth="lg" sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 8 } }}>
+      <Container
+        maxWidth="lg"
+        sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 8 } }}
+      >
         <Box
           sx={{
             textAlign: "center",
@@ -93,24 +100,24 @@ const LandingPage = () => {
             label="🚀 New Features Available"
             sx={{
               mb: 3,
-              bgcolor: 'rgba(129, 85, 198, 0.1)',
-              color: 'primary.main',
+              bgcolor: "rgba(129, 85, 198, 0.1)",
+              color: "primary.main",
               fontWeight: 600,
               px: 2,
               py: 0.5,
             }}
           />
-          
+
           <Typography
             variant="h1"
             component="h1"
             sx={{
               fontWeight: 800,
               mb: 3,
-              background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              background: "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
               fontSize: { xs: "2.5rem", md: "4rem", lg: "4.5rem" },
               lineHeight: 1.1,
             }}
@@ -119,7 +126,7 @@ const LandingPage = () => {
             <br />
             Simplified & Smart
           </Typography>
-          
+
           <Typography
             variant="h5"
             component="p"
@@ -133,10 +140,18 @@ const LandingPage = () => {
             }}
           >
             The all-in-one platform for students and faculty to manage results,
-            track attendance, collaborate on assignments, and build professional portfolios.
+            track attendance, collaborate on assignments, and build professional
+            portfolios.
           </Typography>
-          
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
             <Button
               component={Link}
               to="/auth"
@@ -147,20 +162,21 @@ const LandingPage = () => {
                 px: 4,
                 py: 1.5,
                 fontSize: "1.1rem",
-                background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
+                background: "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
                 borderRadius: 3,
-                boxShadow: '0 8px 32px rgba(129, 85, 198, 0.3)',
-                '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 12px 40px rgba(129, 85, 198, 0.4)',
-                  background: 'linear-gradient(135deg, #6d47b3 0%, #5866d1 100%)',
+                boxShadow: "0 8px 32px rgba(129, 85, 198, 0.3)",
+                "&:hover": {
+                  transform: "translateY(-2px)",
+                  boxShadow: "0 12px 40px rgba(129, 85, 198, 0.4)",
+                  background:
+                    "linear-gradient(135deg, #6d47b3 0%, #5866d1 100%)",
                 },
-                transition: 'all 0.3s ease',
+                transition: "all 0.3s ease",
               }}
             >
               Get Started Free
             </Button>
-            
+
             <Button
               variant="outlined"
               size="large"
@@ -170,11 +186,11 @@ const LandingPage = () => {
                 fontSize: "1.1rem",
                 borderRadius: 3,
                 borderWidth: 2,
-                '&:hover': {
+                "&:hover": {
                   borderWidth: 2,
-                  transform: 'translateY(-2px)',
+                  transform: "translateY(-2px)",
                 },
-                transition: 'all 0.3s ease',
+                transition: "all 0.3s ease",
               }}
             >
               Watch Demo
@@ -188,31 +204,38 @@ const LandingPage = () => {
           sx={{
             p: { xs: 3, md: 4 },
             borderRadius: 4,
-            background: (theme) => theme.palette.mode === 'dark' 
-              ? 'rgba(129, 85, 198, 0.05)' 
-              : 'rgba(129, 85, 198, 0.03)',
-            border: '1px solid',
-            borderColor: 'divider',
+            background: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(129, 85, 198, 0.05)"
+                : "rgba(129, 85, 198, 0.03)",
+            border: "1px solid",
+            borderColor: "divider",
             mb: { xs: 8, md: 12 },
           }}
         >
           <Grid container spacing={3}>
             {stats.map((stat, index) => (
               <Grid item xs={6} md={3} key={index}>
-                <Box sx={{ textAlign: 'center' }}>
-                  <stat.icon sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                <Box sx={{ textAlign: "center" }}>
+                  <stat.icon
+                    sx={{ fontSize: 32, color: "primary.main", mb: 1 }}
+                  />
                   <Typography
                     variant="h3"
                     sx={{
                       fontWeight: 800,
-                      color: 'primary.main',
+                      color: "primary.main",
                       mb: 0.5,
-                      fontSize: { xs: '1.8rem', md: '2.5rem' },
+                      fontSize: { xs: "1.8rem", md: "2.5rem" },
                     }}
                   >
                     {stat.number}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" fontWeight={500}>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    fontWeight={500}
+                  >
                     {stat.label}
                   </Typography>
                 </Box>
@@ -223,16 +246,16 @@ const LandingPage = () => {
       </Container>
 
       {/* Features Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+      <Container maxWidth="2xl" sx={{ py: { xs: 6, md: 10 } }}>
+        <Box sx={{ textAlign: "center", mb: 8 }}>
           <Typography
             variant="h2"
             component="h2"
             sx={{
               fontWeight: 700,
               mb: 2,
-              color: 'text.primary',
-              fontSize: { xs: '2rem', md: '3rem' },
+              color: "text.primary",
+              fontSize: { xs: "2rem", md: "3rem" },
             }}
           >
             Powerful Features for Modern Education
@@ -240,9 +263,10 @@ const LandingPage = () => {
           <Typography
             variant="h6"
             color="text.secondary"
-            sx={{ maxWidth: 600, mx: 'auto' }}
+            sx={{ maxWidth: 600, mx: "auto" }}
           >
-            Everything you need to manage academic workflows, track progress, and enhance learning outcomes.
+            Everything you need to manage academic workflows, track progress,
+            and enhance learning outcomes.
           </Typography>
         </Box>
 
@@ -255,12 +279,13 @@ const LandingPage = () => {
                   p: { xs: 2, md: 3 },
                   borderRadius: 4,
                   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  background: (theme) => theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.02)' 
-                    : 'rgba(255, 255, 255, 0.8)',
-                  backdropFilter: 'blur(10px)',
+                  border: "1px solid",
+                  borderColor: "divider",
+                  background: (theme) =>
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.02)"
+                      : "rgba(255, 255, 255, 0.8)",
+                  backdropFilter: "blur(10px)",
                   "&:hover": {
                     transform: "translateY(-8px)",
                     boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
@@ -274,32 +299,35 @@ const LandingPage = () => {
                       width: 80,
                       height: 80,
                       borderRadius: 3,
-                      background: (theme) => `linear-gradient(135deg, ${theme.palette[feature.color].main}15, ${theme.palette[feature.color].main}05)`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      background: (theme) =>
+                        `linear-gradient(135deg, ${
+                          theme.palette[feature.color].main
+                        }15, ${theme.palette[feature.color].main}05)`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       mb: 3,
                     }}
                   >
                     {feature.icon}
                   </Box>
-                  
+
                   <Typography
                     variant="h5"
                     component="h3"
                     sx={{
                       mb: 2,
                       fontWeight: 700,
-                      color: 'text.primary',
+                      color: "text.primary",
                     }}
                   >
                     {feature.title}
                   </Typography>
-                  
+
                   <Typography
                     variant="body1"
                     sx={{
-                      color: 'text.secondary',
+                      color: "text.secondary",
                       lineHeight: 1.7,
                     }}
                   >
@@ -315,22 +343,23 @@ const LandingPage = () => {
       {/* Benefits Section */}
       <Box
         sx={{
-          background: (theme) => theme.palette.mode === 'dark' 
-            ? 'linear-gradient(135deg, rgba(129, 85, 198, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%)'
-            : 'linear-gradient(135deg, rgba(129, 85, 198, 0.03) 0%, rgba(102, 126, 234, 0.03) 100%)',
+          background: (theme) =>
+            theme.palette.mode === "dark"
+              ? "linear-gradient(135deg, rgba(129, 85, 198, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%)"
+              : "linear-gradient(135deg, rgba(129, 85, 198, 0.03) 0%, rgba(102, 126, 234, 0.03) 100%)",
           py: { xs: 6, md: 10 },
         }}
       >
-        <Container maxWidth="lg">
-          <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Container maxWidth="2xl">
+          <Box sx={{ textAlign: "center", mb: 8 }}>
             <Typography
               variant="h2"
               component="h2"
               sx={{
                 fontWeight: 700,
                 mb: 2,
-                color: 'text.primary',
-                fontSize: { xs: '2rem', md: '3rem' },
+                color: "text.primary",
+                fontSize: { xs: "2rem", md: "3rem" },
               }}
             >
               Why Choose Trackademy?
@@ -338,9 +367,10 @@ const LandingPage = () => {
             <Typography
               variant="h6"
               color="text.secondary"
-              sx={{ maxWidth: 600, mx: 'auto' }}
+              sx={{ maxWidth: 600, mx: "auto" }}
             >
-              Built with cutting-edge technology and designed for the future of education.
+              Built with cutting-edge technology and designed for the future of
+              education.
             </Typography>
           </Box>
 
@@ -349,26 +379,27 @@ const LandingPage = () => {
               <Grid item xs={12} md={4} key={index}>
                 <Box
                   sx={{
-                    textAlign: 'center',
+                    textAlign: "center",
                     p: 4,
                     borderRadius: 3,
-                    background: (theme) => theme.palette.mode === 'dark' 
-                      ? 'rgba(255, 255, 255, 0.02)' 
-                      : 'rgba(255, 255, 255, 0.6)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 16px 32px rgba(0, 0, 0, 0.1)',
+                    background: (theme) =>
+                      theme.palette.mode === "dark"
+                        ? "rgba(255, 255, 255, 0.02)"
+                        : "rgba(255, 255, 255, 0.6)",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 16px 32px rgba(0, 0, 0, 0.1)",
                     },
                   }}
                 >
                   <Box sx={{ mb: 2 }}>{benefit.icon}</Box>
                   <Typography
                     variant="h6"
-                    sx={{ fontWeight: 700, mb: 1, color: 'text.primary' }}
+                    sx={{ fontWeight: 700, mb: 1, color: "text.primary" }}
                   >
                     {benefit.title}
                   </Typography>
@@ -383,15 +414,15 @@ const LandingPage = () => {
       </Box>
 
       {/* CTA Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container maxWidth="2xl" sx={{ py: { xs: 6, md: 10 } }}>
         <Paper
           elevation={0}
           sx={{
             p: { xs: 4, md: 6 },
             borderRadius: 4,
-            textAlign: 'center',
-            background: 'linear-gradient(135deg, #8155c6 0%, #667eea 100%)',
-            color: 'white',
+            textAlign: "center",
+            background: "linear-gradient(135deg, #8155c6 0%, #667eea 100%)",
+            color: "white",
           }}
         >
           <Typography
@@ -399,7 +430,7 @@ const LandingPage = () => {
             sx={{
               fontWeight: 800,
               mb: 2,
-              fontSize: { xs: '2rem', md: '2.5rem' },
+              fontSize: { xs: "2rem", md: "2.5rem" },
             }}
           >
             Ready to Transform Your Academic Experience?
@@ -410,10 +441,11 @@ const LandingPage = () => {
               mb: 4,
               opacity: 0.9,
               maxWidth: 600,
-              mx: 'auto',
+              mx: "auto",
             }}
           >
-            Join thousands of students and educators who have already revolutionized their academic workflows.
+            Join thousands of students and educators who have already
+            revolutionized their academic workflows.
           </Typography>
           <Button
             component={Link}
@@ -424,15 +456,15 @@ const LandingPage = () => {
               px: 4,
               py: 1.5,
               fontSize: "1.1rem",
-              backgroundColor: 'white',
-              color: 'primary.main',
+              backgroundColor: "white",
+              color: "primary.main",
               borderRadius: 3,
               fontWeight: 700,
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                transform: 'translateY(-2px)',
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                transform: "translateY(-2px)",
               },
-              transition: 'all 0.3s ease',
+              transition: "all 0.3s ease",
             }}
           >
             Start Your Journey Today

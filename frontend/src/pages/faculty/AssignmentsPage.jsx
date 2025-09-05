@@ -261,7 +261,7 @@ const AssignmentsPage = () => {
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth="2xl">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom>
             My Assignments
@@ -277,7 +277,7 @@ const AssignmentsPage = () => {
   if (isError) {
     console.error("Assignments data fetch error:", isError);
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth="2xl">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h1" gutterBottom>
             My Assignments
@@ -327,7 +327,7 @@ const AssignmentsPage = () => {
   console.log("Valid assignment rows sample:", validRows.slice(0, 2));
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="2xl">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           My Assignments

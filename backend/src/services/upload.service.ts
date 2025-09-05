@@ -1086,12 +1086,16 @@ class UploadService {
         404
       );
 
-    // ... the rest of the function remains the same ...
-    const studentsInDivision = await prisma.student.findMany({
-      where: { divisionId },
+    // Get students enrolled in this specific course
+    const enrolledStudents = await prisma.studentEnrollment.findMany({
+      where: { courseId: course.id },
+      include: { student: true },
     });
     const studentMap = new Map(
-      studentsInDivision.map((s) => [s.enrollmentNumber, s])
+      enrolledStudents.map((enrollment) => [
+        enrollment.student.enrollmentNumber,
+        enrollment.student,
+      ])
     );
 
     const workbook = new ExcelJS.Workbook();
@@ -1132,7 +1136,7 @@ class UploadService {
 
       if (!student) {
         console.warn(
-          `Row ${rowNum}: Skipping. Student with enrollment number "${enrollmentNumber}" not found in this division.`
+          `Row ${rowNum}: Skipping. Student with enrollment number "${enrollmentNumber}" not found in this course.`
         );
         skippedCount++;
         continue;

@@ -35,7 +35,7 @@ const ExamResultsPage = () => {
   const rows = resultsData?.data?.examResults || [];
 
   return (
-    <Container maxWidth="lg" sx={{ my: 4 }}>
+    <Container maxWidth="2xl" sx={{ my: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Exam Results for {rows[0]?.exam?.name || "Exam"}
       </Typography>

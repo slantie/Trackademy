@@ -256,7 +256,7 @@ const StudentsPage = () => {
   console.log("Valid student rows sample:", validRows.slice(0, 2));
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="2xl">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Students
@@ -279,7 +279,7 @@ const StudentsPage = () => {
             Total students: {validRows.length}
           </Typography>
         )}
-        <Box sx={{ height: 600, width: "100%" }}>
+        <Box sx={{ height: 1000, width: "100%" }}>
           <DataGrid
             rows={validRows}
             columns={columns}

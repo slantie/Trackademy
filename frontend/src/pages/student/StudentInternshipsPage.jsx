@@ -224,7 +224,7 @@ const StudentInternshipsPage = () => {
 
   if (isLoading) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="2xl" sx={{ py: 4 }}>
         <Box
           display="flex"
           justifyContent="center"
@@ -239,7 +239,7 @@ const StudentInternshipsPage = () => {
 
   if (isError) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="2xl" sx={{ py: 4 }}>
         <Alert severity="error">
           Error loading internships: {error?.message || "Something went wrong"}
         </Alert>
@@ -248,7 +248,7 @@ const StudentInternshipsPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="2xl" sx={{ py: 4 }}>
       {/* Header */}
       <Box
         sx={{
