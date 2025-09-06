@@ -33,7 +33,7 @@ const teamMembers = [
     bio: "A passionate full-stack developer with expertise in modern web technologies and AI/ML systems. Kandarp architected the core frontend infrastructure of Trackademy using React, Vite, and modern JavaScript, while also implementing intelligent data analytics features. His specialization in artificial intelligence and machine learning has been instrumental in developing the platform's advanced academic analytics capabilities, enabling institutions to derive meaningful insights from student data. With a keen eye for user experience design and system architecture, he ensures that complex educational workflows are transformed into intuitive, seamless interfaces.",
     specialties: ["React.js", "TypeScript", "AI/ML", "System Architecture"],
     initials: "KG",
-    color: "bg-blue-500",
+    color: "bg-[#155dfc]",
     image: kandarp,
   },
   {
@@ -51,7 +51,7 @@ const teamMembers = [
       "Database Architecture",
     ],
     initials: "HD",
-    color: "bg-green-500",
+    color: "bg-[#2668fd]",
     image: harsh,
   },
   {
@@ -67,7 +67,7 @@ const teamMembers = [
       "Database Management",
     ],
     initials: "PD",
-    color: "bg-purple-500",
+    color: "bg-[#0a4eeb]",
     image: parin,
   },
 ];
