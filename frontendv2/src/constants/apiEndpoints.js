@@ -1,0 +1,131 @@
+// src/constants/apiEndpoints.js
+
+export const API_ENDPOINTS = {
+  AUTH: {
+    LOGIN: "/auth/login",
+    PROFILE: "/auth/me",
+    UPDATE_PASSWORD: "/auth/update-password",
+    RESET_USER_PASSWORD: (userId) => `/auth/reset-password/user/${userId}`,
+    RESET_FACULTY_PASSWORD: (facultyId) =>
+      `/auth/reset-password/faculty/${facultyId}`,
+  },
+  DASHBOARD: {
+    SUMMARY: "/dashboard/summary",
+  },
+  ANALYTICS: {
+    RESULTS: "/analytics/results",
+  },
+  COLLEGES: {
+    LIST_CREATE: "/colleges",
+    DETAILS: (collegeId) => `/colleges/${collegeId}`,
+    UPDATE: (collegeId) => `/colleges/${collegeId}`,
+    DELETE: (collegeId) => `/colleges/${collegeId}`,
+  },
+  ACADEMIC_YEARS: {
+    LIST_CREATE: "/academic-years",
+    DETAILS: (yearId) => `/academic-years/${yearId}`,
+    UPDATE: (yearId) => `/academic-years/${yearId}`,
+    DELETE: (yearId) => `/academic-years/${yearId}`,
+    ACTIVATE: (yearId) => `/academic-years/${yearId}/activate`,
+  },
+  DEPARTMENTS: {
+    LIST_CREATE: "/departments",
+    DETAILS: (departmentId) => `/departments/${departmentId}`,
+    UPDATE: (departmentId) => `/departments/${departmentId}`,
+    DELETE: (departmentId) => `/departments/${departmentId}`,
+  },
+  SUBJECTS: {
+    LIST_CREATE: "/subjects",
+    DETAILS: (subjectId) => `/subjects/${subjectId}`,
+    UPDATE: (subjectId) => `/subjects/${subjectId}`,
+    DELETE: (subjectId) => `/subjects/${subjectId}`,
+  },
+  FACULTIES: {
+    LIST_CREATE: "/faculties",
+    DETAILS: (facultyId) => `/faculties/${facultyId}`,
+    UPDATE: (facultyId) => `/faculties/${facultyId}`,
+    DELETE: (facultyId) => `/faculties/${facultyId}`,
+    RESET_PASSWORD: (facultyId) => `/faculties/${facultyId}/reset-password`,
+  },
+  SEMESTERS: {
+    LIST_CREATE: "/semesters",
+    DETAILS: (semesterId) => `/semesters/${semesterId}`,
+    UPDATE: (semesterId) => `/semesters/${semesterId}`,
+    DELETE: (semesterId) => `/semesters/${semesterId}`,
+  },
+  DIVISIONS: {
+    LIST_CREATE: "/divisions",
+    DETAILS: (divisionId) => `/divisions/${divisionId}`,
+    UPDATE: (divisionId) => `/divisions/${divisionId}`,
+    DELETE: (divisionId) => `/divisions/${divisionId}`,
+  },
+  STUDENTS: {
+    LIST_CREATE: "/students",
+    DETAILS: (studentId) => `/students/${studentId}`,
+    UPDATE: (studentId) => `/students/${studentId}`,
+    DELETE: (studentId) => `/students/${studentId}`,
+  },
+  COURSES: {
+    LIST_CREATE: "/courses",
+    DETAILS: (courseId) => `/courses/${courseId}`,
+    UPDATE: (courseId) => `/courses/${courseId}`,
+    DELETE: (courseId) => `/courses/${courseId}`,
+  },
+  ATTENDANCE: {
+    LIST: "/attendance",
+    UPDATE: (attendanceId) => `/attendance/${attendanceId}`,
+    UPLOAD: "/upload/attendance",
+    TEMPLATE: (courseId) => `/attendance/course/${courseId}/template`,
+  },
+  ASSIGNMENTS: {
+    LIST_CREATE: "/assignments",
+    DETAILS: (assignmentId) => `/assignments/${assignmentId}`,
+    UPDATE: (assignmentId) => `/assignments/${assignmentId}`,
+    DELETE: (assignmentId) => `/assignments/${assignmentId}`,
+  },
+  EXAMS: {
+    LIST_CREATE: "/exams",
+    DETAILS: (examId) => `/exams/${examId}`,
+  },
+  EXAM_RESULTS: {
+    ADMIN_BY_EXAM: (examId) => `/exam-results/admin/exam/${examId}`,
+    ADMIN_BY_STUDENT: (studentId) => `/exam-results/admin/student/${studentId}`,
+    BY_STUDENT: (studentId) => `/exam-results/student/${studentId}`,
+    STUDENT_RESULTS: "/exam-results/student/me",
+    LIST: "/exam-results",
+  },
+  SUBMISSIONS: {
+    LIST_CREATE: "/submissions",
+    UPLOAD: "/submissions/upload",
+    GRADE: (submissionId) => `/submissions/${submissionId}/grade`,
+    FOR_ASSIGNMENT: (assignmentId) => `/submissions/assignment/${assignmentId}`,
+  },
+  CERTIFICATES: {
+    LIST_CREATE: "/certificates",
+    UPLOAD: "/certificates/upload",
+    MY_CERTIFICATES: "/certificates/me",
+    DETAILS: (certificateId) => `/certificates/${certificateId}`,
+    UPDATE: (certificateId) => `/certificates/${certificateId}`,
+    DELETE: (certificateId) => `/certificates/${certificateId}`,
+    STATS: "/certificates/stats",
+    STUDENT_CERTIFICATES: (studentId) => `/certificates/student/${studentId}`,
+  },
+  INTERNSHIPS: {
+    LIST_CREATE: "/internships",
+    UPLOAD: "/internships/upload",
+    MY_INTERNSHIPS: "/internships",
+    DETAILS: (internshipId) => `/internships/${internshipId}`,
+    UPDATE: (internshipId) => `/internships/${internshipId}`,
+    DELETE: (internshipId) => `/internships/${internshipId}`,
+    STATS: "/internships/stats",
+    STUDENT_INTERNSHIPS: (studentId) => `/internships/student/${studentId}`,
+  },
+  UPLOAD: {
+    FACULTY_DATA: "/upload/faculty",
+    STUDENT_DATA: "/upload/students",
+    SUBJECT_DATA: "/upload/subjects",
+    ATTENDANCE_DATA: "/upload/attendance",
+    FACULTY_MATRIX: "/upload/faculty-matrix",
+    RESULTS_DATA: "/upload/results",
+  },
+};

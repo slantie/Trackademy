@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+@layer base {
+  :root {
+    /* Your Light Mode Colors */
+    --background: 0 0% 100%; /* light.background: #FFFFFF */
+    --foreground: 231 4% 25%; /* light.text: #3C3C43 */
+    --card: 0 0% 100%;
+    --card-foreground: 231 4% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 231 4% 25%;
+    --primary: 0 84% 67%; /* primary.main / light.highlight: #f56565 */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+    --secondary: 240 16% 95%; /* light.secondary: #EBEBEF */
+    --secondary-foreground: 231 4% 25%;
+    --muted: 240 5% 96%; /* light.muted.background: #F6F6F7 */
+    --muted-foreground: 240 4% 46%; /* light.muted.text: #67676C */
+    --accent: 240 5% 96%; /* light.muted.background: #F6F6F7 */
+    --accent-foreground: 231 4% 25%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 16% 95%; /* light.secondary: #EBEBEF */
+    --input: 240 16% 95%; /* light.secondary: #EBEBEF */
+    --ring: 0 84% 67%; /* primary.main: #f56565 */
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* Your Dark Mode Colors */
+    --background: 240 6% 12%; /* dark.background: #1B1B1F */
+    --foreground: 240 5% 87%; /* dark.text: #DFDFD6 */
+    --card: 240 6% 12%;
+    --card-foreground: 240 5% 87%;
+    --popover: 240 6% 12%;
+    --popover-foreground: 240 5% 87%;
+    --primary: 0 96% 71%; /* dark.highlight: #fc6f6f */
+    --primary-foreground: 0 0% 0%; /* Black text on primary */
+    --secondary: 220 9% 23%; /* dark.secondary: #32363F */
+    --secondary-foreground: 240 5% 87%;
+    --muted: 240 7% 15%; /* dark.muted.background: #202127 */
+    --muted-foreground: 240 5% 63%;
+    --accent: 240 7% 15%; /* dark.muted.background: #202127 */
+    --accent-foreground: 240 5% 87%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 9% 23%; /* dark.secondary: #32363F */
+    --input: 220 9% 23%; /* dark.secondary: #32363F */
+    --ring: 0 96% 71%; /* dark.highlight: #fc6f6f */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

@@ -17,7 +17,7 @@ import {
   Button,
   Stack,
 } from "@mui/material";
-import { useDashboardData } from "../hooks/useDashboardData";
+import { useDashboardData } from "../../hooks/useDashboardData";
 import {
   Groups as GroupsIcon,
   School as SchoolIcon,
