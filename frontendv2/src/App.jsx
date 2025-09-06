@@ -7,6 +7,7 @@ import AuthLayout from "./components/layout/AuthLayout";
 
 // Pages
 import Home from "./pages/Home";
+import About from "./pages/Team";
 import Setup from "./pages/Setup";
 import Authentication from "./pages/Authentication";
 import CollegesPage from "./pages/admin/CollegesPage";
@@ -59,6 +60,14 @@ function App() {
           element={
             <Layout>
               <Setup />
+            </Layout>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <Layout>
+              <About />
             </Layout>
           }
         />

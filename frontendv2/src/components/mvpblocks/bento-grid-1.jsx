@@ -1,14 +1,16 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { ArrowRight, Code, FileText, Layers, Palette, Zap } from "lucide-react";
-const BentoGridItem = ({
-  title,
-  description,
-  icon,
-  className,
-  size = "small",
-}) => {
+import {
+  ArrowRight,
+  Users,
+  BarChart3,
+  Calendar,
+  FileText,
+  Shield,
+  Database,
+} from "lucide-react";
+const BentoGridItem = ({ title, description, icon, className }) => {
   const variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -22,8 +24,9 @@ const BentoGridItem = ({
       variants={variants}
       className={cn(
         "group border-primary/10 bg-background hover:border-primary/30 relative flex h-full cursor-pointer flex-col justify-between overflow-hidden rounded-xl border px-6 pt-6 pb-10 shadow-md transition-all duration-500",
-        className,
-      )}>
+        className
+      )}
+    >
       <div className="absolute top-0 -right-1/2 z-0 size-full cursor-pointer bg-[linear-gradient(to_right,#3d16165e_1px,transparent_1px),linear-gradient(to_bottom,#3d16165e_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px]"></div>
 
       <div className="text-primary/5 group-hover:text-primary/10 absolute right-1 bottom-3 scale-[6] transition-all duration-700 group-hover:scale-[6.2]">
@@ -49,42 +52,45 @@ const BentoGridItem = ({
 };
 const items = [
   {
-    title: "Developer Experience",
+    title: "Student Management",
     description:
-      "Built with developers in mind, making implementation a breeze.",
-    icon: <Code className="size-6" />,
+      "Comprehensive student profiles with academic records, attendance tracking, and performance analytics.",
+    icon: <Users className="size-6" />,
     size: "large",
   },
   {
-    title: "Accessibility",
+    title: "Secure Authentication",
     description:
-      "Built with a11y best practices to ensure your app is usable by everyone.",
-    icon: <Layers className="size-6" />,
+      "Role-based access control with JWT authentication ensuring data security.",
+    icon: <Shield className="size-6" />,
     size: "small",
   },
   {
-    title: "Responsive Design",
-    description: "Create layouts that adapt to any screen size with ease.",
-    icon: <Layers className="size-6" />,
-    size: "medium",
-  },
-  {
-    title: "Customizable",
-    description: "Tailor components to match your brand's unique style.",
-    icon: <Palette className="size-6" />,
-    size: "medium",
-  },
-  {
-    title: "Performance",
-    description: "Optimized for speed and efficiency across all devices.",
-    icon: <Zap className="size-6" />,
-    size: "small",
-  },
-  {
-    title: "Documentation",
+    title: "Real-time Analytics",
     description:
-      "Comprehensive guides and examples to help you get started quickly.",
+      "Live dashboards with attendance rates, performance metrics, and academic insights.",
+    icon: <BarChart3 className="size-6" />,
+    size: "medium",
+  },
+  {
+    title: "Assignment Management",
+    description:
+      "Create, distribute, and track assignments with automated submission handling.",
     icon: <FileText className="size-6" />,
+    size: "medium",
+  },
+  {
+    title: "Academic Calendar",
+    description:
+      "Integrated timetable and schedule management for all academic activities.",
+    icon: <Calendar className="size-6" />,
+    size: "small",
+  },
+  {
+    title: "Database Integration",
+    description:
+      "Robust PostgreSQL database with Prisma ORM for reliable data management and relationships.",
+    icon: <Database className="size-6" />,
     size: "large",
   },
 ];
@@ -104,7 +110,8 @@ export default function BentoGrid1() {
         className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-6"
         variants={containerVariants}
         initial="hidden"
-        animate="visible">
+        animate="visible"
+      >
         {items.map((item, i) => (
           <BentoGridItem
             key={i}
@@ -116,9 +123,9 @@ export default function BentoGrid1() {
               item.size === "large"
                 ? "col-span-4"
                 : item.size === "medium"
-                  ? "col-span-3"
-                  : "col-span-2",
-              "h-full",
+                ? "col-span-3"
+                : "col-span-2",
+              "h-full"
             )}
           />
         ))}

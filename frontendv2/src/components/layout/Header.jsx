@@ -50,7 +50,7 @@ function Header() {
     ? getNavItems(user?.role)
     : [
         { path: "/", label: "Home" },
-        { path: "/setup", label: "Setup" },
+        { path: "/team", label: "Team" },
       ];
 
   const handleLogout = () => {

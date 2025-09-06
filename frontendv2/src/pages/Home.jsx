@@ -7,18 +7,15 @@ import {
   Shield,
   Zap,
   CheckCircle,
-  Star,
   Calendar,
   Award,
   PieChart,
   TrendingUp,
   Clock,
-  Target,
   Globe,
   Database,
   Activity,
   FileText,
-  MessageCircle,
   Lightbulb,
   Sparkles,
   Code,
@@ -26,6 +23,11 @@ import {
   Palette,
   GraduationCap,
   Brain,
+  Server,
+  Cloud,
+  Smartphone,
+  Monitor,
+  Github,
 } from "lucide-react";
 import {
   Card,
@@ -37,63 +39,28 @@ import {
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { Separator } from "../components/ui/separator";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../components/ui/hover-card";
 import { TextReveal } from "../components/ui/text-reveal";
 import BentoGrid1 from "../components/mvpblocks/bento-grid-1";
 import Feature1 from "../components/mvpblocks/feature-1";
-import ContactUs1 from "../components/mvpblocks/contact-us-1";
 import { SparklesCore } from "../components/ui/sparkles";
-import { motion } from "framer-motion";
 
 const projectName = import.meta.env.VITE_PROJECT_NAME || "Trackademy";
 
 function Home() {
   const stats = [
-    { label: "Active Students", value: "10,000+", icon: Users },
-    { label: "Assignments Tracked", value: "50,000+", icon: FileText },
-    { label: "Success Rate", value: "98%", icon: TrendingUp },
-    { label: "Institutions", value: "100+", icon: Globe },
-  ];
-
-  const testimonials = [
-    {
-      name: "Dr. Sarah Johnson",
-      role: "Dean of Engineering",
-      content:
-        "Trackademy has revolutionized how we manage our academic programs. The insights are invaluable.",
-      avatar: "SJ",
-      rating: 5,
-    },
-    {
-      name: "Prof. Michael Chen",
-      role: "Computer Science Faculty",
-      content:
-        "The assignment management system has saved me countless hours. Highly recommended!",
-      avatar: "MC",
-      rating: 5,
-    },
-    {
-      name: "Lisa Rodriguez",
-      role: "Academic Administrator",
-      content:
-        "Finally, a platform that understands the complexities of academic management.",
-      avatar: "LR",
-      rating: 5,
-    },
+    { label: "Students Managed", value: "500+", icon: Users },
+    { label: "Assignments Tracked", value: "1,200+", icon: FileText },
+    { label: "Academic Records", value: "2,500+", icon: Database },
+    { label: "Faculty Members", value: "50+", icon: GraduationCap },
   ];
 
   return (
     <div className="min-h-screen">
       {/* Hero Section with Sparkles Background */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
+      <section className="relative py-12 lg:py-24 overflow-hidden">
         {/* Sparkles Background */}
-        <div className="absolute inset-0 w-full h-full">
+        {/* <div className="absolute inset-0 w-full h-full">
           <SparklesCore
             id="tsparticles"
             background="transparent"
@@ -103,85 +70,63 @@ function Home() {
             className="w-full h-full"
             particleColor="#3b82f6"
           />
-        </div>
+        </div> */}
 
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10"></div>
+        <div className="absolute inset-0"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+          <div className="max-w-7xl mx-auto text-center">
+            <div>
               <Badge
                 variant="secondary"
                 className="mb-6 px-4 py-2 text-sm font-medium"
               >
                 <Sparkles className="w-4 h-4 mr-2" />
-                Welcome to the Future of Education
+                7th Semester Computer Engineering Project
               </Badge>
-            </motion.div>
+            </div>
 
             {/* Text Reveal Animation */}
             <div className="mb-8">
               <TextReveal
-                className="text-5xl lg:text-7xl font-bold leading-tight bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent"
+                className="text-5xl lg:text-7xl font-bold leading-tight text-primary"
                 from="bottom"
                 split="word"
                 delay={0.15}
               >
-                Transform Education with {projectName}
+                {projectName}
+              </TextReveal>
+              <TextReveal
+                className="text-3xl font-bold leading-tight"
+                from="bottom"
+                split="word"
+                delay={0.15}
+              >
+                Academic Management System
               </TextReveal>
             </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="text-xl lg:text-2xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto"
-            >
-              Empower educational institutions with comprehensive tracking,
-              analytics, and management solutions.
+            <p className="text-xl lg:text-2xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
+              A comprehensive academic management system designed to streamline
+              student tracking, attendance management, assignment handling, and
+              academic analytics.
               <span className="text-foreground font-semibold">
                 {" "}
-                Built for educators, designed for excellence.
+                Built with modern technologies for educational excellence.
               </span>
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-            >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <Button size="lg" className="text-lg px-8 py-6 h-auto group">
-                Get Started Today
+                <Github className="w-5 h-5 mr-2" />
+                Get Started
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-lg px-8 py-6 h-auto"
-              >
-                Watch Demo
-              </Button>
-            </motion.div>
+            </div>
 
-            {/* Animated Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-8"
-            >
+            {/* Project Stats */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 1.8 + index * 0.1 }}
-                  className="text-center"
-                >
+                <div key={index} className="text-center">
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/10 mb-4">
                     <stat.icon className="w-6 h-6 text-primary" />
                   </div>
@@ -189,9 +134,9 @@ function Home() {
                     {stat.value}
                   </div>
                   <div className="text-muted-foreground">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
+                </div>
+              ))} 
+            </div>
           </div>
         </div>
       </section>
@@ -199,68 +144,50 @@ function Home() {
       {/* Features Section - Using MVPBlocks Feature Component */}
       <section className="py-20 lg:py-32">
         <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <div className="text-center mb-16">
             <Badge variant="outline" className="mb-4">
               <Lightbulb className="w-4 h-4 mr-2" />
-              Features
+              Core Features
             </Badge>
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Everything you need to manage education
+              Everything you need for academic management
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Our comprehensive platform provides all the tools educators need
-              to track, manage, and improve academic outcomes.
+              to track, manage, and improve academic outcomes efficiently.
             </p>
-          </motion.div>
+          </div>
 
           {/* Feature Component */}
           <Feature1 />
         </div>
       </section>
 
-      {/* Bento Grid Section - Using MVPBlocks Bento Grid */}
+      {/* Bento Grid Section - Using MVPBlocks Bento Grid
       <section className="py-20 lg:py-32 bg-muted/30">
         <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
+          <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">
               <Code className="w-4 h-4 mr-2" />
-              Platform Benefits
+              Platform Capabilities
             </Badge>
             <h2 className="text-4xl lg:text-5xl font-bold mb-6">
               Built for modern education
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Experience the power of cutting-edge technology designed
-              specifically for educational institutions.
+              specifically for academic institutions and student management.
             </p>
-          </motion.div>
+          </div>
 
           <BentoGrid1 />
         </div>
-      </section>
+      </section> */}
 
       {/* Enhanced Analytics Dashboard */}
       <section className="py-20 lg:py-32">
         <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-          >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
             <div>
               <Badge variant="outline" className="mb-4">
@@ -268,11 +195,12 @@ function Home() {
                 Analytics Dashboard
               </Badge>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-                Real-time insights at your fingertips
+                Real-time insights for academic excellence
               </h2>
               <p className="text-xl text-muted-foreground mb-8">
-                Get comprehensive analytics and reporting that help you make
-                data-driven decisions for better educational outcomes.
+                Get comprehensive analytics and reporting that help educators
+                make data-driven decisions for better academic outcomes and
+                student progress tracking.
               </p>
 
               <div className="space-y-6">
@@ -281,10 +209,12 @@ function Home() {
                     <TrendingUp className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Performance Tracking</h3>
+                    <h3 className="font-semibold mb-2">
+                      Student Performance Tracking
+                    </h3>
                     <p className="text-muted-foreground">
-                      Monitor student progress and identify areas for
-                      improvement.
+                      Monitor individual and class progress with detailed
+                      analytics.
                     </p>
                   </div>
                 </div>
@@ -294,10 +224,10 @@ function Home() {
                     <PieChart className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Custom Reports</h3>
+                    <h3 className="font-semibold mb-2">Attendance Analytics</h3>
                     <p className="text-muted-foreground">
-                      Generate detailed reports tailored to your institution's
-                      needs.
+                      Generate detailed attendance reports and identify
+                      patterns.
                     </p>
                   </div>
                 </div>
@@ -307,10 +237,10 @@ function Home() {
                     <Brain className="w-5 h-5 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-2">Predictive Analytics</h3>
+                    <h3 className="font-semibold mb-2">Assignment Insights</h3>
                     <p className="text-muted-foreground">
-                      AI-powered insights to predict and prevent academic
-                      challenges.
+                      Track submission rates and identify students needing
+                      support.
                     </p>
                   </div>
                 </div>
@@ -318,26 +248,21 @@ function Home() {
             </div>
 
             {/* Right Dashboard Preview */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
+            <div>
               <Card className="p-8 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
                 <CardHeader className="pb-6">
                   <CardTitle className="text-2xl mb-2 flex items-center">
                     <Activity className="w-6 h-6 mr-2 text-primary" />
-                    Live Dashboard
+                    Academic Dashboard
                   </CardTitle>
                   <CardDescription className="text-base">
-                    Real-time metrics and performance indicators
+                    Real-time academic metrics and performance indicators
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-6">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium">Student Engagement</span>
+                      <span className="font-medium">Overall Attendance</span>
                       <span className="text-sm text-muted-foreground">87%</span>
                     </div>
                     <Progress value={87} className="h-3" />
@@ -349,25 +274,25 @@ function Home() {
                     <Progress value={94} className="h-3" />
 
                     <div className="flex justify-between items-center">
-                      <span className="font-medium">System Performance</span>
-                      <span className="text-sm text-muted-foreground">99%</span>
+                      <span className="font-medium">Academic Performance</span>
+                      <span className="text-sm text-muted-foreground">91%</span>
                     </div>
-                    <Progress value={99} className="h-3" />
+                    <Progress value={91} className="h-3" />
 
                     <Separator />
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center p-4 rounded-lg bg-background">
                         <div className="text-2xl font-bold text-primary">
-                          1,247
+                          247
                         </div>
                         <div className="text-sm text-muted-foreground">
-                          Active Users
+                          Active Students
                         </div>
                       </div>
                       <div className="text-center p-4 rounded-lg bg-background">
                         <div className="text-2xl font-bold text-primary">
-                          342
+                          42
                         </div>
                         <div className="text-sm text-muted-foreground">
                           Today's Submissions
@@ -377,149 +302,246 @@ function Home() {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 lg:py-32 bg-muted/30">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <Badge variant="secondary" className="mb-4">
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Testimonials
-            </Badge>
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              What educators are saying
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Hear from educational professionals who have transformed their
-              institutions with Trackademy.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full p-6 hover:shadow-lg transition-shadow">
-                  <CardContent className="pt-6">
-                    <div className="flex space-x-1 mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                        />
-                      ))}
-                    </div>
-                    <p className="text-muted-foreground mb-6 italic">
-                      "{testimonial.content}"
-                    </p>
-                    <div className="flex items-center space-x-3">
-                      <Avatar className="w-12 h-12">
-                        <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                          {testimonial.avatar}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h4 className="font-semibold">{testimonial.name}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {testimonial.role}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section - Using MVPBlocks Contact Component */}
-      <section className="py-20 lg:py-32">
-        <ContactUs1 />
+      {/* Tech Stack Section */}
+      <section className="py-20 lg:py-32 bg-muted/30">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <Badge variant="secondary" className="mb-4">
+              <Layers className="w-4 h-4 mr-2" />
+              Technology Stack
+            </Badge>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+              Built with modern technologies
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Our project leverages cutting-edge technologies to deliver a
+              robust, scalable, and user-friendly academic management platform.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Frontend Technologies */}
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-4">
+                <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center mb-4">
+                  <Monitor className="w-6 h-6 text-blue-600" />
+                </div>
+                <CardTitle className="text-xl">Frontend</CardTitle>
+                <CardDescription>
+                  Modern user interface technologies
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                    <span className="font-medium">React.js</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                    <span className="font-medium">Vite</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                    <span className="font-medium">JavaScript</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-teal-500"></div>
+                    <span className="font-medium">Tailwind CSS</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-pink-500"></div>
+                    <span className="font-medium">Framer Motion</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Backend Technologies */}
+            <Card className="p-6 hover:shadow-lg transition-shadow">
+              <CardHeader className="pb-4">
+                <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/20 flex items-center justify-center mb-4">
+                  <Server className="w-6 h-6 text-green-600" />
+                </div>
+                <CardTitle className="text-xl">Backend</CardTitle>
+                <CardDescription>
+                  Robust server-side technologies
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className="font-medium">Node.js</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-blue-600"></div>
+                    <span className="font-medium">TypeScript</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-gray-700"></div>
+                    <span className="font-medium">Express.js</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                    <span className="font-medium">Prisma ORM</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                    <span className="font-medium">Python FastAPI</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Database & Cloud */}
+            <Card className="p-6 hover:shadow-lg transition-shadow md:col-span-2 lg:col-span-1">
+              <CardHeader className="pb-4">
+                <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center mb-4">
+                  <Cloud className="w-6 h-6 text-orange-600" />
+                </div>
+                <CardTitle className="text-xl">Database & Cloud</CardTitle>
+                <CardDescription>
+                  Data storage and cloud services
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-blue-700"></div>
+                    <span className="font-medium">PostgreSQL</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                    <span className="font-medium">Cloudinary</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-gray-600"></div>
+                    <span className="font-medium">JWT Auth</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                    <span className="font-medium">REST APIs</span>
+                  </div>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500"></div>
+                    <span className="font-medium">File Upload</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Development Tools */}
+          <div className="mt-12">
+            <h3 className="text-2xl font-bold text-center mb-8">
+              Development Tools & Practices
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Github className="w-8 h-8 text-primary" />
+                </div>
+                <span className="text-sm font-medium">Git & GitHub</span>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Code className="w-8 h-8 text-primary" />
+                </div>
+                <span className="text-sm font-medium">VS Code</span>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Database className="w-8 h-8 text-primary" />
+                </div>
+                <span className="text-sm font-medium">Prisma Studio</span>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Smartphone className="w-8 h-8 text-primary" />
+                </div>
+                <span className="text-sm font-medium">Responsive Design</span>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Shield className="w-8 h-8 text-primary" />
+                </div>
+                <span className="text-sm font-medium">Security</span>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                  <Zap className="w-8 h-8 text-primary" />
+                </div>
+                <span className="text-sm font-medium">Performance</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 lg:py-32 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 relative overflow-hidden">
-        {/* Background Sparkles */}
-        <div className="absolute inset-0 w-full h-full opacity-30">
-          <SparklesCore
-            id="cta-particles"
-            background="transparent"
-            minSize={0.4}
-            maxSize={1.0}
-            particleDensity={50}
-            className="w-full h-full"
-            particleColor="#3b82f6"
-          />
-        </div>
-
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <Badge variant="secondary" className="mb-6">
-              <Target className="w-4 h-4 mr-2" />
-              Ready to Get Started?
+      {/* Project Overview Section */}
+      <section className="py-20 lg:py-32">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge variant="outline" className="mb-6">
+              <GraduationCap className="w-4 h-4 mr-2" />
+              Academic Project
             </Badge>
-
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-              Join thousands of educators transforming education
+            <h2 className="text-4xl lg:text-5xl font-bold mb-8">
+              7th Semester Computer Engineering Project
             </h2>
-
-            <p className="text-xl text-muted-foreground mb-12">
-              Start your journey with Trackademy today. No setup fees, no
-              complicated onboarding. Just powerful tools ready to transform
-              your educational institution.
+            <p className="text-xl text-muted-foreground mb-12 leading-relaxed">
+              {projectName} represents our comprehensive approach to solving
+              real-world academic management challenges through innovative
+              technology solutions. This project demonstrates our understanding
+              of full-stack development, database design, user experience, and
+              modern software engineering practices.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">
+                  6 Months
+                </div>
+                <div className="text-muted-foreground">
+                  Development Timeline
+                </div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">15+</div>
+                <div className="text-muted-foreground">Core Features</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-primary mb-2">
+                  3 Platforms
+                </div>
+                <div className="text-muted-foreground">
+                  Frontend, Backend, Analytics
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="text-lg px-8 py-6 h-auto group">
-                Start Free Trial
+                <Github className="w-5 h-5 mr-2" />
+                View Source Code
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button
-                variant="ghost"
+                variant="outline"
                 size="lg"
                 className="text-lg px-8 py-6 h-auto"
               >
-                Schedule Demo
+                <Activity className="w-5 h-5 mr-2" />
+                Project Documentation
               </Button>
             </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>14-day free trial</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <CheckCircle className="w-4 h-4 text-green-500" />
-                <span>Cancel anytime</span>
-              </div>
-            </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </div>
