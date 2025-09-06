@@ -23,7 +23,12 @@ import { Role } from "@prisma/client";
 
 const router = Router();
 
-// Apply authentication to all routes
+// Public routes (no authentication required)
+router
+  .route("/:id/public-profile")
+  .get(validate(facultyIdParamSchema), FacultyController.getPublicProfile);
+
+// Apply authentication to all other routes
 router.use(authenticate);
 
 // Main faculty routes

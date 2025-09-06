@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { useGetCourses, useDeleteCourse } from "../../hooks/useCourses";
 import DataTable from "../../components/DataTable";
-import CourseForm from "../../components/forms/CourseForm";
+import {CourseForm} from "../../components/forms/CourseForm";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {

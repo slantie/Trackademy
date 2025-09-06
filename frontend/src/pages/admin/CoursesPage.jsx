@@ -20,7 +20,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useGetCourses, useDeleteCourse } from "../../hooks/useCourses";
-import CourseForm from "../../components/forms/CourseForm";
 import { toast } from "react-hot-toast";
 
 const CoursesPage = () => {

@@ -23,43 +23,14 @@ export const useGetAssignments = (params) => {
 };
 
 /**
- * Custom hook to fetch assignments created by a specific faculty member.
- * @param {string} facultyUserId - The user ID of the faculty member.
+ * Custom hook to fetch assignments created by the current faculty member.
+ * The backend automatically filters by the authenticated faculty user.
  * @returns {object} The query result object from TanStack Query.
- *
- * Expected Response Structure:
- * {
- *   status: "success",
- *   results: number,
- *   data: {
- *     assignments: {
- *       data: [
- *         {
- *           id: string,
- *           title: string,
- *           description: string,
- *           dueDate: string,
- *           totalMarks: number,
- *           course: {
- *             id, subject, faculty, division, semester
- *           },
- *           _count: {
- *             submissions: number
- *           },
- *           ...
- *         }
- *       ]
- *     }
- *   }
- * }
- *
- * Access pattern: response.data.assignments.data
  */
-export const useGetFacultyAssignments = (facultyUserId) => {
+export const useGetFacultyAssignments = () => {
   return useQuery({
-    queryKey: [ASSIGNMENT_QUERY_KEY, "faculty", facultyUserId],
-    queryFn: () => getAssignments({ facultyUserId }),
-    enabled: !!facultyUserId,
+    queryKey: [ASSIGNMENT_QUERY_KEY, "faculty"],
+    queryFn: () => getAssignments(), // No parameters needed - backend handles filtering
   });
 };
 

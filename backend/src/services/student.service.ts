@@ -1018,7 +1018,7 @@ class StudentService {
     };
   }
 
-  public async getPublicProfile(studentId: string): Promise<Student | null> {
+  public async getPublicProfile(studentId: string): Promise<any | null> {
     try {
       const student = await prisma.student.findUnique({
         where: {
@@ -1042,6 +1042,7 @@ class StudentService {
             select: {
               id: true,
               semesterNumber: true,
+              semesterType: true,
             },
           },
           division: {
@@ -1050,13 +1051,215 @@ class StudentService {
               name: true,
             },
           },
+          enrollments: {
+            include: {
+              course: {
+                include: {
+                  subject: {
+                    select: {
+                      id: true,
+                      name: true,
+                      code: true,
+                    },
+                  },
+                  faculty: {
+                    select: {
+                      id: true,
+                      fullName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       });
 
-      return student;
+      if (!student) {
+        return null;
+      }
+
+      // Get attendance summary
+      const attendanceSummary = await this.getAttendanceSummary(studentId);
+
+      // Get exam results with CPI/SPI
+      const examResults = await prisma.examResult.findMany({
+        where: {
+          studentId,
+        },
+        include: {
+          exam: {
+            select: {
+              id: true,
+              name: true,
+              examType: true,
+              semester: {
+                select: {
+                  semesterNumber: true,
+                },
+              },
+            },
+          },
+          results: {
+            include: {
+              subject: {
+                select: {
+                  name: true,
+                  code: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: {
+          id: "desc",
+        },
+      });
+
+      // Get certificates
+      const certificates = await prisma.certificate.findMany({
+        where: {
+          studentId,
+        },
+        select: {
+          id: true,
+          title: true,
+          issuingOrganization: true,
+          issueDate: true,
+          description: true,
+          certificatePath: true,
+        },
+        orderBy: {
+          issueDate: "desc",
+        },
+      });
+
+      // Get internships
+      const internships = await prisma.internship.findMany({
+        where: {
+          studentId,
+        },
+        select: {
+          id: true,
+          companyName: true,
+          role: true,
+          location: true,
+          startDate: true,
+          endDate: true,
+          stipend: true,
+          status: true,
+          description: true,
+        },
+        orderBy: {
+          startDate: "desc",
+        },
+      });
+
+      // Calculate overall statistics
+      const totalCourses = student.enrollments.length;
+      const overallAttendance =
+        attendanceSummary.length > 0
+          ? attendanceSummary.reduce(
+              (acc, course) => acc + course.percentage,
+              0
+            ) / attendanceSummary.length
+          : 0;
+
+      // Calculate latest CPI/SPI
+      const latestExamResult = examResults[0];
+      const latestCPI = latestExamResult?.cpi || null;
+      const latestSPI = latestExamResult?.spi || null;
+
+      return {
+        ...student,
+        statistics: {
+          totalCourses,
+          overallAttendance: Math.round(overallAttendance * 100) / 100,
+          latestCPI: latestCPI ? Math.round(latestCPI * 100) / 100 : null,
+          latestSPI: latestSPI ? Math.round(latestSPI * 100) / 100 : null,
+          totalCertificates: certificates.length,
+          totalInternships: internships.length,
+          totalExamResults: examResults.length,
+        },
+        attendanceSummary,
+        examResults,
+        certificates,
+        internships,
+      };
     } catch (error) {
       console.error("Error fetching public student profile:", error);
       throw new AppError("Failed to fetch student profile.", 500);
+    }
+  }
+
+  private async getAttendanceSummary(studentId: string) {
+    try {
+      const attendanceRecords = await prisma.attendance.findMany({
+        where: {
+          studentId,
+        },
+        include: {
+          course: {
+            include: {
+              subject: {
+                select: {
+                  name: true,
+                  code: true,
+                },
+              },
+              faculty: {
+                select: {
+                  fullName: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // Group by course and calculate attendance percentage
+      const courseAttendance = attendanceRecords.reduce((acc, record) => {
+        const courseId = record.courseId;
+        if (!acc[courseId]) {
+          acc[courseId] = {
+            courseId,
+            subjectName: record.course.subject.name,
+            subjectCode: record.course.subject.code,
+            facultyName: record.course.faculty.fullName,
+            lectureType: record.course.lectureType,
+            batch: record.course.batch,
+            totalLectures: 0,
+            presentCount: 0,
+            absentCount: 0,
+            medicalLeaveCount: 0,
+          };
+        }
+
+        acc[courseId].totalLectures++;
+        if (record.status === "PRESENT") {
+          acc[courseId].presentCount++;
+        } else if (record.status === "ABSENT") {
+          acc[courseId].absentCount++;
+        } else if (record.status === "MEDICAL_LEAVE") {
+          acc[courseId].medicalLeaveCount++;
+        }
+
+        return acc;
+      }, {} as any);
+
+      // Calculate percentages
+      return Object.values(courseAttendance).map((course: any) => ({
+        ...course,
+        percentage:
+          course.totalLectures > 0
+            ? Math.round(
+                (course.presentCount / course.totalLectures) * 100 * 100
+              ) / 100
+            : 0,
+      }));
+    } catch (error) {
+      console.error("Error fetching attendance summary:", error);
+      return [];
     }
   }
 }

@@ -53,14 +53,10 @@ const UploadCard = ({
   return (
     <div className="bg-background border border-border rounded-xl shadow-lg p-6 flex flex-col h-full">
       <div className="flex items-center space-x-4 mb-4">
-        <div className="p-3 bg-primary/10 rounded-lg text-primary">
-          {icon}
-        </div>
+        <div className="p-3 bg-primary/10 rounded-lg text-primary">{icon}</div>
         <div>
           <h3 className="text-lg font-bold text-foreground">{title}</h3>
-          <p className="text-sm text-muted-foreground">
-            {description}
-          </p>
+          <p className="text-sm text-muted-foreground">{description}</p>
         </div>
       </div>
 
@@ -135,15 +131,40 @@ const UploadPage = () => {
   const { mutate: uploadData } = useUploadData();
   const [uploadStatus, setUploadStatus] = useState({});
 
-  const { data: departmentsData, isLoading: departmentsLoading } =
-    useGetDepartments();
-  const { data: academicYearsData, isLoading: yearsLoading } =
-    useGetAcademicYears();
+  const {
+    data: departmentsData,
+    isLoading: departmentsLoading,
+    error: departmentsError,
+  } = useGetDepartments();
+  const {
+    data: academicYearsData,
+    isLoading: yearsLoading,
+    error: yearsError,
+  } = useGetAcademicYears();
 
-  const departments = departmentsData?.data?.departments?.data || [];
-  const academicYears = academicYearsData?.data?.academicYears || [];
+  console.log("Department data:", {
+    departmentsData,
+    departmentsLoading,
+    departmentsError,
+  });
+  console.log("Academic years data:", {
+    academicYearsData,
+    yearsLoading,
+    yearsError,
+  });
+
+  const departments = Array.isArray(departmentsData?.data?.departments?.data)
+    ? departmentsData.data.departments.data
+    : [];
+  const academicYears = Array.isArray(academicYearsData?.data?.academicYears)
+    ? academicYearsData.data.academicYears
+    : [];
+
+  console.log("Processed arrays:", { departments, academicYears });
 
   const handleUpload = (uploadKey, file, formData) => {
+    console.log("Upload initiated:", { uploadKey, file, formData });
+
     setUploadStatus((prev) => ({
       ...prev,
       [uploadKey]: { loading: true, error: null, success: null },
@@ -152,13 +173,15 @@ const UploadPage = () => {
     uploadData(
       { uploadType: uploadKey, file, ...formData },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
+          console.log("Upload successful:", response);
           setUploadStatus((prev) => ({
             ...prev,
             [uploadKey]: { loading: false, success: "Upload successful!" },
           }));
         },
         onError: (error) => {
+          console.error("Upload failed:", error);
           setUploadStatus((prev) => ({
             ...prev,
             [uploadKey]: {
@@ -170,6 +193,22 @@ const UploadPage = () => {
       }
     );
   };
+
+  if (departmentsLoading || yearsLoading) {
+    return (
+      <div className="text-center p-10">
+        Loading necessary data for upload forms...
+      </div>
+    );
+  }
+
+  if (departmentsError || yearsError) {
+    return (
+      <div className="text-center p-10 text-red-500">
+        Error loading data: {departmentsError?.message || yearsError?.message}
+      </div>
+    );
+  }
 
   const uploadConfigs = [
     {
@@ -197,18 +236,24 @@ const UploadPage = () => {
       icon: <FileJson className="w-6 h-6" />,
       fields: [
         {
-          name: "academicYearId",
+          name: "academicYear",
           label: "Academic Year",
           placeholder: "Select Academic Year",
           required: true,
-          options: academicYears.map((y) => ({ value: y.id, label: y.year })),
+          options: (academicYears || []).map((y) => ({
+            value: y?.year || "",
+            label: y?.year || "Unknown",
+          })),
         },
         {
           name: "departmentId",
           label: "Department",
           placeholder: "Select Department",
           required: true,
-          options: departments.map((d) => ({ value: d.id, label: d.name })),
+          options: (departments || []).map((d) => ({
+            value: d?.id || "",
+            label: d?.name || "Unknown",
+          })),
         },
         {
           name: "semesterType",
@@ -244,26 +289,40 @@ const UploadPage = () => {
           label: "Academic Year",
           placeholder: "Select Year",
           required: true,
-          options: academicYears.map((y) => ({ value: y.id, label: y.year })),
+          options: (academicYears || []).map((y) => ({
+            value: y?.id || "",
+            label: y?.year || "Unknown",
+          })),
         },
         {
           name: "departmentId",
           label: "Department",
           placeholder: "Select Department",
           required: true,
-          options: departments.map((d) => ({ value: d.id, label: d.name })),
+          options: (departments || []).map((d) => ({
+            value: d?.id || "",
+            label: d?.name || "Unknown",
+          })),
+        },
+        {
+          name: "semesterNumber",
+          label: "Semester Number",
+          placeholder: "Select Semester",
+          required: true,
+          options: [
+            { value: "1", label: "Semester 1" },
+            { value: "2", label: "Semester 2" },
+            { value: "3", label: "Semester 3" },
+            { value: "4", label: "Semester 4" },
+            { value: "5", label: "Semester 5" },
+            { value: "6", label: "Semester 6" },
+            { value: "7", label: "Semester 7" },
+            { value: "8", label: "Semester 8" },
+          ],
         },
       ],
     },
   ];
-
-  if (departmentsLoading || yearsLoading) {
-    return (
-      <div className="text-center p-10">
-        Loading necessary data for upload forms...
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto py-10">
@@ -279,7 +338,11 @@ const UploadPage = () => {
         {uploadConfigs.map((config) => (
           <UploadCard
             key={config.key}
-            {...config}
+            uploadKey={config.key}
+            title={config.title}
+            description={config.description}
+            icon={config.icon}
+            fields={config.fields || []}
             onUpload={handleUpload}
             status={uploadStatus[config.key]}
           />

@@ -98,8 +98,8 @@ const StudentForm = ({ student, onFinished }) => {
     semestersLoading ||
     divisionsLoading;
   const departments = departmentsData?.data?.departments?.data || [];
-  const semesters = semestersData?.data?.semesters?.data || [];
-  const divisions = divisionsData?.data?.divisions?.data || [];
+  const semesters = semestersData?.data?.semesters || [];
+  const divisions = divisionsData?.data?.divisions || [];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 py-4">

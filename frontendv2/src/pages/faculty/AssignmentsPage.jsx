@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import {
   useGetFacultyAssignments,
@@ -33,14 +34,24 @@ const AssignmentsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const navigate = useNavigate();
 
   const { user } = useAuth();
+  console.log("Debug - User object:", user);
+  console.log("Debug - User ID:", user?.id);
+  console.log("Debug - User role:", user?.role);
+
+  // For faculty users, don't pass facultyUserId - let backend handle it automatically
   const {
     data: assignmentsData,
     isLoading,
     isError,
     error,
-  } = useGetFacultyAssignments(user?.faculty?.id);
+  } = useGetFacultyAssignments();
+
+  console.log("Debug - Assignments data:", assignmentsData);
+  console.log("Debug - Is loading:", isLoading);
+  console.log("Debug - Error:", error);
   const deleteMutation = useDeleteAssignment();
 
   const handleEdit = (assignment) => {
@@ -145,6 +156,10 @@ const AssignmentsPage = () => {
         data={assignments}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        // on click row, go to submissions page for that assignment
+        onRowClick={(assignment) =>
+          navigate(`/faculty/assignment/${assignment.id}`)
+        }
       />
 
       <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>

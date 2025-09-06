@@ -34,6 +34,7 @@ import {
   Award,
   Download,
   Eye,
+  Loader2,
 } from "lucide-react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -200,17 +201,13 @@ const AssignmentDetailsPage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">
-                  Due Date
-                </span>
+                <span className="text-sm text-muted-foreground">Due Date</span>
                 <span className="font-semibold">
                   {dayjs(assignment?.dueDate).format("MMM D, YYYY")}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">
-                  Time
-                </span>
+                <span className="text-sm text-muted-foreground">Time</span>
                 <span className="font-semibold">
                   {dayjs(assignment?.dueDate).format("h:mm A")}
                 </span>

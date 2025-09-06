@@ -62,7 +62,7 @@ export class AttendanceController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { courseId, date, attendanceData } = req.body;
+      const { courseId, date, attendanceRecords } = req.body;
       const user = (req as any).user;
 
       // Verify faculty has access to this course
@@ -88,7 +88,7 @@ export class AttendanceController {
       const createdAttendance = await attendanceService.createBulkAttendance(
         courseId,
         date,
-        attendanceData
+        attendanceRecords
       );
 
       res.status(201).json({

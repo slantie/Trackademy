@@ -72,7 +72,7 @@ const DivisionForm = ({ division, onFinished }) => {
 
   const isLoading =
     createMutation.isPending || updateMutation.isPending || semestersLoading;
-  const semesters = semestersData?.data?.semesters?.data || [];
+  const semesters = semestersData?.data?.semesters || [];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 py-4">

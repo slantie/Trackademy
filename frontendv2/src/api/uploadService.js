@@ -3,6 +3,8 @@ import apiClient from "./apiClient";
 import { API_ENDPOINTS } from "../constants/apiEndpoints";
 
 export const uploadData = async ({ uploadType, file, ...formData }) => {
+  console.log("uploadData called with:", { uploadType, file, formData });
+
   const formDataObj = new FormData();
   formDataObj.append("file", file);
 
@@ -37,6 +39,8 @@ export const uploadData = async ({ uploadType, file, ...formData }) => {
       throw new Error(`Unknown upload type: ${uploadType}`);
   }
 
+  console.log("Upload endpoint:", endpoint);
+
   const response = await apiClient.post(endpoint, formDataObj, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -44,5 +48,6 @@ export const uploadData = async ({ uploadType, file, ...formData }) => {
     timeout: 300000, // 5 minutes timeout for file uploads
   });
 
+  console.log("Upload response:", response.data);
   return response.data;
 };

@@ -20,6 +20,7 @@ import DivisionsPage from "./pages/admin/DivisionsPage";
 import UploadPage from "./pages/admin/UploadPage";
 import DashboardHub from "./pages/Dashboard";
 import AssignmentsPage from "./pages/faculty/AssignmentsPage";
+import AssignmentDetailsPage from "./pages/faculty/AssignmentDetailsPage";
 import AttendancePage from "./pages/faculty/AttendancePage";
 import ExamsPage from "./pages/admin/ExamsPage";
 import ExamResultsPage from "./pages/admin/ExamResultsPage";
@@ -38,6 +39,7 @@ import CoursesPage from "./pages/admin/CoursesPage";
 import CertificatesPage from "./pages/student/CertificatesPage";
 import StudentInternshipsPage from "./pages/student/InternshipsPage";
 import PublicStudentProfilePage from "./pages/PublicStudentProfilePage";
+import PublicFacultyProfilePage from "./pages/PublicFacultyProfilePage";
 
 function App() {
   return (
@@ -219,6 +221,16 @@ function App() {
           }
         />
         <Route
+          path="/faculty/assignment/:id"
+          element={
+            <ProtectedRoute roles={[Role.FACULTY, Role.ADMIN]}>
+              <Layout>
+                <AssignmentDetailsPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/faculty/attendance"
           element={
             <ProtectedRoute roles={[Role.FACULTY, Role.ADMIN]}>
@@ -229,13 +241,22 @@ function App() {
           }
         />
 
-
         {/* Student Routes */}
         <Route
           path="/student/:id"
           element={
             <Layout>
               <PublicStudentProfilePage />
+            </Layout>
+          }
+        />
+
+        {/* Faculty Routes */}
+        <Route
+          path="/faculty/:id"
+          element={
+            <Layout>
+              <PublicFacultyProfilePage />
             </Layout>
           }
         />
@@ -281,8 +302,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        
 
         {/* Fallback 404 Route */}
         <Route

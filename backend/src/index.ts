@@ -7,6 +7,7 @@ import { env } from "process";
 import express from "express";
 import cors from "cors"; // Import the cors middleware
 import apiRoutesv1 from "./routes/api/v1";
+import { globalErrorHandler } from "./middlewares/errorHandler.middleware";
 
 const app = express();
 
@@ -45,6 +46,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // --- API Routes ---
 app.use("/api/v1", apiRoutesv1);
+
+// --- Error Handling Middleware ---
+// This should be the last middleware
+app.use(globalErrorHandler);
 
 // --- Health Check and Server Startup ---
 app.get("/", (req, res) => {

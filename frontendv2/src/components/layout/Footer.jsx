@@ -148,7 +148,7 @@ function Footer() {
 
             {/* Social Links */}
             <div className="flex items-center space-x-1">
-              <span>Built with ❤️ by{` `}</span>
+              <span>Project by{` `}</span>
               <a
                 href="https://github.com/slantie"
                 target="_blank"

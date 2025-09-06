@@ -128,8 +128,10 @@ const StudentForm = ({ onClose, student }) => {
   };
 
   const departments = departmentsData?.data?.departments?.data || [];
-  const semesters = semestersData?.data?.semesters?.data || [];
-  const divisions = divisionsData?.data?.divisions?.data || [];
+  const semesters = semestersData?.data?.semesters || [];
+  const divisions = divisionsData?.data?.divisions || [];
+
+  console.log(semesters, divisions);
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>

@@ -19,7 +19,7 @@ import { showToast } from "../../utils/toast";
 
 const LECTURE_TYPES = ["THEORY", "PRACTICAL"];
 
-const CourseForm = ({ course, onFinished }) => {
+export const CourseForm = ({ course, onFinished }) => {
   const isEdit = !!course;
   const {
     register,
@@ -109,9 +109,9 @@ const CourseForm = ({ course, onFinished }) => {
     semestersLoading ||
     divisionsLoading;
   const subjects = subjectsData?.data?.subjects || [];
-  const faculties = facultiesData?.data?.faculties?.data || [];
-  const semesters = semestersData?.data?.semesters?.data || [];
-  const divisions = divisionsData?.data?.divisions?.data || [];
+  const faculties = facultiesData?.data?.faculties || [];
+  const semesters = semestersData?.data?.semesters || [];
+  const divisions = divisionsData?.data?.divisions || [];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 py-4">
@@ -293,4 +293,4 @@ const CourseForm = ({ course, onFinished }) => {
   );
 };
 
-export default CourseForm;
+// export default CourseForm;

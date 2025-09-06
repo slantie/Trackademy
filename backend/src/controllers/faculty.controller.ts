@@ -278,4 +278,31 @@ export class FacultyController {
       next(error);
     }
   }
+
+  static async getPublicProfile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { id } = req.params;
+
+      const faculty = await facultyService.getPublicProfile(id);
+
+      if (!faculty) {
+        res.status(404).json({
+          status: "error",
+          message: "Faculty not found or profile is not public",
+        });
+        return;
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: faculty,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

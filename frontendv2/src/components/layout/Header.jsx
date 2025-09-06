@@ -143,6 +143,16 @@ function Header() {
         </div>
       </div>
       <div className="flex lg:hidden items-center space-x-3">
+        Role.ADMIN && (
+        {
+          <NavLink
+            to="https://reflectify-delta.vercel.app"
+            className="bg-muted border-2 border-border hover:border-primary tracking-wider font-bold py-2 px-4 rounded-lg transition-all duration-300 hover:scale-105"
+          >
+            Reflectify - Feedback Platform
+          </NavLink>
+        }
+        )
         <ThemeToggle />
         <div className="mobile-menu-container">
           <button

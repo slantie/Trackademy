@@ -1,6 +1,6 @@
 // src/components/forms/CourseForm.jsx
-import React, { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import {
   Box,
   Button,
@@ -14,13 +14,13 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material';
-import { useCreateCourse, useUpdateCourse } from '../../hooks/useCourses';
-import { useGetSubjects } from '../../hooks/useSubjects';
-import { useGetFaculties } from '../../hooks/useFaculties';
-import { useGetSemesters } from '../../hooks/useSemesters';
-import { useGetDivisions } from '../../hooks/useDivisions';
-import { toast } from 'react-hot-toast';
+} from "@mui/material";
+import { useCreateCourse, useUpdateCourse } from "../../hooks/useCourses";
+import { useGetSubjects } from "../../hooks/useSubjects";
+import { useGetFaculties } from "../../hooks/useFaculties";
+import { useGetSemesters } from "../../hooks/useSemesters";
+import { useGetDivisions } from "../../hooks/useDivisions";
+import { toast } from "react-hot-toast";
 
 const LectureType = {
   THEORY: "THEORY",
@@ -36,28 +36,31 @@ const CourseForm = ({ onClose, course }) => {
           faculty: course.faculty || null,
           semester: course.semester || null,
           division: course.division || null,
-          lectureType: course.lectureType || 'THEORY',
-          batch: course.batch || '',
+          lectureType: course.lectureType || "THEORY",
+          batch: course.batch || "",
         }
       : {
           subject: null,
           faculty: null,
           semester: null,
           division: null,
-          lectureType: 'THEORY',
-          batch: '',
+          lectureType: "THEORY",
+          batch: "",
         },
   });
 
   const { data: subjectsData, isLoading: subjectsLoading } = useGetSubjects();
-  const { data: facultiesData, isLoading: facultiesLoading } = useGetFaculties();
-  const { data: semestersData, isLoading: semestersLoading } = useGetSemesters();
-  const { data: divisionsData, isLoading: divisionsLoading } = useGetDivisions();
+  const { data: facultiesData, isLoading: facultiesLoading } =
+    useGetFaculties();
+  const { data: semestersData, isLoading: semestersLoading } =
+    useGetSemesters();
+  const { data: divisionsData, isLoading: divisionsLoading } =
+    useGetDivisions();
 
   const createMutation = useCreateCourse();
   const updateMutation = useUpdateCourse();
 
-  const watchedLectureType = watch('lectureType');
+  const watchedLectureType = watch("lectureType");
 
   useEffect(() => {
     if (isEdit && course) {
@@ -66,8 +69,8 @@ const CourseForm = ({ onClose, course }) => {
         faculty: course.faculty || null,
         semester: course.semester || null,
         division: course.division || null,
-        lectureType: course.lectureType || 'THEORY',
-        batch: course.batch || '',
+        lectureType: course.lectureType || "THEORY",
+        batch: course.batch || "",
       });
     } else {
       reset({
@@ -75,8 +78,8 @@ const CourseForm = ({ onClose, course }) => {
         faculty: null,
         semester: null,
         division: null,
-        lectureType: 'THEORY',
-        batch: '',
+        lectureType: "THEORY",
+        batch: "",
       });
     }
   }, [isEdit, course, reset]);
@@ -94,35 +97,45 @@ const CourseForm = ({ onClose, course }) => {
       semester: undefined,
       division: undefined,
       // Ensure batch is null for THEORY and sent for PRACTICAL
-      batch: data.lectureType === 'THEORY' ? null : data.batch,
+      batch: data.lectureType === "THEORY" ? null : data.batch,
     };
-    
+
     // Clean data by removing undefined fields
-    Object.keys(submitData).forEach(key => submitData[key] === undefined && delete submitData[key]);
+    Object.keys(submitData).forEach(
+      (key) => submitData[key] === undefined && delete submitData[key]
+    );
 
     if (isEdit) {
       updateMutation.mutate(
         { courseId: course.id, courseData: submitData },
         {
           onSuccess: () => {
-            toast.success('Course updated successfully!');
+            toast.success("Course updated successfully!");
             onClose();
           },
           onError: (error) => {
             console.error("Update failed:", error.response?.data || error);
-            toast.error(`Failed to update course: ${error.response?.data?.message || error.message}`);
+            toast.error(
+              `Failed to update course: ${
+                error.response?.data?.message || error.message
+              }`
+            );
           },
         }
       );
     } else {
       createMutation.mutate(submitData, {
         onSuccess: () => {
-          toast.success('Course created successfully!');
+          toast.success("Course created successfully!");
           onClose();
         },
         onError: (error) => {
           console.error("Creation failed:", error.response?.data || error);
-          toast.error(`Failed to create course: ${error.response?.data?.message || error.message}`);
+          toast.error(
+            `Failed to create course: ${
+              error.response?.data?.message || error.message
+            }`
+          );
         },
       });
     }
@@ -135,17 +148,21 @@ const CourseForm = ({ onClose, course }) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-      <DialogTitle>{isEdit ? 'Update Course' : 'Create Course'}</DialogTitle>
+      <DialogTitle>{isEdit ? "Update Course" : "Create Course"}</DialogTitle>
       <DialogContent dividers>
         <Controller
           name="subject"
           control={control}
-          rules={{ required: 'Subject is required' }}
+          rules={{ required: "Subject is required" }}
           render={({ field, fieldState: { error } }) => (
             <Autocomplete
               {...field}
               options={subjects}
-              getOptionLabel={(option) => option ? `${option.code || 'N/A'} - ${option.name || 'N/A'}` : "NA"}
+              getOptionLabel={(option) =>
+                option
+                  ? `${option.code || "N/A"} - ${option.name || "N/A"}`
+                  : "NA"
+              }
               isOptionEqualToValue={(option, value) => option.id === value.id}
               onChange={(event, value) => field.onChange(value)}
               disabled={isEdit}
@@ -162,7 +179,9 @@ const CourseForm = ({ onClose, course }) => {
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {subjectsLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {subjectsLoading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),
@@ -176,12 +195,14 @@ const CourseForm = ({ onClose, course }) => {
         <Controller
           name="faculty"
           control={control}
-          rules={{ required: 'Faculty is required' }}
+          rules={{ required: "Faculty is required" }}
           render={({ field, fieldState: { error } }) => (
             <Autocomplete
               {...field}
               options={faculties}
-              getOptionLabel={(option) => option ? `${option.fullName} (${option.abbreviation})` : ''}
+              getOptionLabel={(option) =>
+                option ? `${option.fullName} (${option.abbreviation})` : ""
+              }
               isOptionEqualToValue={(option, value) => option.id === value.id}
               onChange={(event, value) => field.onChange(value)}
               disabled={isEdit}
@@ -198,7 +219,9 @@ const CourseForm = ({ onClose, course }) => {
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {facultiesLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {facultiesLoading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),
@@ -208,16 +231,20 @@ const CourseForm = ({ onClose, course }) => {
             />
           )}
         />
-        
+
         <Controller
           name="semester"
           control={control}
-          rules={{ required: 'Semester is required' }}
+          rules={{ required: "Semester is required" }}
           render={({ field, fieldState: { error } }) => (
             <Autocomplete
               {...field}
               options={semesters}
-              getOptionLabel={(option) => option ? `Semester ${option.semesterNumber} (${option.academicYear?.year}) - ${option.department?.abbreviation}` : ''}
+              getOptionLabel={(option) =>
+                option
+                  ? `Semester ${option.semesterNumber} (${option.academicYear?.year}) - ${option.department?.abbreviation}`
+                  : ""
+              }
               isOptionEqualToValue={(option, value) => option.id === value.id}
               onChange={(event, value) => field.onChange(value)}
               disabled={isEdit}
@@ -234,7 +261,9 @@ const CourseForm = ({ onClose, course }) => {
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {semestersLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {semestersLoading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),
@@ -244,16 +273,16 @@ const CourseForm = ({ onClose, course }) => {
             />
           )}
         />
-        
+
         <Controller
           name="division"
           control={control}
-          rules={{ required: 'Division is required' }}
+          rules={{ required: "Division is required" }}
           render={({ field, fieldState: { error } }) => (
             <Autocomplete
               {...field}
               options={divisions}
-              getOptionLabel={(option) => option.name || ''}
+              getOptionLabel={(option) => option.name || ""}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               onChange={(event, value) => field.onChange(value)}
               disabled={isEdit}
@@ -270,7 +299,9 @@ const CourseForm = ({ onClose, course }) => {
                     ...params.InputProps,
                     endAdornment: (
                       <>
-                        {divisionsLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                        {divisionsLoading ? (
+                          <CircularProgress color="inherit" size={20} />
+                        ) : null}
                         {params.InputProps.endAdornment}
                       </>
                     ),
@@ -280,7 +311,7 @@ const CourseForm = ({ onClose, course }) => {
             />
           )}
         />
-        
+
         <FormControl fullWidth margin="normal">
           <InputLabel>Lecture Type</InputLabel>
           <Controller
@@ -298,17 +329,16 @@ const CourseForm = ({ onClose, course }) => {
           />
         </FormControl>
 
-        {watchedLectureType === 'PRACTICAL' && (
+        {watchedLectureType === "PRACTICAL" && (
           <TextField
             margin="normal"
             fullWidth
             label="Batch"
-            {...register('batch')}
+            {...register("batch")}
             required
             disabled={isEdit}
           />
         )}
-        
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
@@ -320,9 +350,9 @@ const CourseForm = ({ onClose, course }) => {
           {createMutation.isLoading || updateMutation.isLoading ? (
             <CircularProgress size={24} />
           ) : isEdit ? (
-            'Update'
+            "Update"
           ) : (
-            'Create'
+            "Create"
           )}
         </Button>
       </DialogActions>
